@@ -1,3 +1,3 @@
 # RiftPay
 
-Name subject to change.
+Name subject to change!
