@@ -13,9 +13,7 @@ class Bill(db.Model):
     borrower_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     friendship_id = db.Column(db.Integer, db.ForeignKey('friendships.id'), nullable=False)
     amount = db.Column(db.Float(precision=2), nullable=False)
-    description = db.Column(db.String(255), nullable=False)
-    note = db.Column(db.String(255))
-    image = db.Column(db.String(255))
+    transaction_id = db.Column(db.Integer, db.ForeignKey('transactions.id'), nullable=False)
     created_at = db.Column(db.String(50), nullable=False)
     updated_at = db.Column(db.String(50), nullable=False)
 
