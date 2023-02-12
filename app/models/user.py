@@ -25,6 +25,9 @@ class User(db.Model, UserMixin):
         lazy="dynamic"
     )
 
+    comments = db.relationship("Comment", back_populates="user")
+    loans = db.relationship("Loan", back_populates="user")
+
     @property
     def password(self):
         return self.hashed_password
