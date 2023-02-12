@@ -10,7 +10,7 @@ class Transaction(db.Model):
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     updater_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     cost = db.Column(db.Float(precision=2), nullable=False)
-    creation_methdod = db.Column(db.String(50), nullable=False)
+    creation_method = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(250), nullable=False)
     note = db.Column(db.String(500))
     image = db.Column(db.String(255))
