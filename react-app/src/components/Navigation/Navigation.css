@@ -9,10 +9,22 @@
 .nav-buttons-container {
   display: flex;
   justify-content: space-between;
-  margin-left: 10%;
-  margin-right: 10%;
+  align-items: center;
+  background-color: #5bc5a7;
+  border-bottom: 1px solid #48be9d;
+  min-height: 33px;
+  padding-left: 10%;
+  padding-right:10%;
 }
 
 .logged-out-nav-buttons-container{
   display: flex;
+}
+
+.left-side-nav-bar{
+  margin-left: 10%;
+}
+.all-nav-container{
+  height: 100vh;
+  width: 100vw;
 }

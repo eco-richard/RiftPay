@@ -1,0 +1,10 @@
+.left-side-nav-bar-container{
+    height: 100%;
+    width: 20%;
+    border: 1px solid black;
+}
+.left-side-nav-bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
