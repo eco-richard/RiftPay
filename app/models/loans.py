@@ -8,7 +8,7 @@ class Loan(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     loaner_id = db.Column(db.Integer)
-    debtor_id = db.Column(db.integer)
+    debtor_id = db.Column(db.Integer)
     amount = db.Column(db.Float(precision=2))
     transaction_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("transactions.id")))
     created_at = db.Column(db.String)

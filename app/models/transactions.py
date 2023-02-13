@@ -7,11 +7,11 @@ class Transaction(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    creator_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    creator_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     updater_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     cost = db.Column(db.Float, nullable=False)
     creation_method = db.Column(db.String, nullable=False)
-    description = db.Column(db.String(50))
+    description = db.Column(db.String(50), nullable=False)
     note = db.Column(db.String(250))
     image = db.Column(db.String(250))
     created_at = db.Column(db.String)

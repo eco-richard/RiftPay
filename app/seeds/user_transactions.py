@@ -2,7 +2,75 @@ from app.models import db, user_transactions, environment, SCHEMA
 
 # Adds a demo user, you can add other users here if you want
 def seed_user_transactions():
-    demo_user_transaction = user_transactions
+    user_transaction1 = user_transactions(
+        user_id = 2,
+        transaction_id = 1,
+        balance = 25
+    )
+    user_transaction2 = user_transactions(
+        user_id = 3,
+        transaction_id = 1,
+        balance = 25
+    )
+    user_transaction3 = user_transactions(
+        user_id = 4,
+        transaction_id = 1,
+        balance = 25
+    )
+    user_transaction4 = user_transactions(
+        user_id = 5,
+        transaction_id = 2,
+        balance = 25
+    )
+    user_transaction5 = user_transactions(
+        user_id = 6,
+        transaction_id = 2,
+        balance = 25
+    )
+    user_transaction6 = user_transactions(
+        user_id = 7,
+        transaction_id = 2,
+        balance = 25
+    )
+    user_transaction7 = user_transactions(
+        user_id = 6,
+        transaction_id = 3,
+        balance = 25
+    )
+    user_transaction8 = user_transactions(
+        user_id = 7,
+        transaction_id = 3,
+        balance = 25
+    )
+    user_transaction9 = user_transactions(
+        user_id = 8,
+        transaction_id = 3,
+        balance = 25
+    )
+    user_transaction10 = user_transactions(
+        user_id = 7,
+        transaction_id = 4,
+        balance = 25
+    )
+    user_transaction11 = user_transactions(
+        user_id = 8,
+        transaction_id = 4,
+        balance = 25
+    )
+    user_transaction12 = user_transactions(
+        user_id = 3,
+        transaction_id = 4,
+        balance = 25
+    )
+
+    all_user_transactions = [user_transaction1, user_transaction2,
+                            user_transaction3, user_transaction4,
+                            user_transaction5, user_transaction6,
+                            user_transaction7, user_transaction8,
+                            user_transaction9, user_transaction10,
+                            user_transaction11, user_transaction12]
+    add_user_transactions = [db.session.add(user_transaction) for user_transaction in all_user_transactions]
+    db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
