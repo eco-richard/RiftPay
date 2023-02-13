@@ -16,3 +16,5 @@ class Transaction(db.Model):
     image = db.Column(db.String(250))
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
+
+    owers = db.relationship("User", secondary="transaction_users")
