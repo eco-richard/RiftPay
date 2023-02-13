@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from .tables import friends
+from .friends import friends
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -22,14 +22,15 @@ class User(db.Model, UserMixin):
         primaryjoin=(friends.c.user_id == id),
         secondaryjoin=(friends.c.friend_id == id),
         backref=db.backref("friend", lazy="dynamic"),
-        lazy="dynamic"
+        lazy="dynamic",
+        cascade="all, delete"
     )
 
-    comments = db.relationship("Comment", back_populates="user")
-    loans = db.relationship("Loan", back_populates="user")
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")
+    loans = db.relationship("Loan", back_populates="user", cascade="all, delete-orphan")
 
-    payer_transactions = db.relationship("Transaction", secondary="transaction_users")
-    ower_transactions = db.relationship("Transaction", back_populates="user")
+    payer_transactions = db.relationship("Transaction", secondary="transaction_users", cascade="all, delete-orphan")
+    ower_transactions = db.relationship("Transaction", back_populates="user", cascade="all, delete-orphan")
 
     @property
     def password(self):
@@ -42,11 +43,23 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def simple_user(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name
+        }
+
     def to_dict(self):
         return {
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.first_name,
             'email': self.email,
-            'picture': self.picture
+            'picture': self.picture,
+            'friends': [list[friend.to_dict()] for friend in self.friends],
+            # 'comments': [list[comment.to_dict()] for comment in self.comments],
+            'loans': [list[loan.to_dict()] for loan in self.loans],
+            'payer_transactions': [list[payer_transaction.to_dict()] for payer_transaction in self.payer_transactions],
+            'ower_transactions': [list[ower_transaction.to_dict()] for ower_transaction in self.ower_transactions],
         }

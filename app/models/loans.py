@@ -10,9 +10,19 @@ class Loan(db.Model):
     loaner_id = db.Column(db.Integer)
     debtor_id = db.Column(db.integer)
     amount = db.Column(db.Float(precision=2))
-    transaction_id = db.Column(db.Integer, db.ForeignKey("transactions.id"))
+    transaction_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("transactions.id")))
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
 
     loaner = db.relationship("User", back_populates="loans")
     transaction = db.relationship("Transaction", back_populates="loans")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'loaner_id': self.loaner_id,
+            'debtor_id': self.debtor_id,
+            'amount': self.amount,
+            'transaction_id': self.transaction_id,
+            'loaner': self.loaner.simple_user()
+        }

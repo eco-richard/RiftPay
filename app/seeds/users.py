@@ -9,10 +9,31 @@ def seed_users():
         first_name='marnie', last_name='jones', email='marnie@aa.io', password='password')
     bobbie = User(
         first_name='bobbie', last_name='williams', email='bobbie@aa.io', password='password')
+    john = User(
+        first_name='john', last_name='westbrook', email='bobbie@aa.io', password='password')
+    sarah = User(
+        first_name='sarah', last_name='kim', email='bobbie@aa.io', password='password')
+    richard = User(
+        first_name='richard', last_name='diaz', email='bobbie@aa.io', password='password')
+    kevin = User(
+        first_name='kevin', last_name='ong', email='bobbie@aa.io', password='password')
+    christian = User(
+        first_name='christian', last_name='lee', email='bobbie@aa.io', password='password')
+    paul = User(
+        first_name='paul', last_name='fixler', email='bobbie@aa.io', password='password')
+    sean = User(
+        first_name='sean', last_name='connor', email='bobbie@aa.io', password='password')
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+    db.session.add(john)
+    db.session.add(sarah)
+    db.session.add(richard)
+    db.session.add(kevin)
+    db.session.add(christian)
+    db.session.add(paul)
+    db.session.add(sean)
     db.session.commit()
 
 

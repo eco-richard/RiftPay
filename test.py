@@ -1,6 +1,6 @@
 from app.models import db
 from app.models.user import User
-from app.models.tables import friends
+from app.models.friends import friends
 from app import app
 # from flask_sqlalchemy import inspect
 
