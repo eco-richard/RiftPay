@@ -44,9 +44,9 @@ def seed_loans():
         amount = 25,
         transaction_id = 2
     )
-    loan2_6 = Loan(
+    loan2_11 = Loan(
         loaner_id = 2,
-        debtor_id = 6,
+        debtor_id = 1,
         amount = 25,
         transaction_id = 2
     )
@@ -148,8 +148,8 @@ def seed_loans():
     )
 
     all_loans = [loan1_2, loan1_3, loan1_4,
-                loan4_1, loan3_1, loan2_1,
-                loan2_5, loan2_6, loan2_7,
+                loan4_1, loan3_1, loan2_11,
+                loan2_5, loan2_1, loan2_7,
                 loan5_2, loan6_2, loan7_2,
                 loan3_6, loan3_7, loan3_8,
                 loan6_3, loan7_3, loan8_3,

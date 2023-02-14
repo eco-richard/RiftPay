@@ -1,66 +1,88 @@
 from app.models import db, TransactionUsers, environment, SCHEMA
+from app.models import User, Transaction
 
 # Adds a demo user, you can add other users here if you want
 def seed_transaction_users():
+    # Query all users
+    user1 = db.session.query(User).get(1)
+    user2 = db.session.query(User).get(2)
+    user3 = db.session.query(User).get(3)
+    user4 = db.session.query(User).get(4)
+    user5 = db.session.query(User).get(5)
+    user6 = db.session.query(User).get(6)
+    user7 = db.session.query(User).get(7)
+    user8 = db.session.query(User).get(9)
+
+    # Query all transactions
+    transaction1 = db.session.query(Transaction).get(1)
+    transaction2 = db.session.query(Transaction).get(2)
+    transaction3 = db.session.query(Transaction).get(3)
+    transaction4 = db.session.query(Transaction).get(4)
+    
+
     transaction_user1 = TransactionUsers(
-        user_id = 2,
-        transaction_id = 1,
+        user = user2,
+        transaction = transaction1,
         balance = 25
     )
     transaction_user2 = TransactionUsers(
-        user_id = 3,
-        transaction_id = 1,
+        user = user3,
+        transaction = transaction1,
         balance = 25
     )
     transaction_user3 = TransactionUsers(
-        user_id = 4,
-        transaction_id = 1,
+        user = user4,
+        transaction = transaction1,
         balance = 25
     )
     transaction_user4 = TransactionUsers(
-        user_id = 5,
-        transaction_id = 2,
+        user = user5,
+        transaction = transaction2,
         balance = 25
     )
     transaction_user5 = TransactionUsers(
-        user_id = 6,
-        transaction_id = 2,
+        user = user1,
+        transaction = transaction2,
         balance = 25
     )
     transaction_user6 = TransactionUsers(
-        user_id = 7,
-        transaction_id = 2,
+        user = user7,
+        transaction = transaction2,
         balance = 25
     )
     transaction_user7 = TransactionUsers(
-        user_id = 6,
-        transaction_id = 3,
+        user = user6,
+        transaction = transaction3,
         balance = 25
     )
     transaction_user8 = TransactionUsers(
-        user_id = 7,
-        transaction_id = 3,
+        user = user7,
+        transaction = transaction3,
         balance = 25
     )
     transaction_user9 = TransactionUsers(
-        user_id = 8,
-        transaction_id = 3,
+        user = user8,
+        transaction = transaction3,
         balance = 25
     )
     transaction_user10 = TransactionUsers(
-        user_id = 7,
-        transaction_id = 4,
+        user = user7,
+        transaction = transaction4,
         balance = 25
     )
     transaction_user11 = TransactionUsers(
-        user_id = 8,
-        transaction_id = 4,
+        user = user8,
+        transaction = transaction4,
         balance = 25
     )
     transaction_user12 = TransactionUsers(
-        user_id = 3,
-        transaction_id = 4,
+        user = user3,
+        transaction = transaction4,
         balance = 25
+    )
+    transaction_user13 = TransactionUsers(
+        user = user1,
+        transaction = transaction2
     )
 
     all_transaction_users = [transaction_user1, transaction_user2,
