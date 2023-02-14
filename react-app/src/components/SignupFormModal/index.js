@@ -7,7 +7,7 @@ import "./SignupForm.css";
 function SignupFormModal() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
-	const [username, setUsername] = useState("");
+	// const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
@@ -16,7 +16,7 @@ function SignupFormModal() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password === confirmPassword) {
-			const data = await dispatch(signUp(username, email, password));
+			const data = await dispatch(signUp(/*username, */email, password));
 			if (data) {
 				setErrors(data);
 			} else {
@@ -47,7 +47,7 @@ function SignupFormModal() {
 						required
 					/>
 				</label>
-				<label>
+				{/* <label>
 					Username
 					<input
 						type="text"
@@ -55,7 +55,7 @@ function SignupFormModal() {
 						onChange={(e) => setUsername(e.target.value)}
 						required
 					/>
-				</label>
+				</label> */}
 				<label>
 					Password
 					<input
