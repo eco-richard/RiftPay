@@ -57,7 +57,7 @@ def seed_transaction_users():
     )
     transaction_user8 = TransactionUsers(
         user = user7,
-        transaction_id = transaction3,
+        transaction = transaction3,
         balance = 25
     )
     transaction_user9 = TransactionUsers(
