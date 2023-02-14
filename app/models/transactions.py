@@ -33,7 +33,7 @@ class Transaction(db.Model):
             'image': self.image,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'loans': [list[loan.to_dict()] for loan in self.loans],
+            'loans': [loan.to_dict() for loan in self.loans],
         }
 
     # def add_owers(self, owers):
