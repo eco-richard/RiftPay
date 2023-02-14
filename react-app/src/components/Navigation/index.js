@@ -41,14 +41,13 @@ function Navigation({ isLoaded }) {
 	}
 
 	return (
-		<div className="all-nav-container">
+		<div>
 			<div className="nav-buttons-container">
 				<div className="home-button-container">
 					<NavLink exact to="/">Home</NavLink>
 				</div>
 				{isLoaded && sessionLinks}
 			</div>
-				<LeftSideNavigation />
 		</div>
 	);
 }
