@@ -8,7 +8,7 @@ function SignupFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -18,7 +18,7 @@ function SignupFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-        const data = await dispatch(signUp(username, email, password));
+        const data = await dispatch(signUp(/*username, */email, password));
         if (data) {
           setErrors(data)
         }
@@ -43,7 +43,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        <label>
+        {/* <label>
           Username
           <input
             type="text"
@@ -51,7 +51,7 @@ function SignupFormPage() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
+        </label> */}
         <label>
           Password
           <input
