@@ -17,7 +17,6 @@ class Transaction(db.Model):
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
 
-    owers = db.relationship("User", secondary="transaction_users", cascade="all, delete")
     loans = db.relationship("Loan", back_populates="transaction", cascade="all, delete-orphan")
     creator = db.relationship("User", back_populates="payer_transactions")
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
@@ -34,7 +33,6 @@ class Transaction(db.Model):
             'image': self.image,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'owers': [list[ower.simple_user()] for ower in self.owers],
             'loans': [list[loan.to_dict()] for loan in self.loans],
         }
 

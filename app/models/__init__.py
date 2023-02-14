@@ -5,4 +5,3 @@ from .comments import Comment
 from .friends import friends
 from .loans import Loan
 from .transactions import Transaction
-from .transaction_users import TransactionUsers
