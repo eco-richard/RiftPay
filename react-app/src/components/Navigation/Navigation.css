@@ -9,8 +9,11 @@
 .nav-buttons-container {
   display: flex;
   justify-content: space-between;
-  margin-left: 10%;
-  margin-right: 10%;
+  align-items: center;
+  background-color: #5bc5a7;
+  min-height: 33px;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .logged-out-nav-buttons-container{
