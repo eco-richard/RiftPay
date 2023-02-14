@@ -10,19 +10,19 @@ def seed_users():
     bobbie = User(
         first_name='bobbie', last_name='williams', email='bobbie@aa.io', password='password')
     john = User(
-        first_name='john', last_name='westbrook', email='bobbie@aa.io', password='password')
+        first_name='john', last_name='westbrook', email='john@aa.io', password='password')
     sarah = User(
-        first_name='sarah', last_name='kim', email='bobbie@aa.io', password='password')
+        first_name='sarah', last_name='kim', email='sarah@aa.io', password='password')
     richard = User(
-        first_name='richard', last_name='diaz', email='bobbie@aa.io', password='password')
+        first_name='richard', last_name='diaz', email='richard@aa.io', password='password')
     kevin = User(
-        first_name='kevin', last_name='ong', email='bobbie@aa.io', password='password')
+        first_name='kevin', last_name='ong', email='kevin@aa.io', password='password')
     christian = User(
-        first_name='christian', last_name='lee', email='bobbie@aa.io', password='password')
+        first_name='christian', last_name='lee', email='christian@aa.io', password='password')
     paul = User(
-        first_name='paul', last_name='fixler', email='bobbie@aa.io', password='password')
+        first_name='paul', last_name='fixler', email='paul@aa.io', password='password')
     sean = User(
-        first_name='sean', last_name='connor', email='bobbie@aa.io', password='password')
+        first_name='sean', last_name='connor', email='sean@aa.io', password='password')
 
 
     all_users = [demo, marnie, bobbie, john, sarah,

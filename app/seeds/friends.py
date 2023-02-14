@@ -1,113 +1,41 @@
-from app.models import db, friends, environment, SCHEMA
-
+from app.models import db, friends, User, environment, SCHEMA
+from sqlalchemy import select
 # Adds a demo user, you can add other users here if you want
 def seed_friends():
-    friends1_2 = friends(
-        user_id = 1,
-        friend_id = 2
-    )
-    friends2_1 = friends(
-        user_id = 2,
-        friend_id = 1
-    )
-    friends1_3 = friends(
-        user_id = 1,
-        friend_id = 3
-    )
-    friends3_1 = friends(
-        user_id = 3,
-        friend_id = 1
-    )
-    friends1_4 = friends(
-        user_id = 1,
-        friend_id = 4
-    )
-    friends4_1 = friends(
-        user_id = 4,
-        friend_id = 1
-    )
-    friends2_5 = friends(
-        user_id = 2,
-        friend_id = 5
-    )
-    friends2_6 = friends(
-        user_id = 2,
-        friend_id = 6
-    )
-    friends2_7 = friends(
-        user_id = 2,
-        friend_id = 7
-    )
-    friends5_2 = friends(
-        user_id = 5,
-        friend_id = 2
-    )
-    friends6_2 = friends(
-        user_id = 6,
-        friend_id = 2
-    )
-    friends7_2 = friends(
-        user_id = 7,
-        friend_id = 2
-    )
-    friends3_6 = friends(
-        user_id = 3,
-        friend_id = 6
-    )
-    friends3_7 = friends(
-        user_id = 3,
-        friend_id = 7
-    )
-    friends3_8 = friends(
-        user_id = 3,
-        friend_id = 8
-    )
-    friends6_3 = friends(
-        user_id = 6,
-        friend_id = 3
-    )
-    friends7_3 = friends(
-        user_id = 7,
-        friend_id = 3
-    )
-    friends8_3 = friends(
-        user_id = 8,
-        friend_id = 3
-    )
-    friends4_7 = friends(
-        user_id = 4,
-        friend_id = 7
-    )
-    friends4_8 = friends(
-        user_id = 4,
-        friend_id = 8
-    )
-    friends4_3 = friends(
-        user_id = 4,
-        friend_id = 3
-    )
-    friends7_4 = friends(
-        user_id = 7,
-        friend_id = 4
-    )
-    friends8_4 = friends(
-        user_id = 8,
-        friend_id = 4
-    )
-    friends3_4 = friends(
-        user_id = 3,
-        friend_id = 4
-    )
+    user1 = db.session.query(User).get(1)
+    user2 = db.session.query(User).get(2)
+    user3 = db.session.query(User).get(3)
+    user4 = db.session.query(User).get(4)
+    user5 = db.session.query(User).get(5)
+    user6 = db.session.query(User).get(6)
+    user7 = db.session.query(User).get(7)
+    user8 = db.session.query(User).get(8)
 
-    all_friends = [friends1_2, friends1_3, friends1_4,
-                friends4_1, friends3_1, friends2_1,
-                friends2_5, friends2_6, friends2_7,
-                friends5_2, friends6_2, friends7_2,
-                friends3_6, friends3_7, friends3_8,
-                friends6_3, friends7_3, friends8_3,
-                friends4_3, friends4_7, friends4_8,
-                friends3_4, friends7_4, friends8_4]
-    add_friends = [db.session.add(friends) for friends in all_friends]
+    user1.friends.append(user2)
+    user2.friends.append(user1)
+    user1.friends.append(user3)
+    user3.friends.append(user1)
+    user1.friends.append(user4)
+    user4.friends.append(user1)
+    user2.friends.append(user5)
+    user5.friends.append(user2)
+    user2.friends.append(user6)
+    user6.friends.append(user2)
+    user2.friends.append(user7)
+    user7.friends.append(user2)
+    user3.friends.append(user6)
+    user6.friends.append(user3)
+    user3.friends.append(user7)
+    user7.friends.append(user3)
+    user3.friends.append(user8)
+    user8.friends.append(user3)
+    user4.friends.append(user3)
+    user3.friends.append(user4)
+    user4.friends.append(user7)
+    user7.friends.append(user4)
+    user4.friends.append(user8)
+    user8.friends.append(user4)
+
     db.session.commit()
 
 

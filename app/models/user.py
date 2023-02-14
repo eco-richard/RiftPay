@@ -26,11 +26,11 @@ class User(db.Model, UserMixin):
         cascade="all, delete"
     )
 
-    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")
-    loans = db.relationship("Loan", back_populates="user", cascade="all, delete-orphan")
+    comments = db.relationship("Comment", back_populates="commentor", cascade="all, delete-orphan")
+    loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
-    payer_transactions = db.relationship("Transaction", secondary="transaction_users", cascade="all, delete-orphan")
-    ower_transactions = db.relationship("Transaction", back_populates="user", cascade="all, delete-orphan")
+    ower_transactions = db.relationship("Transaction", secondary="transaction_users", cascade="all, delete")
+    payer_transactions = db.relationship("Transaction", back_populates="creator")
 
     @property
     def password(self):

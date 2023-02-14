@@ -7,7 +7,7 @@ class Loan(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    loaner_id = db.Column(db.Integer)
+    loaner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     debtor_id = db.Column(db.Integer)
     amount = db.Column(db.Float(precision=2))
     transaction_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("transactions.id")))

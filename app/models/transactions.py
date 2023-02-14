@@ -8,7 +8,7 @@ class Transaction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     creator_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    updater_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    updater_id = db.Column(db.Integer)
     cost = db.Column(db.Float, nullable=False)
     creation_method = db.Column(db.String, nullable=False)
     description = db.Column(db.String(50), nullable=False)
@@ -17,8 +17,10 @@ class Transaction(db.Model):
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
 
-    owers = db.relationship("User", secondary="transaction_users", cascade="all, delete-orphan")
-    loans = db.relationship("Loan", back_populates="transactions", cascade="all, delete-orphan")
+    owers = db.relationship("User", secondary="transaction_users", cascade="all, delete")
+    loans = db.relationship("Loan", back_populates="transaction", cascade="all, delete-orphan")
+    creator = db.relationship("User", back_populates="payer_transactions")
+    comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

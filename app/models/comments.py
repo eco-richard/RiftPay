@@ -13,7 +13,7 @@ class Comment(db.Model):
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
 
-    # commentor = db.relationship("User", back_populates="comments")
+    commentor = db.relationship("User", back_populates="comments")
     transaction = db.relationship("Transaction", back_populates="comments")
 
 
