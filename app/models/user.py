@@ -29,7 +29,6 @@ class User(db.Model, UserMixin):
     comments = db.relationship("Comment", back_populates="commentor", cascade="all, delete-orphan")
     loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
-    ower_transactions = db.relationship("Transaction", secondary="transaction_users", cascade="all, delete")
     payer_transactions = db.relationship("Transaction", back_populates="creator")
 
     @property
@@ -57,9 +56,8 @@ class User(db.Model, UserMixin):
             'last_name': self.first_name,
             'email': self.email,
             'picture': self.picture,
-            'friends': [list[friend.to_dict()] for friend in self.friends],
+            'friends': [friend.simple_user() for friend in self.friends],
             # 'comments': [list[comment.to_dict()] for comment in self.comments],
-            'loans': [list[loan.to_dict()] for loan in self.loans],
-            'payer_transactions': [list[payer_transaction.to_dict()] for payer_transaction in self.payer_transactions],
-            'ower_transactions': [list[ower_transaction.to_dict()] for ower_transaction in self.ower_transactions],
+            'loans': [loan.to_dict() for loan in self.loans],
+            'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions]
         }
