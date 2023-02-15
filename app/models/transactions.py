@@ -18,8 +18,7 @@ class Transaction(db.Model):
     updated_at = db.Column(db.String)
 
     loans = db.relationship("Loan", back_populates="transaction", cascade="all, delete-orphan")
-    creator = db.relationship("User", back_populates="payer_transactions")
-    comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
+    
 
     def to_dict(self):
         return {
