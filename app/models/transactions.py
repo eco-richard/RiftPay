@@ -18,11 +18,13 @@ class Transaction(db.Model):
     image = db.Column(db.String(250))
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
+    payers = db.Column(db.String(5000))
+    repayments = db.Column(db.String(5000))
 
     loans = db.relationship("Loan", back_populates="transaction", cascade="all, delete-orphan")
     creator = db.relationship("User", back_populates="payer_transactions")
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
-    payers = db.relationship("Payers", secondary=transaction_users, back_populates="transactions")
+    users = db.relationship("Users", secondary=transaction_users, back_populates="transactions")
 
     def create_loans(self):
         if self.creation_method == "EQUAL":

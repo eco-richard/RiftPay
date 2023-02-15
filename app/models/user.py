@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
     payer_transactions = db.relationship("Transaction", back_populates="creator")
-    transactions = db.relationship("Transaction", secondary=transaction_users, back_populates="payers")
+    transactions = db.relationship("Transaction", secondary=transaction_users, back_populates="users")
 
     @property
     def password(self):
