@@ -8,7 +8,9 @@ def seed_transactions():
         creation_method='equal',
         description='first transaction',
         created_at='02/13/2023',
-        updated_at='02/13/2023'
+        updated_at='02/13/2023',
+        payers = '1/100',
+        repayments = '1/1/25,1/2/25,1/3/25,1/4/25'
     )
     transaction2 = Transaction(
         creator_id=2,
@@ -16,7 +18,9 @@ def seed_transactions():
         creation_method='equal',
         description='second transaction',
         created_at='02/13/2023',
-        updated_at='02/13/2023'
+        updated_at='02/13/2023',
+        payers = '2/100',
+        repayments = '2/2/25,2/3/25,2/4/25,2/5/25'
     )
     transaction3 = Transaction(
         creator_id=3,
@@ -24,7 +28,9 @@ def seed_transactions():
         creation_method='equal',
         description='third transaction',
         created_at='02/13/2023',
-        updated_at='02/13/2023'
+        updated_at='02/13/2023',
+        payers = '3/100',
+        repayments = '3/3/25,3/4/25,3/5/25,3/6/25'
     )
     transaction4 = Transaction(
         creator_id=4,
@@ -32,9 +38,11 @@ def seed_transactions():
         creation_method='equal',
         description='fourth transaction',
         created_at='02/13/2023',
-        updated_at='02/13/2023'
+        updated_at='02/13/2023',
+        payers = '1/100',
+        repayments = '1/1/25,1/6/25,1/7/25,1/8/25'
     )
-    
+
 
     all_transactions = [transaction1, transaction2, transaction3, transaction4]
     add_transactions = [db.session.add(transaction) for transaction in all_transactions]
