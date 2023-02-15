@@ -10,11 +10,10 @@ class TransactionForm(FlaskForm):
         choices=["Equal", "Unequal", "Payment"],
         validators=[DataRequired()]
     )
-    # payers = wtf.SelectMultipleField("Payers",
-    #     choices=current_user.friends
-    # )
     description = wtf.StringField("Description", validators=[DataRequired()])
     note = wtf.StringField("Note")
     image = wtf.StringField("Image")
     created_at = wtf.StringField("Created At")
     updated_at = wtf.StringField("Updated At")
+    payers = wtf.StringField("Payers")
+    repayments = wtf.StringFields("Repayments")

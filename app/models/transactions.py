@@ -38,6 +38,40 @@ class Transaction(db.Model):
     #             db.session.add(loan)
     #         db.session.commit()
 
+    def structure_payers(self):
+        payers_list = self.payers.split(',')
+        final_payers = []
+        for payer in payers_list:
+            payer_id, amount = payer.split('/')
+            final_payers.append({
+                "payer_id": payer_id,
+                "amount": amount
+            })
+        return final_payers
+
+
+    def structure_repayments(self):
+        # 1. 1/1/25,1/2/25,1/3/25
+        # 2. ['1/1/25', '1/2/25', '1/3/25']
+        # 3. ['[1], [1], [25]']
+        repayments_list = self.repayments.split(',') 
+        final_repayments = []
+        for repayment in repayments_list:
+            loaner_id, debtor_id, amount = repayment.split('/')
+            final_repayments.append({
+                "loaner_id": loaner_id,
+                "debtor_id": debtor_id,
+                "amount": amount
+            })
+        return final_repayments
+
+    def add_repayment_users(self):
+        repayments = self.structure_repayments()
+        for repayment in repayments:
+            user_id = repayment["debtor_id"]
+            user = User.query.get(user_id)
+            user.transacations.append(self)
+            self.users.append(user)
 
     def to_dict(self):
         return {
@@ -52,6 +86,6 @@ class Transaction(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'users': [user.simple_user() for user in self.users],
-            'payers': self.payers.split(','),
-            'repayments': self.repayments.split(',')
+            'payers': self.structure_payers(),
+            'repayments': self.structure_repayments()
         }
