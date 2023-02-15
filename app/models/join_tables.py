@@ -17,3 +17,4 @@ transaction_users = db.Table(
 
 if environment == "production":
     friends.schema = SCHEMA
+    transaction_users.schema = SCHEMA
