@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FriendsList from '../Friends/FriendsList';
 import './LeftSideNavigation.css';
 
 
@@ -19,7 +20,7 @@ function LeftSideNavigation() {
             <div className="friends-list-container">
                 <div className='friends-label'>FRIENDS</div>
                 <div className="individual-friend">
-                    <NavLink exact to="/friends/1"  style={{color: "rgb(145, 145, 153)"}}>Friend 1 - hardcode test</NavLink>
+                    <FriendsList />
                 </div>
             </div>
         </div>
@@ -27,3 +28,4 @@ function LeftSideNavigation() {
 }
 
 export default LeftSideNavigation;
+
