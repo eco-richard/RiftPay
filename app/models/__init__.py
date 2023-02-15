@@ -2,6 +2,5 @@ from .db import db
 from .user import User
 from .db import environment, SCHEMA
 from .comments import Comment
-from .friends import friends
-from .loans import Loan
+from .join_tables import friends, transaction_users
 from .transactions import Transaction
