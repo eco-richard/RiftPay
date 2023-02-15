@@ -1,6 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from app.models import Loan
-from .friends import transaction_users
+from .join_tables import transaction_users
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
@@ -9,7 +8,7 @@ class Transaction(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    creator_id = db.Column(db.Integer) 
+    creator_id = db.Column(db.Integer)
     updater_id = db.Column(db.Integer)
     cost = db.Column(db.Float, nullable=False)
     creation_method = db.Column(db.String, nullable=False)
@@ -22,7 +21,7 @@ class Transaction(db.Model):
     repayments = db.Column(db.String(5000))
 
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
-    users = db.relationship("Users", secondary=transaction_users, back_populates="transactions")
+    users = db.relationship("User", secondary=transaction_users, back_populates="transactions")
 
     # def create_loans(self):
     #     if self.creation_method == "EQUAL":
