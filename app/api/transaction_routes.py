@@ -27,7 +27,7 @@ def get_friend_transaction(friend_id):
     based on friend id
     """
     transactions = current_user.transactions
-    friend = list(filter(lambda friend: friend.id == friend_id, current_user.friends))[0]
+    friend = User.query.get(friend_id)
 
     if friend is None:
         return {"error": f"No friend found with id {friend_id}"}
@@ -115,4 +115,3 @@ def delete_single_transaction(transaction_id):
     db.session.delete(transaction)
     db.session.commit()
     return {"success": "True", "status_code": 200}
-
