@@ -38,13 +38,25 @@ const removeFriend = (friendId) => {
 
 export const loadFriendsThunk = () => async dispatch => {
     const response = await fetch("/api/friends/")
-    console.log("response", response)
     if (response.ok) {
         const friends = await response.json()
         dispatch(loadFriends(friends))
         return friends
     }
 }
+
+export const removeFriendThunk = (friendId) => async dispatch => {
+    const response = await fetch(`/api/friends/:${friendId}`,{
+        method: "DELETE",
+        header: {"Content-Type": "application/json "}
+    })
+    if (response.ok) {
+        const badFriend =  await response.json()
+        dispatch(removeFriend(badFriend))
+        return badFriend
+    }
+}
+
 
 const initialState = {
     friends: {}
@@ -54,7 +66,22 @@ const friends = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_FRIENDS: {
             const newState = { friends: {} }
-            newState.friends = action.friends.user_friends
+            let normalizedFriends = {}
+            action.friends.user_friends.forEach((friend) => {
+                let friendObj = {}
+                friend.forEach(() => {
+                    friendObj.id = friend[2]
+                    friendObj.first_name = friend[0]
+                    friendObj.last_name = friend[1]
+                    normalizedFriends[friend[2]] = friendObj
+                })
+            })
+            newState.friends = normalizedFriends
+            return newState
+        }
+        case REMOVE_FRIEND: {
+            const newState = {...state}
+            delete newState.friends[action.friendId]
             return newState
         }
         default:

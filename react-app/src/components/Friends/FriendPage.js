@@ -4,6 +4,14 @@ import { useSelector } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 
 function FriendPage() {
+
+
+    const removeFriendHandleClick = async (e) => {
+        if (window.confirm("Are you sure you want to remove this friend?")) {
+            return null
+        }
+    }
+
     return (
         <div className="column-wrapper">
             <div className="left-column-container">
@@ -28,6 +36,11 @@ function FriendPage() {
             </div>
             <div className="right-column-container">
                 <div className="right-column-content">
+                    <div className="remove-friend-button-container">
+                        <button className="remove-friend-button" style={{marginTop: "18.72px"}}>
+                            Remove This Friend
+                        </button>
+                    </div>
                     <h2 className="your-total-balance-label">YOUR BALANCE</h2>
                     <div className='balance-info-container'>
                         <div className='balance-summary'>
