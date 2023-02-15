@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from app.models import db, User, Transaction, Loan
+from app.forms.create_transaction_form import CreateTransactionForm
 
 import sys
 
@@ -72,6 +73,38 @@ def get_friend_transaction(friend_id):
     
     return {"Transactions": transactions_dictionary}
 
+@transaction_routes.route("", methods=["POST"])
+@login_required
+def post_create_transaction():
+    """
+    Create a new transaction
+    """
+    form = CreateTransactionForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    data = form.data
+    if form.validate_on_submit():
+        transaction = Transaction(
+            creator_id=current_user.id,
+            updater_id=current_user.id,
+            cost=data["cost"],
+            creation_method=data["creation_method"],
+            description=data["description"],
+            note=data["note"],
+            image=data["image"],
+            created_at=data["created_at"],
+            updated_at=data["updated_at"]
+        )
+        db.session.add(transaction)
+        db.session.commit()
+        for friend in data["payers"]:
+            loan = Loan(
+                loaner = current_user,
+                debtor_id = friend.id,
+                amount = data["cost"]/len(data["payers"]),
+                transaction_id = transaction.id,
+                created_at=data["created_at"],
+                updated_at=data["updated_at"]
+            )
 
 @transaction_routes.route("<int:transactionId>")
 @login_required
