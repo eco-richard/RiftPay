@@ -1,4 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models import Loan
+from .friends import transaction_users
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
@@ -20,6 +22,23 @@ class Transaction(db.Model):
     loans = db.relationship("Loan", back_populates="transaction", cascade="all, delete-orphan")
     creator = db.relationship("User", back_populates="payer_transactions")
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
+    payers = db.relationship("Payers", secondary=transaction_users, back_populates="transactions")
+
+    def create_loans(self):
+        if self.creation_method == "EQUAL":
+            split_amount = self.cost / len(self.payers)
+            for user in payers:
+                loan = Loan(
+                    loaner_id = self.creator_id,
+                    debtor_id = user.id,
+                    amount = split_amount,
+                    transaction_id = self.id,
+                    created_at = self.created_at,
+                    updated_at = self.updated_at,
+                )
+                db.session.add(loan)
+            db.session.commit()
+
 
     def to_dict(self):
         return {
@@ -34,6 +53,7 @@ class Transaction(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'loans': [loan.to_dict() for loan in self.loans],
+            'payers': [user.simple_user() for user in payers]
         }
 
     # def add_owers(self, owers):

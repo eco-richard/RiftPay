@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from .friends import friends
+from .friends import friends, transaction_users
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
     payer_transactions = db.relationship("Transaction", back_populates="creator")
+    transactions = db.relationship("Transaction", secondary=transaction_users, back_populates="payers")
 
     @property
     def password(self):
@@ -59,5 +60,6 @@ class User(db.Model, UserMixin):
             'friends': [friend.simple_user() for friend in self.friends],
             # 'comments': [list[comment.to_dict()] for comment in self.comments],
             'loans': [loan.to_dict() for loan in self.loans],
-            'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions]
+            'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions],
+            'transactions': [transaction.to_dict() for transaction in self.transactions]
         }

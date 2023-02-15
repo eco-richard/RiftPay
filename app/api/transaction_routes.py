@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from app.models import db, User, Transaction, Loan
-from app.forms.create_transaction_form import CreateTransactionForm
+from app.forms.transaction_form import TransactionForm
 
 import sys
 
@@ -79,7 +79,7 @@ def post_create_transaction():
     """
     Create a new transaction
     """
-    form = CreateTransactionForm()
+    form = TransactionForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     data = form.data
     if form.validate_on_submit():
@@ -106,7 +106,48 @@ def post_create_transaction():
                 updated_at=data["updated_at"]
             )
 
-@transaction_routes.route("<int:transactionId>")
+@transaction_routes.route("/<int:transaction_id>", methods=["PUT"])
 @login_required
-def get_single_transaction(transactionId):
-    pass
+def update_single_transaction(transaction_id):
+    """
+    Update the information on a transaction
+    """
+    transaction = Transaction.query.get_or_404(transaction_id)
+    form = TransactionForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    data = form.data
+    if form.validate_on_submit():
+        transaction.updater_id = current_user.id
+        transaction.cost = data["cost"]
+        transaction.description = data["description"]
+        transaction.note = data["note"]
+        transaction.image = data["image"]
+        transaction.updated_at = data["updated_at"]
+
+    db.session.commit()
+
+
+@transaction_routes.route("/<int:transaction_id>")
+@login_required
+def get_single_transaction(transaction_id):
+    transaction = Transaction.query.get(transaction_id)
+
+    if transaction is None:
+        return {"error": f"No transaction found with id {transaction_id}"}
+
+    return transaction.to_dict()
+
+@transaction_routes.route("/<int:transaction_id>", methods=["DELETE"])
+@login_required
+def delete_single_transaction(transaction_id):
+    transaction = Transaction.query.get(transaction_id)
+
+    if transaction is None:
+        return {"error": f"No transaction found with id {transaction_id}"}
+
+
+    db.session.delete(transaction)
+    db.session.commit()
+    return {"success": "True", "status_code": 200}
+
