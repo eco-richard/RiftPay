@@ -113,7 +113,7 @@ export function deleteTransaction(transaction) {
     }
 }
 
-const initialState = {allTransactions: {}, singleTransaction: {}, friendTransactions: {}}
+const initialState = {allTransactions: {}, singleTransaction: {}}
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
@@ -128,9 +128,9 @@ export default function reducer(state = initialState, action) {
             newState.singleTransaction = action.transaction;
             return newState;
         case GET_FRIEND_TRANSACTIONS:
-            newState = {...state, friendTransactions: {}}
+            newState = {...state, allTransactions: {}}
             action.transactions.Transactions.forEach(transaction => {
-                newState.friendTransactions[transaction.id] = transaction
+                newState.allTransactions[transaction.id] = transaction
             })
             return newState;
         case ADD_TRANSACTION:
