@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, Redirect } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -17,15 +20,17 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
+        history.push("/dashboard")
         closeModal()
     }
   };
+
 
   const logInDemoUser = async (e) => {
     e.preventDefault()
 
     return dispatch(login("demo@aa.io", "password"))
-      .then(closeModal)
+      .then(closeModal).then(history.push("/dashboard"))
   }
 
   return (
