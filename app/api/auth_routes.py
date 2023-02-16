@@ -63,13 +63,8 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password']
         )
-        print("==========USER ID BEFORE ADD:", user.id, "==========", file=sys.stderr)
         db.session.add(user)
-        print("==========USER ID AFTER ADD:", user.id, "==========", file=sys.stderr)
-
         db.session.commit()
-        print("==========USER ID AFTER COMMIT:", user.id, "==========", file=sys.stderr)
-
         login_user(user)
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
