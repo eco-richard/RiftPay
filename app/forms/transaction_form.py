@@ -16,4 +16,4 @@ class TransactionForm(FlaskForm):
     created_at = wtf.StringField("Created At")
     updated_at = wtf.StringField("Updated At")
     payers = wtf.StringField("Payers")
-    repayments = wtf.StringFields("Repayments")
+    repayments = wtf.StringField("Repayments")
