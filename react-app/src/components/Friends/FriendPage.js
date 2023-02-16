@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
-import { removeFriendThunk, loadSingleFriendThunk } from '../../store/friends';
+import { removeFriendThunk, loadSingleFriendThunk, loadFriendsThunk } from '../../store/friends';
 
 function FriendPage() {
 
@@ -14,9 +14,10 @@ function FriendPage() {
 
     useEffect(() => {
         dispatch(loadSingleFriendThunk(friendId))
-    },[dispatch])
+    },[dispatch, friendId])
 
 
+    if (Object.values(singleFriend).length === 0) return null
 
     const removeFriendHandleClick = async (e) => {
         if (window.confirm("Are you sure you want to remove this friend?")) {

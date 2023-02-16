@@ -59,7 +59,7 @@ export const removeFriendThunk = (friendId) => async dispatch => {
     })
     if (response.ok) {
         const badFriend =  await response.json()
-        dispatch(removeFriend(badFriend))
+        dispatch(removeFriend(friendId))
         return badFriend
     }
 }
@@ -84,7 +84,7 @@ const initialState = {
 const friends = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_FRIENDS: {
-            const newState = { friends: {}, singleFriend: {} }
+            const newState = { friends: {...state.friends}, singleFriend: {...state.singleFriend} }
             let normalizedFriends = {}
             action.friends.user_friends.forEach((friend) => {
                 let friendObj = {}
