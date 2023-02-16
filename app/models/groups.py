@@ -15,8 +15,8 @@ class Group(db.Model):
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
 
-    members = db.relationship("User", secondary=group_users, back_populates="groups")
-    transactions = db.relationship("Transaction", back_populates="group", cascade="all, delete-orphan")
+    # members = db.relationship("User", secondary=group_users, back_populates="groups")
+    # transactions = db.relationship("Transaction", back_populates="group", cascade="all, delete-orphan")
 
 
     def to_dict(self):

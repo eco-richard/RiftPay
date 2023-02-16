@@ -17,7 +17,7 @@ def get_transactions_current():
 
     transactions = current_user.transactions
     return {"Transactions": [transaction.to_dict() for transaction in transactions]}
-    
+
 
 @transaction_routes.route("/friend/<int:friend_id>")
 @login_required
@@ -54,6 +54,7 @@ def post_create_transaction():
             description=data["description"],
             note=data["note"],
             image=data["image"],
+            group_id=["group_id"],
             created_at=data["created_at"],
             updated_at=data["updated_at"],
             payers=data["payers"],
@@ -65,7 +66,7 @@ def post_create_transaction():
         return transaction.to_dict()
 
     return {"errors": ut.validation_errors_to_error_messages(form.errors) }
-    
+
 
 @transaction_routes.route("/<int:transaction_id>", methods=["PUT"])
 @login_required
@@ -84,6 +85,7 @@ def update_single_transaction(transaction_id):
         transaction.description = data["description"]
         transaction.note = data["note"]
         transaction.image = data["image"]
+        transaction.group_id = data["group_id"]
         transaction.updated_at = data["updated_at"]
         transaction.payers=data["payers"]
         transaction.repayments=data["repayments"]

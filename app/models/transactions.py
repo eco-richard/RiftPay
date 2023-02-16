@@ -16,7 +16,7 @@ class Transaction(db.Model):
     description = db.Column(db.String(50), nullable=False)
     note = db.Column(db.String(250))
     image = db.Column(db.String(250))
-    group_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("groups.id")))
+    # group_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("groups.id")))
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
     payers = db.Column(db.String(5000))
@@ -85,7 +85,7 @@ class Transaction(db.Model):
             'description': self.description,
             'note': self.note,
             'image': self.image,
-            'group_id': self.group_id,
+            # 'group_id': self.group_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'users': [user.simple_user() for user in self.users],
