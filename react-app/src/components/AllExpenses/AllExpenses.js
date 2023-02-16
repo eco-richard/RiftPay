@@ -1,10 +1,21 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
+import { getAllTransactions } from '../../store/transaction';
+import SingleTransaction from './SingleTransaction';
 import "./AllExpenses.css"
 
 function AllExpenses() {
+    const dispatch = useDispatch();
+    const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
+    console.log("Transactions: ", transactions);
+
+    useEffect(() => {
+        dispatch(getAllTransactions())
+    }, [dispatch])
+
+    if (transactions.length == 0) return null;
+
     return (
         <div className="column-wrapper">
             <div className="left-column-container">
@@ -23,8 +34,9 @@ function AllExpenses() {
 
                 </div>
                 <div className='expenses-content-container'>
-                    <div className="expense-bills-container">
-                    </div>
+                    {transactions.map(transaction => (
+                        <SingleTransaction transaction={transaction} /> 
+                    ))}
                 </div>
             </div>
             <div className="right-column-container">

@@ -1,0 +1,8 @@
+.single-expense-delete-hidden {
+    display: none;
+}
+
+.single-expense-container {
+    display: flex;
+    flex-direction: row;
+}

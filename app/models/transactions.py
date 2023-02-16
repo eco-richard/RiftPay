@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .join_tables import transaction_users
+from app.models import User
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
@@ -43,8 +44,9 @@ class Transaction(db.Model):
         final_payers = []
         for payer in payers_list:
             payer_id, amount = payer.split('/')
+            payer = User.query.get(int(payer_id))
             final_payers.append({
-                "payer_id": int(payer_id),
+                "payer": payer.simple_user(),
                 "amount": round(float(amount), 2)
             })
         return final_payers
@@ -58,9 +60,11 @@ class Transaction(db.Model):
         final_repayments = []
         for repayment in repayments_list:
             loaner_id, debtor_id, amount = repayment.split('/')
+            loaner = User.query.get(int(loaner_id))
+            debtor = User.query.get(int(debtor_id))
             final_repayments.append({
-                "loaner_id": int(loaner_id),
-                "debtor_id": int(debtor_id),
+                "loaner": loaner.simple_user(),
+                "debtor": debtor.simple_user(),
                 "amount": round(float(amount), 2)
             })
         return final_repayments
