@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from .friends import friends
+from .join_tables import friends, transaction_users
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -27,9 +27,10 @@ class User(db.Model, UserMixin):
     )
 
     comments = db.relationship("Comment", back_populates="commentor", cascade="all, delete-orphan")
-    loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
+    # loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
-    payer_transactions = db.relationship("Transaction", back_populates="creator")
+    # payer_transactions = db.relationship("Transaction", back_populates="creator")
+    transactions = db.relationship("Transaction", secondary=transaction_users, back_populates="users")
 
     @property
     def password(self):
@@ -49,6 +50,32 @@ class User(db.Model, UserMixin):
             'last_name': self.last_name
         }
 
+
+    def get_friends(self):
+        friend_list = [friend.simple_user() for friend in self.friends]
+        transactions_repayments = [transaction.structure_repayments() for transaction in self.transactions]
+        balances = []
+        for friend in friend_list:
+            sum = 0
+            for transaction in transactions_repayments:
+                user_debts = list(filter(lambda payment: payment['loaner_id'] == friend['id'] and payment['debtor_id'] == self.id, transaction))
+                for debt in user_debts:
+                    sum -= debt['amount']
+                user_loans = list(filter(lambda payment: payment['loaner_id'] == self.id and payment['debtor_id'] == friend['id'], transaction))
+                for loan in user_loans:
+                    sum += loan['amount']
+            friend['balance'] = sum
+            balances.append(friend)
+        print("Balances: ", balances)
+        return balances
+    
+
+    def user_friends(self):
+        return {
+            'friends': self.get_friends()
+        }
+
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -58,6 +85,6 @@ class User(db.Model, UserMixin):
             'picture': self.picture,
             'friends': [friend.simple_user() for friend in self.friends],
             # 'comments': [list[comment.to_dict()] for comment in self.comments],
-            'loans': [loan.to_dict() for loan in self.loans],
-            'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions]
+            # 'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions],
+            'transactions': [transaction.to_dict() for transaction in self.transactions]
         }
