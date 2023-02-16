@@ -44,8 +44,8 @@ class Transaction(db.Model):
         for payer in payers_list:
             payer_id, amount = payer.split('/')
             final_payers.append({
-                "payer_id": payer_id,
-                "amount": amount
+                "payer_id": int(payer_id),
+                "amount": round(float(amount), 2)
             })
         return final_payers
 
@@ -59,11 +59,12 @@ class Transaction(db.Model):
         for repayment in repayments_list:
             loaner_id, debtor_id, amount = repayment.split('/')
             final_repayments.append({
-                "loaner_id": loaner_id,
-                "debtor_id": debtor_id,
-                "amount": amount
+                "loaner_id": int(loaner_id),
+                "debtor_id": int(debtor_id),
+                "amount": round(float(amount), 2)
             })
         return final_repayments
+        
 
     def add_repayment_users(self):
         repayments = self.structure_repayments()
