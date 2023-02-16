@@ -2,6 +2,7 @@
 const ADD_FRIEND = "friends/ADD_FRIEND"
 const REMOVE_FRIEND = "friends/REMOVE_FRIEND"
 const GET_ALL_FRIENDS = "friends/GET_ALL_FRIENDS"
+const GET_SINGLE_FRIEND = "friends/GET_SINGLE_FRIEND"
 
 //action creators
 const loadFriends = (friends) => {
@@ -10,7 +11,12 @@ const loadFriends = (friends) => {
         friends
     }
 }
-
+const loadSingleFriend = (friend) => {
+    return {
+        type: GET_SINGLE_FRIEND,
+        friend: friend["Single_Friend"]
+    }
+}
 const addFriend = (friendId) => {
     return {
         type: ADD_FRIEND,
@@ -45,10 +51,19 @@ export const loadFriendsThunk = () => async dispatch => {
     }
 }
 
+export const loadSingleFriendThunk = (friendId) => async dispatch => {
+    const response = await fetch(`/api/friends/${friendId}`)
+    if (response.ok) {
+        const friend = await response.json()
+        dispatch(loadSingleFriend(friend))
+        return friend
+    }
+}
+
 export const removeFriendThunk = (friendId) => async dispatch => {
-    const response = await fetch(`/api/friends/:${friendId}`,{
+    const response = await fetch(`/api/friends/${friendId}`,{
         method: "DELETE",
-        header: {"Content-Type": "application/json "}
+        header: {"Content-Type": "application/json"}
     })
     if (response.ok) {
         const badFriend =  await response.json()
@@ -59,13 +74,14 @@ export const removeFriendThunk = (friendId) => async dispatch => {
 
 
 const initialState = {
-    friends: {}
+    friends: {},
+    singleFriend: {}
 }
 
 const friends = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_FRIENDS: {
-            const newState = { friends: {} }
+            const newState = { friends: {}, singleFriend: {} }
             let normalizedFriends = {}
             action.friends.user_friends.forEach((friend) => {
                 let friendObj = {}
@@ -79,8 +95,14 @@ const friends = (state = initialState, action) => {
             newState.friends = normalizedFriends
             return newState
         }
+        case GET_SINGLE_FRIEND: {
+            const newState = { friends: {...state.friends}, singleFriend: {} }
+            newState.singleFriend = action.friend
+            return newState
+        }
         case REMOVE_FRIEND: {
             const newState = {...state}
+            newState.singleFriend = {}
             delete newState.friends[action.friendId]
             return newState
         }

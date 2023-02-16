@@ -14,7 +14,8 @@ function FriendsList() {
     const friends = useSelector(state => state.friends.friends)
     // const titleCase = (string) => string.charAt(0).toUpperCase() + string.slice(1);
     const friendsArr = Object.values(friends)
-    console.log("friendsArr", friendsArr)
+    // console.log("friendsArr", friendsArr)
+
     useEffect(() => {
         dispatch(loadFriendsThunk())
     },[dispatch, current_user])

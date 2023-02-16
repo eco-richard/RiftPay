@@ -1,14 +1,26 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { NavLink, useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
+import { removeFriendThunk, loadSingleFriendThunk } from '../../store/friends';
 
 function FriendPage() {
+
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const {friendId} = useParams()
+
+    const singleFriend = useSelector(state => state.friends.singleFriend)
+
+    useEffect(() => {
+        dispatch(loadSingleFriendThunk(friendId))
+    },[dispatch])
+
 
 
     const removeFriendHandleClick = async (e) => {
         if (window.confirm("Are you sure you want to remove this friend?")) {
-            return null
+            dispatch(removeFriendThunk(singleFriend.id)).then(history.push("/dashboard"))
         }
     }
 
@@ -37,7 +49,7 @@ function FriendPage() {
             <div className="right-column-container">
                 <div className="right-column-content">
                     <div className="remove-friend-button-container">
-                        <button className="remove-friend-button" style={{marginTop: "18.72px"}}>
+                        <button className="remove-friend-button" style={{marginTop: "18.72px"}} onClick={removeFriendHandleClick}>
                             Remove This Friend
                         </button>
                     </div>
