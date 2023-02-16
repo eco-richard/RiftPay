@@ -22,7 +22,6 @@ def single_friends(friendId):
     Query for all friends by a logged in user id and returns them in a list of user dictionaries
     """
     friend = User.query.get(friendId)
-    print(f"\n\n\nfriend: {friend}\n\n\n")
     return {"Single_Friend": friend.to_dict()}
 
 @friend_routes.route('/<int:friendId>', methods=["DELETE"])
@@ -39,3 +38,19 @@ def remove_friend(friendId):
     db.session.commit()
 
     return {'Response': "Successfully Deleted"}
+
+@friend_routes.route('/<int:friendId>', methods=["POST"])
+@login_required
+def add_friend(friendId):
+    """
+    Add a friend for the user
+    """
+
+    friend = User.query.get(friendId)
+    print(f"\n\n\n{request.form}\n\n\n")
+    # print(f"\n\n\n{request.data}\n\n\n")
+    current_user.friends.append(friend);
+    friend.friends.append(current_user)
+    db.session.commit()
+
+    return {'New_Friend': friend.simple_user()}
