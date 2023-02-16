@@ -8,7 +8,7 @@ export default function SingleTransaction({transaction}) {
 
     const MONTHS = [
         "JAN",
-        "FEB", 
+        "FEB",
         "MAR",
         "APR",
         "MAY",
@@ -31,8 +31,13 @@ export default function SingleTransaction({transaction}) {
     let payerName = "";
     if (payer.payer.id === user.id) {
         payerName = "you"
-        lentNameFull = "you lent";
         lentAmount = payer.amount - singleRepayment.amount
+        if (transaction.repayments.length === 2) {
+            lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
+        }
+        else {
+            lentNameFull = "you lent";
+        }
 
     } else {
         payerName = payer.payer.first_name + payer.payer.last_name[0] + '.';
@@ -49,10 +54,10 @@ export default function SingleTransaction({transaction}) {
             <div className="single-expense-left">
                 <div className="single-expense-date">
                     <div className="single-expense-month">
-                        <p>{month}</p>
+                        {month}
                     </div>
                     <div className="single-expense-day">
-                        <p>{day}</p>
+                        {day}
                     </div>
                 </div>
                 <div className="single-expense-image">
@@ -60,10 +65,10 @@ export default function SingleTransaction({transaction}) {
                 </div>
                 <div className="single-expense-name-desc">
                     <div className="single-expense-desc">
-                        <p>{transaction.description}</p>
+                        {transaction.description}
                     </div>
-                    <div className="single-expense-groupname">
-                    </div>
+                    {/* <div className="single-expense-groupname"> */}
+                    {/* </div> */}
                 </div>
             </div>
             <div className="single-expense-right">
