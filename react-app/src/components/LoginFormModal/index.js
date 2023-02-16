@@ -20,17 +20,17 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        history.push("/dashboard")
-        closeModal()
+      closeModal()
+      history.push("/dashboard")
     }
   };
 
 
   const logInDemoUser = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    return dispatch(login("demo@aa.io", "password"))
-      .then(closeModal).then(history.push("/dashboard"))
+    await dispatch(login("demo@aa.io", "password"))
+      .then(closeModal()).then(history.push("/dashboard"))
   }
 
   return (

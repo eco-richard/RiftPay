@@ -67,8 +67,9 @@ export const addFriendThunk = (email) => async dispatch => {
     const response = await fetch(`/api/friends`,{
         method: "POST",
         header: {"Content-Type": "application/json"},
-        body: JSON.stringify(email)
+        body: JSON.stringify({email: email})
     })
+    console.log("response", response)
     if (response.ok) {
         const newFriend =  await response.json()
         dispatch(addFriend(newFriend))
@@ -107,6 +108,7 @@ const friends = (state = initialState, action) => {
         case ADD_FRIEND: {
             const newState = {...state, friends: {...state.friends}, singleFriend: {...state.singleFriend}}
             newState.friends[action.friend.id] = action.friend
+            return newState
         }
         default:
             return state;

@@ -6,6 +6,9 @@ import './LeftSideNavigation.css';
 
 
 function LeftSideNavigation() {
+    const friends = useSelector(state => state.friends.friends)
+
+    
     return (
         <div className='left-side-nav-bar-container'>
             <div className="dashboard-all-expenses-links-container">
@@ -18,7 +21,7 @@ function LeftSideNavigation() {
             </div>
             <div style={{ height: "20px" }}></div>
             <div className="individual-friend">
-                <FriendsList />
+                <FriendsList friends={friends}/>
             </div>
         </div>
     )

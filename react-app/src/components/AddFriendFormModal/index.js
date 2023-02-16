@@ -8,18 +8,13 @@ import "./AddFriendForm.css";
 function AddFriendFormModal() {
   const dispatch = useDispatch();
 
-  const [friendEmail, setFriendEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addFriendThunk(friendEmail))
-    // if (data) {
-    //   setErrors(data);
-    // } else {
-    //     closeModal()
-    // }
+    const data = await dispatch(addFriendThunk(email))
   };
 
 
@@ -36,8 +31,8 @@ function AddFriendFormModal() {
           Email
           <input
             type="text"
-            value={friendEmail}
-            onChange={(e) => setFriendEmail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>

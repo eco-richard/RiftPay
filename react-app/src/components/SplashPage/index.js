@@ -1,12 +1,14 @@
 import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Redirect,useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function SplashPage() {
-
+    const history = useHistory()
     const sessionUser = useSelector((state) => state.session.user);
 
-    if (sessionUser) return <Redirect to="/dashboard" />;
+    if (sessionUser) {
+        history.push("/dashboard")
+    }
 
     return (
         <div>
