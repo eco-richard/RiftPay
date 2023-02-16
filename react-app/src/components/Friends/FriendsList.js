@@ -19,7 +19,7 @@ function FriendsList() {
     // console.log("friendsArr", friendsArr)
     useEffect(() => {
         if (flag) {
-            console.log("friendsArr", friendsArr)
+            // console.log("friendsArr", friendsArr)
             dispatch(loadFriendsThunk())
             setFlag(false);
           }
