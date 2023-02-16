@@ -87,13 +87,7 @@ const friends = (state = initialState, action) => {
             const newState = { friends: {...state.friends}, singleFriend: {...state.singleFriend} }
             let normalizedFriends = {}
             action.friends.user_friends.forEach((friend) => {
-                let friendObj = {}
-                friend.forEach(() => {
-                    friendObj.id = friend[2]
-                    friendObj.first_name = friend[0]
-                    friendObj.last_name = friend[1]
-                    normalizedFriends[friend[2]] = friendObj
-                })
+                normalizedFriends[friend.id] = friend
             })
             newState.friends = normalizedFriends
             return newState
