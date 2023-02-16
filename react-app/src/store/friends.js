@@ -63,10 +63,11 @@ export const removeFriendThunk = (friendId) => async dispatch => {
         return badFriend
     }
 }
-export const addFriendThunk = (friendId) => async dispatch => {
-    const response = await fetch(`/api/friends/${friendId}`,{
+export const addFriendThunk = (email) => async dispatch => {
+    const response = await fetch(`/api/friends`,{
         method: "POST",
-        header: {"Content-Type": "application/json"}
+        header: {"Content-Type": "application/json"},
+        body: JSON.stringify(email)
     })
     if (response.ok) {
         const newFriend =  await response.json()

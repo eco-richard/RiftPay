@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { addFriendThunk } from "../../store/friends";
 import "./AddFriendForm.css";
 
 function AddFriendFormModal() {
@@ -13,7 +14,7 @@ function AddFriendFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    return null
+    dispatch(addFriendThunk(friendEmail))
     // if (data) {
     //   setErrors(data);
     // } else {
