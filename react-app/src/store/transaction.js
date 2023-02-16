@@ -94,7 +94,7 @@ export function updateTransaction(transactionId, transaction) {
 
         if (response.ok) {
             const transaction = response.json();
-            dispatch(add(transaction))
+            dispatch(update(transaction))
         }
     }
 }
