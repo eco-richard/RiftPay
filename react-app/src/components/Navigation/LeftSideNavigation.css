@@ -11,11 +11,3 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.friends-label{
-    font-size: 12px;
-    padding-bottom: 3%;
-    border-bottom: 1px solid rgb(145, 145, 153);
-}
-.individual-friend{
-    padding-top: 3%;
-}
