@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .join_tables import transaction_users
+from .user import User
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
@@ -15,6 +16,7 @@ class Transaction(db.Model):
     description = db.Column(db.String(50), nullable=False)
     note = db.Column(db.String(250))
     image = db.Column(db.String(250))
+    group_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("groups.id")))
     created_at = db.Column(db.String)
     updated_at = db.Column(db.String)
     payers = db.Column(db.String(5000))
@@ -54,7 +56,7 @@ class Transaction(db.Model):
         # 1. 1/1/25,1/2/25,1/3/25
         # 2. ['1/1/25', '1/2/25', '1/3/25']
         # 3. ['[1], [1], [25]']
-        repayments_list = self.repayments.split(',') 
+        repayments_list = self.repayments.split(',')
         final_repayments = []
         for repayment in repayments_list:
             loaner_id, debtor_id, amount = repayment.split('/')
@@ -83,6 +85,7 @@ class Transaction(db.Model):
             'description': self.description,
             'note': self.note,
             'image': self.image,
+            'group_id': self.group_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'users': [user.simple_user() for user in self.users],
