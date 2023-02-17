@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import TransactionDetails from "./TransactionDetails";
 import './SingleTransaction.css'
 
 export default function SingleTransaction({transaction}) {
     const user = useSelector(state => state.session.user)
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
+    const [isClicked, setIsClicked] = useState(false);
 
     const MONTHS = [
         "JAN",
@@ -21,7 +23,8 @@ export default function SingleTransaction({transaction}) {
         "DEC"
     ]
 
-    const month = MONTHS[Number(transaction.created_at.split("-")[1])-1]
+    const monthIdx = Number(transaction.created_at.split("-")[1])-1 
+    const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
     const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
@@ -46,9 +49,11 @@ export default function SingleTransaction({transaction}) {
     }
 
     return (
+        <>
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
+        onClick={(e) => setIsClicked(!isClicked)}
         >
 
             <div className="single-expense-left">
@@ -93,5 +98,7 @@ export default function SingleTransaction({transaction}) {
                 </div>
             </div>
         </div>
+        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} />) : null}
+        </>
     );
 }

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import { getAllTransactions } from '../../store/transaction';
 import SingleTransaction from './SingleTransaction';
+import OpenModalButton from '../OpenModalButton';
+import AddExpenseForm from '../AddExpenseForm';
 import "./AllExpenses.css"
 
 function AllExpenses() {
@@ -26,7 +28,11 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <button className="expense-button">Add an expense</button>
+                            <OpenModalButton 
+                                className="add-expense-button"
+                                buttonText="Add an Expense"
+                                modalComponent={<AddExpenseForm />}
+                            ></OpenModalButton>
                             <span className="button-seperator"></span>
                             <button>Settle Up</button>
                         </div>
