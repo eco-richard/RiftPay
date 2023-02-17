@@ -5,20 +5,24 @@ from app.models import User, Comment, friends, db
 from app.utilities import validation_errors_to_error_messages
 from app.forms import AddCommentForm
 from datetime import date
+from pprint import pprint
 
 comment_routes = Blueprint("comments", __name__)
 
-@comment_routes.route("/<int:expense_id>")
+@comment_routes.route("/<int:transaction_id>")
 @login_required
-def all_comments(expense_id):
+def all_comments(transaction_id):
     """
-    Query for all comments by a logged in user id
+    Query for all comments by a transactions id
     """
-    comments = db.select(Comment).filter_by("expense_id")
+    comments = db.session.execute(db.select(Comment).filter_by(transaction_id=transaction_id)).all()
+    print(f"\n\n\{comments}\n\n\n")
+    return {"comments": [comment] for comment in comments}
 
-@comment_routes.route("/<int:expense_id>", methods=["POST"])
+
+@comment_routes.route("/<int:transaction_id>", methods=["POST"])
 @login_required
-def add_comment(expense_id):
+def add_comment(transaction_id):
     """
     Add a comment to an existing transaction
     """
@@ -26,7 +30,13 @@ def add_comment(expense_id):
     form = AddCommentForm()
     form ['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        new_comment = Comment(content = form.data["content"], commentor_id = current_user.id, transaction_id = expense_id)
+        new_comment=Comment(
+            content=form.data["content"],
+            commentor_id=current_user.id,
+            transaction_id=transaction_id,
+            created_at=form.data["created_at"],
+            updated_at=form.data["updated_at"]
+        )
 
 
 

@@ -5,18 +5,25 @@ import "./AddComment.css"
 
 function AddComment() {
     const [comment, setComment] = useState("")
+    const [createdAt, setCreatedAt] = useState("")
+    const [updatedAt, setUpdatedAt] = useState("")
+    //dates should be month/day/year 02/17/2023 format
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors([]);
-
-        const errorsArr = [];
         if (!comment.length || review.length > 500) {
             window.alert("Please enter a valid review less than 500 characters.")
         }
 
+        const today = new Date()
+        const year = today.getUTCFullYear()
+        const month = today.getUTCMonth() + 1
+        const day = today.getUTCDate()
+        setCreatedAt(`${month}/${day}/${year}`)
+        setUpdatedAt(`${month}/${day}/${year}`)
         // dispatch create commment thunk
+
     }
 
     return (
