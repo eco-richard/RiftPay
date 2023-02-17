@@ -20,7 +20,7 @@ const loadSingleFriend = (friend) => {
 const addFriend = (friend) => {
     return {
         type: ADD_FRIEND,
-        friend: friend['New_Friend']
+        friend
     }
 }
 
@@ -55,7 +55,7 @@ export const loadSingleFriendThunk = (friendId) => async dispatch => {
 export const removeFriendThunk = (friendId) => async dispatch => {
     const response = await fetch(`/api/friends/${friendId}`,{
         method: "DELETE",
-        header: {"Content-Type": "application/json"}
+        headers: {"Content-Type": "application/json"}
     })
     if (response.ok) {
         const badFriend =  await response.json()
@@ -63,13 +63,15 @@ export const removeFriendThunk = (friendId) => async dispatch => {
         return badFriend
     }
 }
-export const addFriendThunk = (friendId) => async dispatch => {
-    const response = await fetch(`/api/friends/${friendId}`,{
+export const addFriendThunk = (email) => async dispatch => {
+    const response = await fetch(`/api/friends`,{
         method: "POST",
-        header: {"Content-Type": "application/json"}
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({"email": email})
     })
     if (response.ok) {
-        const newFriend =  await response.json()
+        const newFriend = await response.json()
+        console.log("newFriend from thunk:", newFriend)
         dispatch(addFriend(newFriend))
         return newFriend
     }
@@ -105,7 +107,8 @@ const friends = (state = initialState, action) => {
         }
         case ADD_FRIEND: {
             const newState = {...state, friends: {...state.friends}, singleFriend: {...state.singleFriend}}
-            newState.friends[action.friend.id] = action.friend
+            newState.friends[action.friend.user.id] = action.friend.user
+            return newState
         }
         default:
             return state;
