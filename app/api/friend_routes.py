@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request, session
+from app.forms import AddFriendForm
 from flask_login import login_required, current_user
 from app.models import User, friends, db
+from app.utilities import validation_errors_to_error_messages
 
 
 friend_routes = Blueprint('friends', __name__)
@@ -39,18 +41,19 @@ def remove_friend(friendId):
 
     return {'Response': "Successfully Deleted"}
 
-@friend_routes.route('/<int:friendId>', methods=["POST"])
+@friend_routes.route('', methods=["POST"])
 @login_required
-def add_friend(friendId):
+def add_friend():
     """
     Add a friend for the user
     """
 
-    friend = User.query.get(friendId)
-    print(f"\n\n\n{request.form}\n\n\n")
-    # print(f"\n\n\n{request.data}\n\n\n")
-    current_user.friends.append(friend);
-    friend.friends.append(current_user)
-    db.session.commit()
-
-    return {'New_Friend': friend.simple_user()}
+    form = AddFriendForm()
+    form ['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        user = db.session.execute(db.select(User).filter_by(email=form.data["email"])).scalar_one()
+        current_user.friends.append(user);
+        user.friends.append(current_user)
+        db.session.commit()
+        return {"user": {"first_name": user.first_name.title(), "last_name": user.last_name.title(), "id": user.id}}
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401

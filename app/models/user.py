@@ -68,7 +68,7 @@ class User(db.Model, UserMixin):
             balances.append(friend)
         print("Balances: ", balances)
         return balances
-    
+
 
     def user_friends(self):
         return {

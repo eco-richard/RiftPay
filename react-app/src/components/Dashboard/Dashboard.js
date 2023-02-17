@@ -1,10 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import "./Dashboard.css"
 
 function Dashboard() {
+    const user = useSelector((state) => state.session.user)
+
+    if (!user) return <Redirect to="/"/>
+
     return (
         <div className="column-wrapper">
             <div className="left-column-container">
