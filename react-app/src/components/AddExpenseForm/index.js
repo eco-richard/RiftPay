@@ -23,7 +23,8 @@ export default function AddExpenseForm() {
     const [note, setNote] = useState("");
     const [image, setImage] = useState("https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png")
     const [createdAt, setCreatedAt] = useState("");
-    const [participants, setParticipants] = useState([user.id])
+    const [participants, setParticipants] = useState([user.id, ...participants])
+    const [participantUsers, setParticipantUsers] = useState([])
     const [debts, setDebts] = useState([])
     const [participantsLoans, setParticipantsLoans] = useState([])
     const [errors, setErrors] = useState([]);
@@ -66,8 +67,8 @@ export default function AddExpenseForm() {
             <div className="participants-selection">
             <label>
                 With you and:
-            <select 
-                value={participants} 
+            <select
+                value={participants}
                 multiple="true"
                 onChange={(e) => addParticipants(e)}>
                 {friends.map(friend => (
@@ -79,7 +80,7 @@ export default function AddExpenseForm() {
             <div className="reciept-image">
             </div>
             <div className="form-description-div">
-                <input 
+                <input
                     className="form-description"
                     type="text"
                     value={description}
