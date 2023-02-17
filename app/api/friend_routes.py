@@ -50,22 +50,10 @@ def add_friend():
 
     form = AddFriendForm()
     form ['csrf_token'].data = request.cookies['csrf_token']
-    # print(f"\n\n\n\n\n form.data:", form.data)
     if form.validate_on_submit():
         user = db.session.execute(db.select(User).filter_by(email=form.data["email"])).scalar_one()
         current_user.friends.append(user);
         user.friends.append(current_user)
         db.session.commit()
-        user2 = User.query.get(form.data["email"])
-        # print(f"\n\n\n\n user2.to_dict()", user2)
-        # print(f"\n\n\n\n user.to_dict()", user.simple_user())
-        # return {"user": user.to_dict()}
         return {"user": {"first_name": user.first_name.title(), "last_name": user.last_name.title(), "id": user.id}}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-
-
-    # friend = User.query.get(friendId)
-    # print(f"\n\n\n{request.form}\n\n\n")
-    # print(f"\n\n\n{request.data}\n\n\n")
-
-    # return {'New_Friend': friend.simple_user()}

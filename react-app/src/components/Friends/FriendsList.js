@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadFriendsThunk } from '../../store/friends';
 import OpenModalButton from "../OpenModalButton";
@@ -14,12 +14,10 @@ function FriendsList() {
 
     const current_user = useSelector(state => state.session.user)
     const friends = useSelector(state => state.friends.friends)
-    // const titleCase = (string) => string.charAt(0).toUpperCase() + string.slice(1);
     const friendsArr = Object.values(friends)
-    // console.log("friendsArr", friendsArr)
+
     useEffect(() => {
         if (flag) {
-            // console.log("friendsArr", friendsArr)
             dispatch(loadFriendsThunk())
             setFlag(false);
           }
@@ -38,6 +36,8 @@ function FriendsList() {
         </div>
     </div>
     }
+
+    if (!current_user) return <Redirect to="/"/>
 
     return (
         <div className="friends-list-and-header-container">

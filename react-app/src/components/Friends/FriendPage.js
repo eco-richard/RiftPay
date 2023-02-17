@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams, useHistory } from 'react-router-dom';
+import { NavLink, useParams, useHistory, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import { removeFriendThunk, loadSingleFriendThunk, loadFriendsThunk } from '../../store/friends';
@@ -10,13 +10,14 @@ function FriendPage() {
     const history = useHistory()
     const {friendId} = useParams()
 
+    const user = useSelector((state) => state.session.user)
     const singleFriend = useSelector(state => state.friends.singleFriend)
 
     useEffect(() => {
         dispatch(loadSingleFriendThunk(friendId))
     },[dispatch, friendId])
 
-
+    if (!user) return <Redirect to="/"/>
     if (Object.values(singleFriend).length === 0) return null
 
     const removeFriendHandleClick = async (e) => {
@@ -24,6 +25,7 @@ function FriendPage() {
             dispatch(removeFriendThunk(singleFriend.id)).then(history.push("/dashboard"))
         }
     }
+
 
     return (
         <div className="column-wrapper">
