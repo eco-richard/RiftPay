@@ -41,7 +41,7 @@ export function getAllTransactions() {
         const response = await fetch('/api/transactions/current');
         
         if (response.ok) {
-            const transactions = response.json();
+            const transactions = await response.json();
             dispatch(getAll(transactions))
         }
     }
@@ -52,7 +52,7 @@ export function getSingleTransaction(transactionId) {
         const response = await fetch(`/api/transactions/${transactionId}`)
 
         if (response.ok) {
-            const transaction = response.json();
+            const transaction = await response.json();
             dispatch(getSingle(transaction))
         }
     }
@@ -63,7 +63,7 @@ export function getFriendTransactions(friendId) {
         const response = await fetch(`/api/transactions/friend/${friendId}`)
 
         if (response.ok) {
-            const transactions = response.json();
+            const transactions = await response.json();
             dispatch(getFriend(transactions))
         }
     }
@@ -78,7 +78,7 @@ export function createTransaction(transaction) {
         });
 
         if (response.ok) {
-            const transaction = response.json();
+            const transaction = await response.json();
             dispatch(add(transaction))
         }
     }
@@ -119,6 +119,7 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
         case GET_TRANSACTIONS:
             newState = {...state, allTransactions: {}, singleTransaction: {}}
+            console.log("Action.transactions: ", action.transactions);
             action.transactions.Transactions.forEach(transaction => {
                 newState.allTransactions[transaction.id] = transaction
             })

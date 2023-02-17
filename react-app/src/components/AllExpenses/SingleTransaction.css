@@ -1,0 +1,99 @@
+.single-expense-delete-hidden {
+    display: none;
+}
+
+.single-expense-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 56px;
+    border-bottom: .5px solid #aaa;
+}
+
+.single-expense-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.single-expense-date {
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    font-size: 10px;
+    margin-right: 1px;
+    color: #aaa;
+}
+
+.single-expense-month {
+    font-size: 10px;
+}
+
+.single-expense-day {
+    font-size: 20px;
+}
+
+.single-expense-image {
+    height: 35px;
+    width: 35px;
+    margin-right: 7px;
+}
+
+.single-expense-image img {
+    height: 35px;
+    width: 35px;
+}
+
+.single-expense-name-desc {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 40px;
+}
+
+.single-expense-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    width: 150px;
+}
+
+.single-expense-payer {
+    padding: 11px 10px 12px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.single-expense-payer-name {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.single-expense-payer-amount {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.single-expense-loaner {
+    padding: 11px 10px 12px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.single-expense-loaner-name {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.single-expense-loaner-amount {
+    font-size: 16px;
+    font-weight: bold;
+}
