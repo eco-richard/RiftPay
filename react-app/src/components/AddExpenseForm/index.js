@@ -23,7 +23,7 @@ export default function AddExpenseForm() {
     const [note, setNote] = useState("");
     const [image, setImage] = useState("https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png")
     const [createdAt, setCreatedAt] = useState("");
-    const [participants, setParticipants] = useState([])
+    const [participants, setParticipants] = useState([user.id])
     const [debts, setDebts] = useState([])
     const [participantsLoans, setParticipantsLoans] = useState([])
     const [errors, setErrors] = useState([]);
@@ -40,6 +40,15 @@ export default function AddExpenseForm() {
         console.log("Participants: ", participants);
     }, [participants])
 
+    const addParticipants = (e) => {
+        if (participants.includes(e.target.value)) {
+            const index = participants.indexOf(e.target.value)
+            participants.splice(index, 1);
+            setParticipants(participants)
+        } else {
+            setParticipants([...participants, e.target.value])
+        }
+    }
     if (friends.length === 0) return null;
 
     return (
@@ -60,7 +69,7 @@ export default function AddExpenseForm() {
             <select 
                 value={participants} 
                 multiple="true"
-                onChange={(e) => {setParticipants([...participants, e.target.value])}}>
+                onChange={(e) => addParticipants(e)}>
                 {friends.map(friend => (
                     <option value={friend.id}>{`${friend.first_name} ${friend.last_name}`}</option>
                 ))}
@@ -112,6 +121,24 @@ export default function AddExpenseForm() {
                     <button onClick={exactPayments}>1.23</button>
                     <button onClick={percentPayments}>%</button>
                 </div>
+                <form className="repayments">
+                    {participants.map(participant => (
+                        <div className="single-debtor">
+                            <div>{participant}</div>
+                            <div className="debt">
+                                <label> $
+                                <input
+                                    className="debt-amount"
+                                    type="number"
+                                    value={debts}
+                                    onChange={(e) => setDebts(e.target.value)}
+                                    placeholder={cost/participants.length}
+                                />
+                                </label>
+                            </div>
+                        </div>
+                        ))}
+                </form>
             </div>
         </div>)}
         </div>
