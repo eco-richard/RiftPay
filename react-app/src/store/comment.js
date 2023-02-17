@@ -50,6 +50,8 @@ export const removeCommentThunk = () => async dispatch => {
 
 }
 
+const initialState = {}
+
 const comments = (state = initialState, action) => {
     switch (action.type) {
 
