@@ -57,9 +57,10 @@ def add_friend():
         user.friends.append(current_user)
         db.session.commit()
         user2 = User.query.get(form.data["email"])
-        print(f"\n\n\n\n user2.to_dict()", user2)
-        print(f"\n\n\n\n user.to_dict()", user.to_dict())
-        return {"user": user.to_dict()}
+        # print(f"\n\n\n\n user2.to_dict()", user2)
+        # print(f"\n\n\n\n user.to_dict()", user.simple_user())
+        # return {"user": user.to_dict()}
+        return {"user": {"first_name": user.first_name.title(), "last_name": user.last_name.title(), "id": user.id}}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

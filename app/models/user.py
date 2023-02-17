@@ -68,7 +68,7 @@ class User(db.Model, UserMixin):
             balances.append(friend)
         print("Balances: ", balances)
         return balances
-    
+
 
     def user_friends(self):
         return {
@@ -80,7 +80,7 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'first_name': self.first_name,
-            'last_name': self.first_name,
+            'last_name': self.last_name,
             'email': self.email,
             'picture': self.picture,
             'friends': [friend.simple_user() for friend in self.friends],
