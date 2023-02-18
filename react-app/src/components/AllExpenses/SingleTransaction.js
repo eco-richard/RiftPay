@@ -8,6 +8,7 @@ export default function SingleTransaction({transaction}) {
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
     const [isClicked, setIsClicked] = useState(false);
 
+    const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
     const MONTHS = [
         "JAN",
         "FEB",
@@ -43,7 +44,7 @@ export default function SingleTransaction({transaction}) {
         }
 
     } else {
-        payerName = payer.payer.first_name + payer.payer.last_name[0] + '.';
+        payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment.amount;
     }
@@ -66,7 +67,7 @@ export default function SingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className="single-expense-image">
-                    <img src={transaction.image} alt="transaction"/>
+                    <img src={transactionRecipent} alt=""/>
                 </div>
                 <div className="single-expense-name-desc">
                     <div className="single-expense-desc">

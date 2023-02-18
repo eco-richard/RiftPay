@@ -41,7 +41,8 @@ def seed_friends():
     user6.friends.append(user1)
     user7.friends.append(user1)
     user8.friends.append(user1)
-
+    user3.friends.append(user5)
+    user5.friends.append(user3)
     db.session.commit()
 
 

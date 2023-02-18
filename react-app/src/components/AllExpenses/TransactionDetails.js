@@ -7,15 +7,12 @@ function styleLoanerName(repayment) {
 function styleDebtorName(repayment) {
     return `${repayment.debtor.first_name} ${repayment.debtor.last_name[0]}.`
 }
+export const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 export default function TransactionDetails({transaction, monthIdx, day}) {
-    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    console.log("Transaction:", transaction)
-    console.log("MonthIdx:", monthIdx)
-    console.log("Day:", day);
+    // const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
-    console.log("Payers: ", payers)
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
     const year = transaction.created_at.slice(0, 4);
 

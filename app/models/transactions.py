@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .join_tables import transaction_users
 from app.models import User
-
+import sys
 class Transaction(db.Model):
     __tablename__ = "transactions"
 

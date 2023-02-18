@@ -1,13 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBalances, getFriendBalance } from '../../store/balances';
+import OpenModalButton from '../OpenModalButton';   
+import SettleUpForm from '../SettleUpForm';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
+import OweYouFriendBill from '../FriendBill/OweYouFriendBill';
+import YouOweFriendBill from '../FriendBill/YouOweFriendBill';
 import "./Dashboard.css"
 
 function Dashboard() {
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user)
+    const balances = useSelector(state => state.balance)
 
-    if (!user) return <Redirect to="/"/>
+    let totalBalanceComponent;
+    if (balances.owes > balances.owed) {
+        const total = balances.owes - balances.owed;
+        totalBalanceComponent = (
+            <div className='dashboard-balance-amounts' style={{color: "rgb(255, 101, 47)"}}>
+                -${total.toFixed(2)}
+            </div>
+        )
+    } else {
+        const total = balances.owed - balances.owes;
+        totalBalanceComponent = (
+            <div className='dashboard-balance-amounts' style={{color: "rgb(91, 197, 167)"}}>
+                ${total.toFixed(2)}
+            </div>
+        )
+    }
+    useEffect(() => {
+        dispatch(getBalances()); 
+        // dispatch(getFriendBalance()); 
+    }, [dispatch])
+
+    if (Object.values(balances) === 0) return null;
+
+    const youOweFriends = [];
+    const owesYouFriends = [];
+    for (const friend of Object.values(balances.friends)) { 
+        if (friend.balance > 0) {
+            if (friend.id == user.id) {
+                continue;
+            }
+            owesYouFriends.push(friend)
+        } else if (friend.balance < 0) {
+            youOweFriends.push(friend);
+        }
+    }
+ 
+    if (!user) return <Redirect to="/"/>;
 
     return (
         <div className="column-wrapper">
@@ -21,6 +64,11 @@ function Dashboard() {
                         <div className="dashboard-header-buttons">
                             <button className="expense-button">Add an expense</button>
                             <span className="button-seperator"></span>
+                            <OpenModalButton 
+                                className="dash-settle-up-button"
+                                buttonText="Settle Up"
+                                modalComponent={<SettleUpForm />}
+                            ></OpenModalButton>
                             <button>Settle Up</button>
                         </div>
                     </div>
@@ -29,21 +77,19 @@ function Dashboard() {
                             <div className="dashboard-balance-labels">
                                 total balance
                             </div>
-                            <div className='dashboard-balance-amounts'>
-                                $balance_amount
-                            </div>
+                            {totalBalanceComponent}
                         </div>
                         <div className='you-owe-container'>
                             <div className="dashboard-balance-labels">
                                 you owe
                             </div>
-                            <div className='dashboard-owe-amounts' style={{color: "rgb(255, 101, 47)"}}>$owe_amount</div>
+                            <div className='dashboard-owe-amounts' style={{color: "rgb(255, 101, 47)"}}>${balances.owes.toFixed(2)}</div>
                         </div>
                         <div className='you-are-owed-container'>
                             <div className="dashboard-balance-labels">
                                 you are owed
                             </div>
-                            <div className='dashboard-owed-amounts' style={{color: "rgb(91, 197, 167)"}}>$owed_amount</div>
+                            <div className='dashboard-owed-amounts' style={{color: "rgb(91, 197, 167)"}}>${balances.owed.toFixed(2)}</div>
                         </div>
                     </div>
                 </div>
@@ -58,22 +104,14 @@ function Dashboard() {
                     </div>
                     <div className="dashboard-bills-container">
                         <div className="bills-you-owe-container">
-                            <div className="individual-bill-container">
-                                <div className="user_icon">*user_icon*</div>
-                                <div className="name-amount-container">
-                                    <div className="bill-name-container">Paul Fixler</div>
-                                    <div className="amount-you-owe-container" style={{color: "rgb(255, 101, 47)"}}>you owe $30.00</div>
-                                </div>
-                            </div>
+                            {youOweFriends.map(friend => (
+                                <YouOweFriendBill friend={friend} />
+                            ))}
                         </div>
                         <div className="bills-you-are-owed-container">
-                        <div className="individual-bill-container">
-                                <div className="user_icon">*user_icon*</div>
-                                <div className="name-amount-container">
-                                    <div className="bill-name-container">Christian Lee</div>
-                                    <div className="amount-you-are-owed-container" style={{color: "rgb(91, 197, 167)"}}>owes you $140.00</div>
-                                </div>
-                            </div>
+                            {owesYouFriends.map(friend => (
+                                <OweYouFriendBill friend={friend} />
+                            ))}
                         </div>
                     </div>
                 </div>

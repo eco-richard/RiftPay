@@ -7,7 +7,7 @@ from app.models import Transaction
 class TransactionForm(FlaskForm):
     cost = wtf.DecimalField("Cost", validators=[DataRequired()])
     creation_method = wtf.SelectField("Creation Method",
-        choices=["Equal", "Unequal", "Payment"],
+        choices=["EQUAL", "UNEQUAL", "PAYMENT"],
         validators=[DataRequired()]
     )
     description = wtf.StringField("Description", validators=[DataRequired()])
