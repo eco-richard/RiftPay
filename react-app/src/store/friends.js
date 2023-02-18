@@ -71,7 +71,6 @@ export const addFriendThunk = (email) => async dispatch => {
     })
     if (response.ok) {
         const newFriend = await response.json()
-        console.log("newFriend from thunk:", newFriend)
         dispatch(addFriend(newFriend))
         return newFriend
     }

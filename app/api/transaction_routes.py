@@ -62,6 +62,7 @@ def post_create_transaction():
         db.session.add(transaction)
         db.session.commit()
         transaction.add_repayment_users()
+        db.session.commit()
         return transaction.to_dict()
 
     return {"errors": ut.validation_errors_to_error_messages(form.errors) }

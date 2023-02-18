@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBalances, getFriendBalance } from '../../store/balances';   
+import { getBalances, getFriendBalance } from '../../store/balances';
+import OpenModalButton from '../OpenModalButton';   
+import SettleUpForm from '../SettleUpForm';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import OweYouFriendBill from '../FriendBill/OweYouFriendBill';
 import YouOweFriendBill from '../FriendBill/YouOweFriendBill';
@@ -62,6 +64,11 @@ function Dashboard() {
                         <div className="dashboard-header-buttons">
                             <button className="expense-button">Add an expense</button>
                             <span className="button-seperator"></span>
+                            <OpenModalButton 
+                                className="dash-settle-up-button"
+                                buttonText="Settle Up"
+                                modalComponent={<SettleUpForm />}
+                            ></OpenModalButton>
                             <button>Settle Up</button>
                         </div>
                     </div>

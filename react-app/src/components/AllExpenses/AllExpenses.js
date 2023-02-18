@@ -5,18 +5,18 @@ import { getAllTransactions } from '../../store/transaction';
 import SingleTransaction from './SingleTransaction';
 import OpenModalButton from '../OpenModalButton';
 import AddExpenseForm from '../AddExpenseForm';
+import SettleUpForm from '../SettleUpForm';
 import "./AllExpenses.css"
 
 function AllExpenses() {
     const dispatch = useDispatch();
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
-    console.log("Transactions: ", transactions);
 
     useEffect(() => {
         dispatch(getAllTransactions())
     }, [dispatch])
 
-    if (transactions.length == 0) return null;
+    if (transactions.length === 0) return null;
 
     return (
         <div className="column-wrapper">
@@ -34,7 +34,11 @@ function AllExpenses() {
                                 modalComponent={<AddExpenseForm />}
                             ></OpenModalButton>
                             <span className="button-seperator"></span>
-                            <button>Settle Up</button>
+                            <OpenModalButton 
+                                className="dash-settle-up-button"
+                                buttonText="Settle Up"
+                                modalComponent={<SettleUpForm />}
+                            ></OpenModalButton>
                         </div>
                     </div>
 

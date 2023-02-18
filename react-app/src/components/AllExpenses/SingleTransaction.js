@@ -43,7 +43,7 @@ export default function SingleTransaction({transaction}) {
         }
 
     } else {
-        payerName = payer.payer.first_name + payer.payer.last_name[0] + '.';
+        payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment.amount;
     }
@@ -66,7 +66,7 @@ export default function SingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className="single-expense-image">
-                    <img src={transaction.image} alt="transaction"/>
+                    <img src={transaction.image} alt=""/>
                 </div>
                 <div className="single-expense-name-desc">
                     <div className="single-expense-desc">

@@ -118,8 +118,7 @@ export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case GET_TRANSACTIONS:
-            newState = {...state, allTransactions: {}, singleTransaction: {}}
-            console.log("Action.transactions: ", action.transactions);
+            newState = {allTransactions: {}, singleTransaction: {}}
             action.transactions.Transactions.forEach(transaction => {
                 newState.allTransactions[transaction.id] = transaction
             })

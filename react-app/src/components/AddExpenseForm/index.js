@@ -11,7 +11,6 @@ export default function AddExpenseForm() {
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
 
-    console.log("Friends: ", friends);
     useEffect(() => {
         dispatch(loadFriendsThunk())
     }, [dispatch])
@@ -35,10 +34,6 @@ export default function AddExpenseForm() {
     }
 
     let splitText = openSplitModal ? "unequally" : "equally";
-    // Debugging useEffect
-    useEffect(() => {
-        console.log("Participants: ", participants);
-    }, [participants])
 
     const addParticipants = (e) => {
         if (participants.includes(e.target.value)) {

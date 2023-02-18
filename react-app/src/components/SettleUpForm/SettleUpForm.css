@@ -1,0 +1,106 @@
+.settle-up-form-wrapper {
+  height: 400px;
+  width: 350px;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+}
+
+.settle-up-form-header {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .5px black solid;
+  font-size: 18px;
+  background: #5cc5a7;
+  color: white;
+}
+.add-image-header {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .5px black solid;
+  font-size: 18px;
+  background: #5cc5a7;
+  color: white;
+}
+
+
+.settle-up-title {
+  padding: 10px;
+}
+
+
+.settle-up-amount-field {
+  border: none;
+  border-bottom: 1px gray dashed;
+}
+
+.settle-up-close-button {
+  padding: 10px; 
+}
+
+.settle-up-close-button button {
+  background: #5cc5a7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.settle-up-forms-container {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+.add-image-notes {
+  height: 440px;
+  width: 350px;
+  margin-left: 15px;
+}
+
+.choose-recipient-wrapper {
+  height: 440px;
+  width: 350px;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+
+.add-image-notes {
+  height: 300px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  background:white;;
+}
+
+.recipient-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  align-items: center;
+}
+
+.recipient-image {
+  height: 30px;
+  width: 30px;
+  padding: 7px;
+}
+
+.recipient-image img {
+  height: 30px;
+  width: 30px;
+}
+
+.recipient-wrapper:hover {
+  background-color: lightgrey;
+}

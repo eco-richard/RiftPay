@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .join_tables import transaction_users
 from app.models import User
-
+import sys
 class Transaction(db.Model):
     __tablename__ = "transactions"
 
@@ -73,10 +73,11 @@ class Transaction(db.Model):
     def add_repayment_users(self):
         repayments = self.structure_repayments()
         for repayment in repayments:
-            user_id = repayment["debtor_id"]
+            user_id = repayment["debtor"]["id"]
             user = User.query.get(user_id)
-            user.transacations.append(self)
+            user.transactions.append(self)
             self.users.append(user)
+            db.session.commit()
 
     def to_dict(self):
         return {

@@ -23,7 +23,7 @@ export default function YouOweFriendBill({friend}) {
         </div>
         <div className="individual-friend-bill-owed"
         style={{color: "rgb(255, 101, 47)"}}>
-          owes you ${Math.abs(friend.balance.toFixed(2))}.
+          you owe ${Math.abs(friend.balance).toFixed(2)}
         </div>
       </div>
     </div>
