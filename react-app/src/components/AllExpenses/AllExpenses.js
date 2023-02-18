@@ -58,7 +58,7 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton 
+                            <OpenModalButton
                                 className="add-expense-button"
                                 buttonText="Add an Expense"
                                 modalComponent={<AddExpenseForm />}
@@ -75,7 +75,7 @@ function AllExpenses() {
                 </div>
                 <div className='expenses-content-container'>
                     {transactions.map(transaction => (
-                        <SingleTransaction transaction={transaction} /> 
+                        <SingleTransaction transaction={transaction} key={transaction.id}/>
                     ))}
                 </div>
             </div>

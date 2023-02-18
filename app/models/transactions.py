@@ -56,7 +56,7 @@ class Transaction(db.Model):
         # 1. 1/1/25,1/2/25,1/3/25
         # 2. ['1/1/25', '1/2/25', '1/3/25']
         # 3. ['[1], [1], [25]']
-        repayments_list = self.repayments.split(',') 
+        repayments_list = self.repayments.split(',')
         final_repayments = []
         for repayment in repayments_list:
             loaner_id, debtor_id, amount = repayment.split('/')
@@ -68,7 +68,7 @@ class Transaction(db.Model):
                 "amount": round(float(amount), 2)
             })
         return final_repayments
-        
+
 
     def add_repayment_users(self):
         repayments = self.structure_repayments()
