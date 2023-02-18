@@ -1,5 +1,6 @@
 
 export function equalPayments(creator, participants, repayments, cost) {
+  repayments = [];
   const splitAmount = cost / participants.length;
   for (const user of participants) {
     repayments.push([creator.id, user.id, splitAmount])
@@ -7,6 +8,7 @@ export function equalPayments(creator, participants, repayments, cost) {
 }
 
 export function exactPayments(creator, participants, participantAmounts, repayments, cost) {
+  repayments = [];
   let total = 0;
   participantAmounts.forEach(amount => total += amount);
   if (total !== cost) {
@@ -20,10 +22,11 @@ export function exactPayments(creator, participants, participantAmounts, repayme
 }
 
 export function percentPayments(creator,
-   participants, 
-   participantPercentages, 
-   repayments, 
+   participants,
+   participantPercentages,
+   repayments,
    cost) {
+    repayments = [];
     let total = 0;
     participantPercentages.forEach(percent => total += percent)
     if (total !== 100) {

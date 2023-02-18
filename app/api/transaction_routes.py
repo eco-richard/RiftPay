@@ -17,7 +17,7 @@ def get_transactions_current():
 
     transactions = current_user.transactions
     return {"Transactions": [transaction.to_dict() for transaction in transactions]}
-    
+
 
 @transaction_routes.route("/friend/<int:friend_id>")
 @login_required
@@ -55,7 +55,7 @@ def post_create_transaction():
             note=data["note"],
             image=data["image"],
             created_at=data["created_at"],
-            updated_at=data["updated_at"],
+            updated_at=None,
             payers=data["payers"],
             repayments=data["repayments"]
         )
@@ -65,7 +65,7 @@ def post_create_transaction():
         return transaction.to_dict()
 
     return {"errors": ut.validation_errors_to_error_messages(form.errors) }
-    
+
 
 @transaction_routes.route("/<int:transaction_id>", methods=["PUT"])
 @login_required
