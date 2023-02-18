@@ -1,9 +1,9 @@
 // constant
 const ADD_COMMENT = "comments/ADD_COMMENT"
-const REMOVE_COMMENT = "comments/REMOVE_FRIEND"
+const REMOVE_COMMENT = "comments/REMOVE_COMMENT"
 const GET_ALL_COMMENTS = "comments/GET_ALL_COMMENTS"
 const UPDATE_COMMENT = "comments/UPDATE_COMMENT"
-const CLEAR_REVIEWS = "reviews/clearReviews"
+const CLEAR_COMMENTS = "reviews/CLEAR_COMMENTS"
 
 // action creators
 const loadComments = (comments) => {
@@ -36,7 +36,7 @@ const removeComment = (commentId) => {
 
 export const clearComments = () => {
     return {
-      type: CLEAR_REVIEWS
+      type: CLEAR_COMMENTS
     }
   }
 

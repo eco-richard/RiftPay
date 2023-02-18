@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector,  useDispatch } from 'react-redux';
-import { addCommentThunk } from '../../store/comment';
-import "./AddComment.css"
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { addCommentThunk } from "../../store/comment";
+import "./AddComment.css";
 
-function AddComment({transaction_id}) {
-    const dispatch = useDispatch()
-    const [content, setContent] = useState("")
-    const [createdAt, setCreatedAt] = useState("")
-    const [updatedAt, setUpdatedAt] = useState("")
+function AddComment({ transaction_id }) {
+    const dispatch = useDispatch();
+    const [content, setContent] = useState("");
+    const [createdAt, setCreatedAt] = useState("");
+    const [updatedAt, setUpdatedAt] = useState("");
     //dates should be month/day/year 02/17/2023 format
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    const user = useSelector((state) => state.session.user)
-
+    const user = useSelector((state) => state.session.user);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content.length || content.length > 500) {
-            window.alert("Please enter a valid comment that is less than 500 characters.")
+            window.alert(
+                "Please enter a valid comment that is less than 500 characters."
+            );
         }
 
-        const today = new Date()
-        const year = today.getUTCFullYear()
-        const month = today.getUTCMonth() + 1
-        const day = today.getUTCDate()
-        const date = (`${month}/${day}/${year}`)
+        const today = new Date();
+        const year = today.getUTCFullYear();
+        const month = today.getUTCMonth() + 1;
+        const day = today.getUTCDate();
+        const date = `${month}/${day}/${year}`;
         // setCreatedAt(date)
         // setUpdatedAt(date)
         const comment = {
@@ -34,12 +35,10 @@ function AddComment({transaction_id}) {
             commentor_id: user.id,
             created_at: date,
             updated_at: date,
-        }
-        console.log("comment in add comment form", comment)
-        dispatch(addCommentThunk(comment, transaction_id))
-
-
-    }
+        };
+        console.log("comment in add comment form", comment);
+        dispatch(addCommentThunk(comment, transaction_id));
+    };
 
     return (
         <div className="add-comment-wrapper">
@@ -51,16 +50,17 @@ function AddComment({transaction_id}) {
                                 type="text"
                                 value={content}
                                 placeholder="Add a comment"
-                                onChange={(e) => setContent(e.target.value)}/>
+                                onChange={(e) => setContent(e.target.value)}
+                            />
                         </label>
                     </div>
+                    <button className="add-comment-submit-button" type="submit">
+                        Submit
+                    </button>
                 </form>
             </div>
-            <button className="add-comment-submit-button" onClick={handleSubmit}>
-                Submit
-            </button>
         </div>
-    )
+    );
 }
 
-export default AddComment
+export default AddComment;
