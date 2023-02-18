@@ -111,7 +111,7 @@ const comments = (state = initialState, action) => {
         case UPDATE_COMMENT: {
 
         }
-        case CLEAR_REVIEWS: {
+        case CLEAR_COMMENTS: {
             newState = {...state}
             newState.allComments = {}
             return newState
