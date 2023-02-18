@@ -10,7 +10,7 @@ function SingleComment({comment}) {
         <div className="single-comment-wrapper">
             <div className="single-comment-container">
                 <div className="single-comment-header">
-                    <div className="commenter-name">{comment.commentor_id}</div>
+                    <div className="commenter-name">{comment.user.first_name} {comment.user.last_name}</div>
                     <span className="comment-date">{comment.created_at}</span>
                     <div className="delete-comment-button">X</div>
                 </div>
