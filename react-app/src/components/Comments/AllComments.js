@@ -1,10 +1,35 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadCommentsThunk } from "../../store/comment";
+import SingleComment from "./SingleComment";
 import './AllComments.css'
 
-function AllComments() {
+function AllComments({transaction_id}) {
 
+    const dispatch = useDispatch()
+
+    const comments = useSelector(state => state.comments)
+
+    useEffect(() => {
+        dispatch(loadCommentsThunk(transaction_id))
+    },[dispatch, transaction_id])
+
+    if (!comments) {
+        return null;
+    }
+    const allComments = comments.allComments
+
+    if (!allComments) {
+        return null;
+    }
+
+    const commentsArr = Object.values(allComments)
+    // console.log(allComments)
+    // const commentsArr = Object.values(allComments)
+    // console.log("commentsArr", commentsArr)
+    // const finalCommentsArr = commentsArr[0]
+    // console.log(finalCommentsArr)
 
     return (
         <div className="all-comments-wrapper">
@@ -13,7 +38,9 @@ function AllComments() {
             </div>
             <div className="single-comment-container">
                 <div className="single-comment-content">
-                    Test Comment
+                    {Object.values(commentsArr).map(comment => (
+                        <SingleComment comment={comment}/>
+                    ))}
                 </div>
             </div>
         </div>

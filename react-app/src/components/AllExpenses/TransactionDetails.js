@@ -1,4 +1,5 @@
 import './TransactionDetails.css'
+import AllComments from '../Comments/AllComments';
 
 function styleLoanerName(repayment) {
     return `${repayment.loaner.first_name} ${repayment.loaner.last_name[0]}.`
@@ -45,12 +46,12 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
         </div>
         <div className="transaction-details-body">
             <div className='transaction-details-payers'>
-                {repayments.map(repayment => 
-                    repayment.loaner.id === repayment.debtor.id ? 
+                {repayments.map(repayment =>
+                    repayment.loaner.id === repayment.debtor.id ?
                     <div className='transaction-details-payer'>
                         {styleDebtorName(repayment)} paid ${payers.amount} and owes ${repayment.amount}.
                     </div>
-                     : 
+                     :
                     <div className='transaction-details-ower'>
                         {styleDebtorName(repayment)} owes ${repayment.amount}.
                     </div>
@@ -58,6 +59,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                 }
             </div>
             <div className="transaction-details-comments">
+                <AllComments transaction_id={transaction.id} />
             </div>
         </div>
     </div>

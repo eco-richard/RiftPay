@@ -16,9 +16,16 @@ def all_comments(transaction_id):
     Query for all comments by a transactions id
     """
     comments = db.session.execute(db.select(Comment).filter_by(transaction_id=transaction_id)).all()
-    print(f"\n\n\{comments}\n\n\n")
-    return {"comments": [comment] for comment in comments}
-
+    comments_test = [comment[0] for comment in comments]
+    comment_id_list = [comment.commentor_id for comment in comments_test]
+    for comment in comments_test:
+        user = User.query.get(comment.commentor_id)
+        comment.user = user
+        print(f"\n\n\n{comment.user}\n\n\n")
+    print(f"\n\n\n{comments_test}\n\n\n")
+    print(f"\n\n\n{comment_id_list}\n\n\n")
+    return {"comments": [comment.to_dict() for comment in comments_test]}
+    # return {"comments": [comment[0].to_dict() for comment in comments]}
 
 @comment_routes.route("/<int:transaction_id>", methods=["POST"])
 @login_required

@@ -35,9 +35,10 @@ const removeComment = (comment) => {
 
 // thunks
 export const loadCommentsThunk = (transaction_id) => async dispatch => {
-    const response = await fetch(`/api/comments/:${transaction_id}`)
+    const response = await fetch(`/api/comments/${transaction_id}`)
     if (response.ok) {
         const comments = await response.json()
+        console.log("comments in thunk", comments)
         dispatch(loadComments(comments))
         return comments
     }
@@ -65,7 +66,7 @@ const comments = (state = initialState, action) => {
             action.comments.comments.forEach((comment) => {
                 normalizedComments[comment.id] = comment
             })
-            newState.comments = normalizedComments
+            newState.allComments = normalizedComments
             return newState
         }
         case ADD_COMMENT: {
