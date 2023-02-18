@@ -21,17 +21,17 @@ export default function AddExpenseForm() {
 
     //form render state variables
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
-    console.log(equalPaymentsForm)
+    // console.log(equalPaymentsForm)
     const [exactPaymentsForm, setExactPaymentsForm] = useState()
-    console.log(exactPaymentsForm)
+    // console.log(exactPaymentsForm)
     const [percentPaymentsForm, setPercentPaymentsForm] = useState()
-    console.log(percentPaymentsForm)
+    // console.log(percentPaymentsForm)
 
     const onClickEqual = () => {
         setExactPaymentsForm(false);
         setPercentPaymentsForm(false);
         setEqualPaymentsForm(true);
-        setCreationMethod("EQUAL");
+        setCreationMethod("Equal");
         // setDebtInput(debtorObj)
     }
 
@@ -39,35 +39,35 @@ export default function AddExpenseForm() {
         setEqualPaymentsForm(false);
         setPercentPaymentsForm(false);
         setExactPaymentsForm(true);
-        setCreationMethod("EXACT")
-        setDebtInput(debtorObj)
+        setCreationMethod("Unequal")
+        setDebtInput({})
     }
 
     const onClickPercent = () => {
         setExactPaymentsForm(false);
         setEqualPaymentsForm(false);
         setPercentPaymentsForm(true);
-        setCreationMethod("PERCENT")
-        setDebtInput(debtorObj)
+        setCreationMethod("Unequal")
+        setDebtInput({})
     }
 
     // Hooks for form input
     const [cost, setCost] = useState("");
     let costLength = cost.length
-    const [creationMethod, setCreationMethod] = useState("EQUAL");
+    const [creationMethod, setCreationMethod] = useState("Equal");
     const [description, setDescription] = useState("");
     const [note, setNote] = useState("");
     const [image, setImage] = useState("https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png")
-    const [createdAt, setCreatedAt] = useState("");
+    // const [createdAt, setCreatedAt] = useState("");
     //default should be a string interpolation using methid that gets you current time
     const [participants, setParticipants] = useState([user.id]);
     let participantsLength = participants.length;
     console.log('participants:', participants);
     // const [debtInputs, setDebtInputs] = useState([]);
     // console.log('debtInputs:', debtInputs);
-    const [debtAggregate, setDebtAggregate] = useState(0)
+    // const [debtAggregate, setDebtAggregate] = useState(0)
     //will be the aggregate of what is being paid back, displayed in the split modal so the user know its all adds up to cost
-    const [participantsLoans, setParticipantsLoans] = useState([]);
+    // const [participantsLoans, setParticipantsLoans] = useState([]);
     const [errors, setErrors] = useState([]);
     const [openSplitModal, setOpenSplitModal] = useState(false);
 
@@ -78,79 +78,99 @@ export default function AddExpenseForm() {
     }
 
     //for updating debt input state variable
-    const numDebts = participants.length;
-    let debtorArr = [];
-    for (let i = 0; i < numDebts; i++) {
-        debtorArr.push(participants[i]);
-    }
+    // for (let i = 0; i < participantsLength; i++) {
+    //     participantsLoans.push(participants[i]);
+    // }
+    // console.log('participantsLoans', participantsLoans)
     let debtorObj = {};
 
-    debtorArr.forEach((debtor) => {
-        debtorObj[debtor] = "";
-    });
+
+    // participants.forEach((debtor) => {
+    //     debtorObj[debtor] = "";
+    // });
     // console.log('debtorObj:',debtorObj);
-    const [debtInput, setDebtInput] = useState(debtorObj);
+    const [debtInput, setDebtInput] = useState({});
     console.log('debtInput:', debtInput)
     // const [debtorObjState, setDebtorObjState] = useState(debtorObj)
-    console.log('debtorObj outside function:', debtorObj)
+    // console.log('debtorObj outside function:', debtorObj)
     // let inputName = 0;
 
     const handleUserInputChange = (e) => {
         const participant = e.target.name;
         const newDebtValue = e.target.value;
-        debtorObj[participant] = newDebtValue;
-        console.log('debtorObj in user input change:', debtorObj)
-        setDebtInput(debtorObj)
+        // debtorObj[participant] = newDebtValue;
+        // console.log('debtorObj in user input change:', debtorObj)
+        setDebtInput({...debtInput, [participant]: newDebtValue})
         console.log('name:', participant)
         console.log('newdebtvalue:', newDebtValue)
     };
 
+    const [debtSum, setDebtSum] = useState('')
+    console.log('debtsum:', parseInt(debtSum))
+    console.log('cost-debtsum:', parseInt(cost)-debtSum)
+    useEffect(() => {
+        let sum = 0;
+        for (let i in debtInput) {
+            console.log('i', i, 'i in debtInput', debtInput[i])
+            if (debtInput[i].length === 0) {
+                debtInput[i] = 0
+            }
+            sum += parseInt(debtInput[i])
+        }
+        console.log('sum:', sum)
+        setDebtSum(sum)
+    }, [debtInput])
+
      //everytime there is a cost or participants input change, calculate equal share
-     useEffect(() => {
+    useEffect(() => {
         for (let i = 0; i < participantsLength; i++) {
+            // let debtorObj = {};
             debtorObj[participants[i]] = `${cost/participantsLength}`
             setDebtInput(debtorObj)
             console.log('debtorobj in useeffect:', debtorObj)
         }
-    }, [costLength, participantsLength])
+    }, [costLength, participantsLength, exactPaymentsForm])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setErrors([]);
-        // // Validation checking
-        // let repayments;
-        // if (equalPaymentsForm) {
-        //     repayments = equalPayments(creator, participants, cost)
-        // }
-        // else if (exactPaymentsForm) {
-        //     repayments = exactPayments(creator, participants, debtInputs, cost)
-        // }
-        // else {
-        //     repayments = percentPayments(creator, participants, debtInputs, cost)
-        // }
+        setErrors([]);
+        // Validation checking
+        let repayments;
+        if (equalPaymentsForm) {
+            repayments = exactPayments(creator, participants, debtInput, cost)
+        }
+        else if (exactPaymentsForm) {
+            repayments = exactPayments(creator, participants, debtInput, cost)
+        }
+        else if (percentPaymentsForm){
+            repayments = percentPayments(creator, participants, debtInput, cost)
+        }
+        else {
+            //error here
+        }
 
-        // const newTransaction = {
-        //     cost,
-        //     creationMethod,
-        //     description,
-        //     note,
-        //     image,
-        //     createdAt,
-        //     payers:`${user.id}/${cost}`,
-        //     repayments
-        // }
+        const newTransaction = {
+            cost,
+            creationMethod,
+            description,
+            note,
+            image,
+            createdAt:new Date(),
+            payers:`${user.id}/${cost}`,
+            repayments
+        }
 
 
-        // await dispatch(createTransaction(newTransaction))
-        //     .then(closeModal)
-        //     .catch(
-        //         async (res) => {
-        //             const data = await res.json();
-        //             // console.log(data.errors)
-        //             if (data && data.errors) setErrors(data.errors);
-        //             // else if (data && data.title.includes('Error')) setErrors([data.message]);
-        //         }
-        //     );
+        await dispatch(createTransaction(newTransaction))
+            .then(closeModal)
+            .catch(
+                async (res) => {
+                    const data = await res.json();
+                    // console.log(data.errors)
+                    if (data && data.errors) setErrors(data.errors);
+                    // else if (data && data.title.includes('Error')) setErrors([data.message]);
+                }
+            );
 
     }
 
@@ -170,11 +190,11 @@ export default function AddExpenseForm() {
         return `${person.first_name} ${person.last_name}`
     }
 
-    let splitText = openSplitModal ? "unequally" : "equally";
+    let splitText = exactPaymentsForm || percentPaymentsForm ? "unequally" : "equally";
     // Debugging useEffect
-    useEffect(() => {
-        console.log("Participants: ", participants);
-    }, [participants])
+    // useEffect(() => {
+    //     console.log("Participants: ", participants);
+    // }, [participants])
 
     const addParticipants = (e) => {
         if (participants.includes(e.target.value)) {
@@ -221,6 +241,7 @@ export default function AddExpenseForm() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter a description"
+                    required
                 />
             </div>
             <div className="form-amount-div">
@@ -230,6 +251,7 @@ export default function AddExpenseForm() {
                     value={cost}
                     onChange={(e) => setCost(e.target.value)}
                     placeholder="0.00"
+                    required
                 />
             </div>
             <div className="form-payment-option-div">
@@ -237,7 +259,7 @@ export default function AddExpenseForm() {
             </div>
             <div className="form-cancel-save-div">
                 <button className="cancel-button" onClick={closeModal}>Cancel</button>
-                <button className="save-button" onClick={handleSubmit}>Save</button>
+                <button className="save-button" type="submit">Save</button>
 
             </div>
         </form>
@@ -258,71 +280,83 @@ export default function AddExpenseForm() {
                     <button onClick={onClickPercent}>%</button>
                 </div>
                 {equalPaymentsForm && (
-                    // <form className="equal-repayments">
-                    <div className="equal-repayments">
+                    <>
+                        <div className="equal-repayments">
+                            {participants.map(participant => (
+                                <div className="single-debtor">
+                                    <div>{getParticipantName(participant)}</div>
+                                    <div>${debtInput[participant]}</div>
+                                </div>
+                                ))}
+                        </div>
+                        <div className="aggregate-repayment">
+                            <div className="total-repayment">TOTAL</div>
+                            <div className="repayment-versus-cost">
+                                ${debtSum}
+                                ${parseInt(cost) - debtSum} left
+                            </div>
+                        </div>
+                    </>
+                )}
+                {exactPaymentsForm && (
+                    <>
+                        <form className="exact-repayments">
                         {participants.map(participant => (
                             <div className="single-debtor">
                                 <div>{getParticipantName(participant)}</div>
-                                {/* <div>${Math.round(((cost/participants.length) + Number.EPSILON) * 100) / 100}</div> */}
-                                <div>${debtInput[participant]}</div>
-                                {/* {setDebtInput(debtorObj)} */}
-                                {/* <div className="debt">
+                                <div className="debt" key={participant}>
                                     <label> $
                                     <input
                                         className="debt-amount"
                                         type="number"
-                                        value={cost/participants.length}
-                                        onChange={(e) => setDebts(e.target.value)}
+                                        value={debtInput[participant] || ''}
+                                        name={participant}
+                                        onChange={handleUserInputChange}
                                         // placeholder={cost/participants.length}
                                     />
                                     </label>
-                                </div> */}
+                                </div>
                             </div>
                             ))}
-                    </div>
-                    // {/* </form> */}
-                )}
-                {exactPaymentsForm && (
-                    <form className="exact-repayments">
-                    {participants.map(participant => (
-                        <div className="single-debtor">
-                            <div>{getParticipantName(participant)}</div>
-                            <div className="debt" key={participant}>
-                                <label> $
-                                <input
-                                    className="debt-amount"
-                                    type="number"
-                                    value={debtInput[participant] || debtorObj[participant]}
-                                    name={participant}
-                                    onChange={handleUserInputChange}
-                                    // placeholder={cost/participants.length}
-                                />
-                                </label>
+                        </form>
+                        <div className="aggregate-repayment">
+                            <div className="total-repayment">TOTAL</div>
+                            <div className="repayment-versus-cost">
+                                ${debtSum}
+                                ${parseInt(cost) - debtSum} left
                             </div>
                         </div>
-                        ))}
-                </form>
+                    </>
                 )}
                 {percentPaymentsForm && (
-                    <form className="percent-repayments">
-                    {participants.map(participant => (
-                        <div className="single-debtor">
-                            <div>{getParticipantName(participant)}</div>
-                            <div className="debt">
-                                <label> %
-                                <input
-                                    className="debt-amount"
-                                    type="number"
-                                    value={debtInput[participant] || debtorObj[participant]}
-                                    name={participant}
-                                    onChange={handleUserInputChange}
-                                    // placeholder={cost/participants.length}
-                                />
-                                </label>
+                    <>
+                        <form className="percent-repayments">
+                        {participants.map(participant => (
+                            <div className="single-debtor">
+                                <div>{getParticipantName(participant)}</div>
+                                <div className="debt">
+                                    <label> %
+                                    <input
+                                        className="debt-amount"
+                                        type="number"
+                                        value={debtInput[participant] || ''}
+                                        name={participant}
+                                        onChange={handleUserInputChange}
+                                        // placeholder={cost/participants.length}
+                                    />
+                                    </label>
+                                </div>
+                            </div>
+                            ))}
+                        </form>
+                        <div className="aggregate-repayment">
+                            <div className="total-repayment">TOTAL</div>
+                            <div className="repayment-versus-cost">
+                                %{debtSum}
+                                %{parseInt(cost) - debtSum} left
                             </div>
                         </div>
-                        ))}
-                </form>
+                    </>
                 )}
             </div>
         </div>)}

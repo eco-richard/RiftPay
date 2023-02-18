@@ -39,7 +39,7 @@ const remove = (transaction) => ({
 export function getAllTransactions() {
     return async (dispatch) => {
         const response = await fetch('/api/transactions/current');
-        
+
         if (response.ok) {
             const transactions = await response.json();
             dispatch(getAll(transactions))
@@ -71,7 +71,7 @@ export function getFriendTransactions(friendId) {
 
 export function createTransaction(transaction) {
     return async (dispatch) => {
-        const response = await fetch('/api/transactions', {
+        const response = await fetch('/api/transactions/', {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(transaction)
@@ -134,6 +134,7 @@ export default function reducer(state = initialState, action) {
                 newState.allTransactions[transaction.id] = transaction
             })
             return newState;
+            //this should not be here ^^^^
         case ADD_TRANSACTION:
             newState = {...state, allTransactions: {...state.allTransactions}}
             newState.allTransactions[action.transaction.id] = action.transaction

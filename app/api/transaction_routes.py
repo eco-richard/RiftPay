@@ -36,7 +36,7 @@ def get_friend_transaction(friend_id):
 
     return {"Transactions": [transaction.to_dict() for transaction in common_transactions]}
 
-@transaction_routes.route("", methods=["POST"])
+@transaction_routes.route("/", methods=["POST"])
 @login_required
 def post_create_transaction():
     """
