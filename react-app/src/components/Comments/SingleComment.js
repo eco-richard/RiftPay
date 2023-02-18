@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import './SingleComment.css'
 
 function SingleComment({comment}) {
-
-    if (!comment) return null
+    if (!comment.user) return null
     return (
         <div className="single-comment-wrapper">
             <div className="single-comment-container">

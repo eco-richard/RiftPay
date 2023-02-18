@@ -1,28 +1,43 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,  useDispatch } from 'react-redux';
+import { addCommentThunk } from '../../store/comment';
 import "./AddComment.css"
 
-function AddComment() {
-    const [comment, setComment] = useState("")
+function AddComment({transaction_id}) {
+    const dispatch = useDispatch()
+    const [content, setContent] = useState("")
     const [createdAt, setCreatedAt] = useState("")
     const [updatedAt, setUpdatedAt] = useState("")
     //dates should be month/day/year 02/17/2023 format
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
+    const user = useSelector((state) => state.session.user)
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!comment.length || review.length > 500) {
-            window.alert("Please enter a valid review less than 500 characters.")
+        if (!content.length || content.length > 500) {
+            window.alert("Please enter a valid comment that is less than 500 characters.")
         }
 
         const today = new Date()
         const year = today.getUTCFullYear()
         const month = today.getUTCMonth() + 1
         const day = today.getUTCDate()
-        setCreatedAt(`${month}/${day}/${year}`)
-        setUpdatedAt(`${month}/${day}/${year}`)
-        // dispatch create commment thunk
+        const date = (`${month}/${day}/${year}`)
+        // setCreatedAt(date)
+        // setUpdatedAt(date)
+        const comment = {
+            content,
+            transaction_id,
+            commentor_id: user.id,
+            created_at: date,
+            updated_at: date,
+        }
+        console.log("comment in add comment form", comment)
+        dispatch(addCommentThunk(comment, transaction_id))
+
 
     }
 
@@ -34,15 +49,14 @@ function AddComment() {
                         <label className="comment-text-field">
                             <textarea
                                 type="text"
-                                value={comment}
+                                value={content}
                                 placeholder="Add a comment"
-                                onChange={(e) => setComment(e.target.value)}/>
+                                onChange={(e) => setContent(e.target.value)}/>
                         </label>
                     </div>
                 </form>
             </div>
-
-            <button className="add-comment-submit-button">
+            <button className="add-comment-submit-button" onClick={handleSubmit}>
                 Submit
             </button>
         </div>

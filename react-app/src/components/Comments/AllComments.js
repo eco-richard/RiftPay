@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadCommentsThunk } from "../../store/comment";
+import { loadCommentsThunk, clearComments } from "../../store/comment";
+import AddComment from "./AddComment";
 import SingleComment from "./SingleComment";
 import './AllComments.css'
 
@@ -12,7 +13,8 @@ function AllComments({transaction_id}) {
     const comments = useSelector(state => state.comments)
 
     useEffect(() => {
-        dispatch(loadCommentsThunk(transaction_id))
+        dispatch(loadCommentsThunk(transaction_id));
+        return () => dispatch(clearComments())
     },[dispatch, transaction_id])
 
     if (!comments) {
@@ -39,9 +41,12 @@ function AllComments({transaction_id}) {
             <div className="single-comment-container">
                 <div className="single-comment-content">
                     {Object.values(commentsArr).map(comment => (
-                        <SingleComment comment={comment}/>
+                        <SingleComment comment={comment} n/>
                     ))}
                 </div>
+            </div>
+            <div className="comment-submission-container">
+                <AddComment transaction_id={transaction_id}/>
             </div>
         </div>
     )

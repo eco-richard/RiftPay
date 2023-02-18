@@ -17,11 +17,16 @@ def all_comments(transaction_id):
     """
     comments = db.session.execute(db.select(Comment).filter_by(transaction_id=transaction_id).join(User, User.id == Comment.commentor_id)).all()
     comments_test = [comment[0].to_dict() for comment in comments]
+    num_comments = len(comments_test)
     for comment in comments_test:
         user = User.query.get(comment["commentor_id"])
         comment['user'] = user.to_dict()
-    print(f"\n\n\n{comments_test}\n\n\n")
-    return {"comments": [comment for comment in comments_test]}
+
+    print("\n\n\n{num_comments}\n\n\n")
+    # comments_test["num_comments"] = num_comments
+
+    return {"comments": [comment for comment in comments_test],
+            "num_comments": num_comments}
     # return {"comments": [comment[0].to_dict() for comment in comments]}
 
 @comment_routes.route("/<int:transaction_id>", methods=["POST"])
@@ -41,7 +46,11 @@ def add_comment(transaction_id):
             created_at=form.data["created_at"],
             updated_at=form.data["updated_at"]
         )
-
+        db.session.add(new_comment)
+        db.session.commit()
+        print(f"\n\n\n{new_comment.to_dict()}\n\n\n\n")
+        return new_comment.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
 @comment_routes.route("/<int:commentId>", methods=["POST"])
