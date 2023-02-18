@@ -36,7 +36,7 @@ def get_friend_transaction(friend_id):
 
     return {"Transactions": [transaction.to_dict() for transaction in common_transactions]}
 
-@transaction_routes.route("/", methods=["POST"])
+@transaction_routes.route("", methods=["POST"])
 @login_required
 def post_create_transaction():
     """
@@ -62,6 +62,7 @@ def post_create_transaction():
         db.session.add(transaction)
         db.session.commit()
         transaction.add_repayment_users()
+        db.session.commit()
         return transaction.to_dict()
 
     return {"errors": ut.validation_errors_to_error_messages(form.errors) }

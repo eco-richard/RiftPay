@@ -12,8 +12,11 @@ export default function AddExpenseForm() {
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
     const creator = user;
+    const createdAt = new Date();
+    const stringDate = createdAt.toISOString().slice(0,10)
+    console.log('stringdate:', stringDate)
 
-    console.log("Friends: ", friends);
+    // console.log("Friends: ", friends);
     useEffect(() => {
         dispatch(loadFriendsThunk())
     }, [dispatch])
@@ -21,11 +24,11 @@ export default function AddExpenseForm() {
 
     //form render state variables
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
-    // console.log(equalPaymentsForm)
+    console.log('qualPaymentsForm', equalPaymentsForm)
     const [exactPaymentsForm, setExactPaymentsForm] = useState()
-    // console.log(exactPaymentsForm)
+    console.log('exactPaymentsForm', exactPaymentsForm)
     const [percentPaymentsForm, setPercentPaymentsForm] = useState()
-    // console.log(percentPaymentsForm)
+    console.log('percentPaymentsForm', percentPaymentsForm)
 
     const onClickEqual = () => {
         setExactPaymentsForm(false);
@@ -62,7 +65,8 @@ export default function AddExpenseForm() {
     //default should be a string interpolation using methid that gets you current time
     const [participants, setParticipants] = useState([user.id]);
     let participantsLength = participants.length;
-    console.log('participants:', participants);
+    const [repayments, setRepayments] = useState('')
+    // console.log('participants:', participants);
     // const [debtInputs, setDebtInputs] = useState([]);
     // console.log('debtInputs:', debtInputs);
     // const [debtAggregate, setDebtAggregate] = useState(0)
@@ -101,17 +105,17 @@ export default function AddExpenseForm() {
         // debtorObj[participant] = newDebtValue;
         // console.log('debtorObj in user input change:', debtorObj)
         setDebtInput({...debtInput, [participant]: newDebtValue})
-        console.log('name:', participant)
-        console.log('newdebtvalue:', newDebtValue)
+        // console.log('name:', participant)
+        // console.log('newdebtvalue:', newDebtValue)
     };
 
     const [debtSum, setDebtSum] = useState('')
-    console.log('debtsum:', parseInt(debtSum))
-    console.log('cost-debtsum:', parseInt(cost)-debtSum)
+    // console.log('debtsum:', parseInt(debtSum))
+    // console.log('cost-debtsum:', parseInt(cost)-debtSum)
     useEffect(() => {
         let sum = 0;
         for (let i in debtInput) {
-            console.log('i', i, 'i in debtInput', debtInput[i])
+            // console.log('i', i, 'i in debtInput', debtInput[i])
             if (debtInput[i].length === 0) {
                 debtInput[i] = 0
             }
@@ -119,6 +123,17 @@ export default function AddExpenseForm() {
         }
         console.log('sum:', sum)
         setDebtSum(sum)
+        console.log('debt input in use effect:', debtInput)
+        if (splitText === 'equally') {
+            setRepayments(exactPayments(creator, participants, debtInput, cost))
+            console.log('in if repayments:', repayments)
+        }
+        else if (exactPaymentsForm) {
+            setRepayments(exactPayments(creator, participants, debtInput, cost))
+        }
+        else {
+            setRepayments(percentPayments(creator, participants, debtInput, cost))
+        }
     }, [debtInput])
 
      //everytime there is a cost or participants input change, calculate equal share
@@ -127,7 +142,7 @@ export default function AddExpenseForm() {
             // let debtorObj = {};
             debtorObj[participants[i]] = `${cost/participantsLength}`
             setDebtInput(debtorObj)
-            console.log('debtorobj in useeffect:', debtorObj)
+            // console.log('debtorobj in useeffect:', debtorObj)
         }
     }, [costLength, participantsLength, exactPaymentsForm])
 
@@ -135,33 +150,34 @@ export default function AddExpenseForm() {
         e.preventDefault();
         setErrors([]);
         // Validation checking
-        let repayments;
-        if (equalPaymentsForm) {
-            repayments = exactPayments(creator, participants, debtInput, cost)
-        }
-        else if (exactPaymentsForm) {
-            repayments = exactPayments(creator, participants, debtInput, cost)
-        }
-        else if (percentPaymentsForm){
-            repayments = percentPayments(creator, participants, debtInput, cost)
-        }
-        else {
-            //error here
-        }
+        // if (splitText === 'equally') {
+        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
+        //     console.log('in if repayments:', repayments)
+        // }
+        // else if (exactPaymentsForm) {
+        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
+        // }
+        // else if (percentPaymentsForm) {
+        //     setRepayments(percentPayments(creator, participants, debtInput, cost))
+        // }
+        // else {
+        //     //error here
+        // }
+        console.log('repayments:', repayments)
 
         const newTransaction = {
             cost,
-            creationMethod,
+            creation_method: creationMethod,
             description,
             note,
             image,
-            createdAt:new Date(),
+            created_at:stringDate,
             payers:`${user.id}/${cost}`,
             repayments
         }
+        console.log('new transaction', newTransaction)
 
-
-        await dispatch(createTransaction(newTransaction))
+        const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
             .catch(
                 async (res) => {
@@ -186,7 +202,7 @@ export default function AddExpenseForm() {
                 person = friends[i]
             }
         }
-        console.log(person)
+        // console.log(person)
         return `${person.first_name} ${person.last_name}`
     }
 
@@ -255,7 +271,7 @@ export default function AddExpenseForm() {
                 />
             </div>
             <div className="form-payment-option-div">
-                Paid by you and split <button className="payment-option-button" onClick={paymentTypeModalClick}>{splitText}</button>
+                Paid by you and split <button className="payment-option-button" type="button" onClick={paymentTypeModalClick}>{splitText}</button>
             </div>
             <div className="form-cancel-save-div">
                 <button className="cancel-button" onClick={closeModal}>Cancel</button>

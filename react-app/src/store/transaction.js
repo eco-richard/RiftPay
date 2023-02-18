@@ -71,7 +71,7 @@ export function getFriendTransactions(friendId) {
 
 export function createTransaction(transaction) {
     return async (dispatch) => {
-        const response = await fetch('/api/transactions/', {
+        const response = await fetch('/api/transactions', {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(transaction)

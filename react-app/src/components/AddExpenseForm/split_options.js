@@ -14,7 +14,7 @@ export function exactPayments(creator, participants, debtInput, cost) {
   for (let i in debtInput) {
     total += parseInt(debtInput[i])
   }
-  if (total !== cost) {
+  if (total != cost) {
     return "Unequal payments";
   }
   for (let i = 0; i < participants.length; i++) {
