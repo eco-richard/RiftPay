@@ -22,7 +22,7 @@ def all_comments(transaction_id):
         user = User.query.get(comment["commentor_id"])
         comment['user'] = user.to_dict()
 
-    print("\n\n\n{num_comments}\n\n\n")
+    # print("\n\n\n{num_comments}\n\n\n")
     # comments_test["num_comments"] = num_comments
 
     return {"comments": [comment for comment in comments_test],
@@ -48,7 +48,7 @@ def add_comment(transaction_id):
         )
         db.session.add(new_comment)
         db.session.commit()
-        print(f"\n\n\n{new_comment.to_dict()}\n\n\n\n")
+        # print(f"\n\n\n{new_comment.to_dict()}\n\n\n\n")
         return new_comment.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
@@ -61,9 +61,26 @@ def update_comment():
     """
 
 
-@comment_routes.route("/<int:commentId>", methods=["DELETE"])
+
+
+@comment_routes.route("/<int:transaction_id>", methods=["DELETE"])
 @login_required
-def remove_comment():
+def remove_comment(transaction_id):
     """
     Delete a specific comment of a transaction
     """
+    print("-----------------")
+    comments = db.session.execute(db.select(Comment).filter_by(transaction_id=transaction_id)).all()
+    print("@@@@@@@", comments)
+
+    if comments is None:
+        return {"error": f"No comments found with id {transaction_id}"}
+
+    # comment = Comment.query.get(comment_id)
+
+    # if comment is None:
+    #     return {"error": f"No comment found with id {comment_id}"}
+
+    # db.session.delete(comment)
+    # db.session.commit()
+    # return {"success": "True", "status_code": 200}

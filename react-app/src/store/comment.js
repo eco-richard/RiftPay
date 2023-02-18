@@ -68,8 +68,16 @@ export const updateCommentThunk = () => async dispatch => {
 
 }
 
-export const removeCommentThunk = () => async dispatch => {
-
+export const removeCommentThunk = (comment_id) => async dispatch => {
+    const response = await fetch(`/api/comments/${comment_id}`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"}
+    })
+    if (response.ok) {
+        const badComment = await response.json()
+        dispatch(removeComment(comment_id))
+        return badComment
+    }
 }
 
 const initialState = {}
@@ -91,7 +99,9 @@ const comments = (state = initialState, action) => {
             return newState
         }
         case REMOVE_COMMENT: {
-
+            newState = {...state}
+            delete newState.comments[action.comment]
+            return newState
         }
         case UPDATE_COMMENT: {
 
