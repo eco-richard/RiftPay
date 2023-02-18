@@ -27,10 +27,10 @@ const updateComment = (comment) => {
     }
 }
 
-const removeComment = (comment) => {
+const removeComment = (commentId) => {
     return {
         type: REMOVE_COMMENT,
-        comment
+        commentId
     }
 }
 
@@ -75,12 +75,15 @@ export const removeCommentThunk = (comment_id) => async dispatch => {
     })
     if (response.ok) {
         const badComment = await response.json()
+        console.log("badComment:", badComment)
         dispatch(removeComment(comment_id))
         return badComment
     }
 }
 
-const initialState = {}
+const initialState = {
+    allComments: {}
+}
 
 const comments = (state = initialState, action) => {
     let newState = {}
@@ -89,6 +92,7 @@ const comments = (state = initialState, action) => {
             let normalizedComments = {}
             action.comments.comments.forEach((comment) => {
                 normalizedComments[comment.id] = comment
+                // newState.allComments[comment.id] = comment
             })
             newState.allComments = normalizedComments
             return newState
@@ -100,7 +104,8 @@ const comments = (state = initialState, action) => {
         }
         case REMOVE_COMMENT: {
             newState = {...state}
-            delete newState.comments[action.comment]
+            console.log("newState:", newState)
+            delete newState.allComments[action.commentId]
             return newState
         }
         case UPDATE_COMMENT: {

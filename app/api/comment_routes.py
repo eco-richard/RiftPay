@@ -63,24 +63,18 @@ def update_comment():
 
 
 
-@comment_routes.route("/<int:transaction_id>", methods=["DELETE"])
+@comment_routes.route("/<int:comment_id>", methods=["DELETE"])
 @login_required
-def remove_comment(transaction_id):
+def remove_comment(comment_id):
     """
     Delete a specific comment of a transaction
     """
-    print("-----------------")
-    comments = db.session.execute(db.select(Comment).filter_by(transaction_id=transaction_id)).all()
-    print("@@@@@@@", comments)
 
-    if comments is None:
-        return {"error": f"No comments found with id {transaction_id}"}
+    comment = Comment.query.get(comment_id)
 
-    # comment = Comment.query.get(comment_id)
+    if comment is None:
+        return {"error": f"No comment found with id {comment_id}"}
 
-    # if comment is None:
-    #     return {"error": f"No comment found with id {comment_id}"}
-
-    # db.session.delete(comment)
-    # db.session.commit()
-    # return {"success": "True", "status_code": 200}
+    db.session.delete(comment)
+    db.session.commit()
+    return {"success": "True", "status_code": 200}

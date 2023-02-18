@@ -41,7 +41,7 @@ function AllComments({transaction_id}) {
             <div className="single-comment-container">
                 <div className="single-comment-content">
                     {Object.values(commentsArr).map(comment => (
-                        <SingleComment comment={comment} n/>
+                        <SingleComment comment={comment} />
                     ))}
                 </div>
             </div>
