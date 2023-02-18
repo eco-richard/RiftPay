@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addCommentThunk } from "../../store/comment";
+import { addCommentThunk, loadCommentsThunk } from "../../store/comment";
 import "./AddComment.css";
 
 function AddComment({ transaction_id }) {
@@ -14,7 +14,7 @@ function AddComment({ transaction_id }) {
 
     const user = useSelector((state) => state.session.user);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (!content.length || content.length > 500) {
             window.alert(
@@ -37,7 +37,7 @@ function AddComment({ transaction_id }) {
             updated_at: date,
         };
         console.log("comment in add comment form", comment);
-        dispatch(addCommentThunk(comment, transaction_id));
+        return dispatch(addCommentThunk(comment, transaction_id)).then(() => {dispatch(loadCommentsThunk(transaction_id))})
     };
 
     return (

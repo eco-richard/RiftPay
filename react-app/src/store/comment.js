@@ -103,8 +103,7 @@ const comments = (state = initialState, action) => {
             return newState
         }
         case REMOVE_COMMENT: {
-            newState = {...state}
-            console.log("newState:", newState)
+            newState.allComments = {...state.allComments}
             delete newState.allComments[action.commentId]
             return newState
         }
