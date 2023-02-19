@@ -62,6 +62,7 @@ def post_create_transaction():
         db.session.add(transaction)
         db.session.commit()
         transaction.add_repayment_users()
+        transaction.add_friends()
         db.session.commit()
         return transaction.to_dict()
 

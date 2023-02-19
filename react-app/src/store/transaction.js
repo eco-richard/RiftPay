@@ -115,7 +115,7 @@ export function deleteTransaction(transaction) {
 
 const initialState = {allTransactions: {}, singleTransaction: {}}
 export default function reducer(state = initialState, action) {
-    let newState
+    let newState;
     switch (action.type) {
         case GET_TRANSACTIONS:
             newState = {allTransactions: {}, singleTransaction: {}}

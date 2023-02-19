@@ -79,6 +79,20 @@ class Transaction(db.Model):
             self.users.append(user)
             db.session.commit()
 
+    def add_friends(self):
+        """
+        When participants are added to a transaction, they all
+        automatically become friends
+        """
+        for user in self.users:
+            for friend in self.users:
+                if friend in user.friends or user == friend:
+                    continue
+                else:
+                    user.friends.append(friend)
+                    friend.friends.append(user)
+
+
     def to_dict(self):
         return {
             'id': self.id,
