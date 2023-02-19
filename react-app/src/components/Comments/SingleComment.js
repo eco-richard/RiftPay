@@ -1,34 +1,47 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeCommentThunk } from '../../store/comment';
-import './SingleComment.css'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { removeCommentThunk } from "../../store/comment";
+import OpenModalButton from "../OpenModalButton";
+import EditCommentFormModal from "../EditCommentFormModal";
+import "./SingleComment.css";
 
-function SingleComment({comment}) {
-    const dispatch = useDispatch()
+function SingleComment({ comment }) {
+    const dispatch = useDispatch();
 
     const removeCommentHandleCLick = async (e) => {
         if (window.confirm("Are you sure you want to remove this comment?")) {
-            dispatch(removeCommentThunk(comment.id))
+            dispatch(removeCommentThunk(comment.id));
         }
-    }
+    };
 
-    if (!comment.user) return null
+    if (!comment.user) return null;
     return (
         <div className="single-comment-wrapper">
             <div className="single-comment-container">
                 <div className="single-comment-header">
-                    <div className="commenter-name">{comment.user.first_name} {comment.user.last_name}</div>
+                    <div className="commenter-name">
+                        {comment.user.first_name} {comment.user.last_name}
+                    </div>
                     <span className="comment-date">{comment.created_at}</span>
-                    <div className="delete-comment-button" onClick={removeCommentHandleCLick}>X</div>
+                    <div className="edit-comment-button">
+                        <OpenModalButton
+                            buttonText="E"
+                            modalComponent={<EditCommentFormModal comment={comment} />}
+                        />
+                    </div>
+                    <div
+                        className="delete-comment-button"
+                        onClick={removeCommentHandleCLick}
+                    >
+                        X
+                    </div>
                 </div>
 
-                <div className="single-comment-content">
-                    {comment.content}
-                </div>
+                <div className="single-comment-content">{comment.content}</div>
             </div>
         </div>
-    )
+    );
 }
 
-export default SingleComment
+export default SingleComment;

@@ -53,13 +53,33 @@ def add_comment(transaction_id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@comment_routes.route("/<int:commentId>", methods=["POST"])
+@comment_routes.route("/<int:comment_id>", methods=["PUT"])
 @login_required
-def update_comment():
+def update_comment(comment_id):
     """
     Edit a specific comment of a transaction
     """
 
+    comment = Comment.query.get(comment_id)
+    print(f"\n\n\n COMMENT:", comment.to_dict())
+
+    form = AddCommentForm()
+    form ['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        print(f"\n\n\n form.data", form.data["content"])
+
+        comment_content = form.data["content"]
+        print(f"\n\n\n COMMENT CONTENT:", type(comment_content))
+
+        comment.content=form.data["content"],
+
+        comment.updated_at=form.data["updated_at"]
+        print(f"\n\n\n COMMENT:", comment.to_dict())
+
+        db.session.commit()
+        print(f"\n\n\n NEWCOMMENT:", comment.to_dict())
+        return comment.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
 

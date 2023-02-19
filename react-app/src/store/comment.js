@@ -64,8 +64,20 @@ export const addCommentThunk = (comment, transaction_id) => async dispatch => {
     }
 }
 
-export const updateCommentThunk = () => async dispatch => {
+export const updateCommentThunk = (comment, comment_id) => async dispatch => {
+    console.log("comment_id", comment_id)
+    const response = await fetch (`/api/comments/${comment_id}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(comment)
+    })
 
+    if (response.ok) {
+        console.log("RESPONSE:", response)
+        const updatedComment = await response.json()
+        dispatch(updateComment(updatedComment))
+        return updatedComment
+    }
 }
 
 export const removeCommentThunk = (comment_id) => async dispatch => {
@@ -82,7 +94,8 @@ export const removeCommentThunk = (comment_id) => async dispatch => {
 }
 
 const initialState = {
-    allComments: {}
+    allComments: {},
+    singleComment: {}
 }
 
 const comments = (state = initialState, action) => {
@@ -108,7 +121,10 @@ const comments = (state = initialState, action) => {
             return newState
         }
         case UPDATE_COMMENT: {
-
+            newState.allComments = {...state.allComments, ...state.singleComment}
+            newState.allComments[action.comment.id] = action.comment
+            newState.singleComment = action.comment
+            return newState
         }
         case CLEAR_COMMENTS: {
             newState = {...state}
