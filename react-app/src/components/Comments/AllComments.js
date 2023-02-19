@@ -11,7 +11,6 @@ function AllComments({transaction_id}) {
     const dispatch = useDispatch()
 
     const comments = useSelector(state => state.comments.allCommentsByTransactionId[transaction_id])
-    console.log("comments_state:", comments)
 
     useEffect(() => {
         dispatch(loadCommentsThunk(transaction_id));

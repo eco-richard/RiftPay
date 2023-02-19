@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { updateCommentThunk } from "../../store/comment";
+import { updateCommentThunk, loadCommentsThunk } from "../../store/comment";
 import "./EditCommentForm.css";
 
 function EditCommentFormModal({comment}) {
@@ -30,8 +30,9 @@ function EditCommentFormModal({comment}) {
             updated_at: date,
         };
 
-        await dispatch(updateCommentThunk(updatedComment, comment.id));
-        closeModal();
+        return dispatch(updateCommentThunk(updatedComment, comment.id))
+        .then(() => {dispatch(loadCommentsThunk(comment.transaction_id))})
+        .then(closeModal());
     };
     return (
         <>

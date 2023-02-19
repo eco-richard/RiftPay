@@ -37,7 +37,9 @@ function AddComment({ transaction_id }) {
             updated_at: date,
         };
         console.log("comment in add comment form", comment);
-        return dispatch(addCommentThunk(comment, transaction_id)).then(() => {dispatch(loadCommentsThunk(transaction_id))})
+        return dispatch(addCommentThunk(comment, transaction_id))
+        .then(setContent(""))
+        .then(() => {dispatch(loadCommentsThunk(transaction_id))})
     };
 
     return (
