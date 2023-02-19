@@ -83,10 +83,6 @@ const EditExpenseForm = ({transaction}) => {
     // open split type form
     const paymentTypeModalClick = () => {
         setOpenSplitModal(!openSplitModal);
-        // conditional only necessary for create an expense
-        // if (splitText === "equally") {
-        //     setEqualPaymentsForm(true);
-        // }
     }
 
     // useeffect to change data structure of repayments so its usable on initial form render
@@ -125,7 +121,7 @@ const EditExpenseForm = ({transaction}) => {
             if (debtInput[i].length === 0) {
                 debtInput[i] = 0
             }
-            sum += parseInt(debtInput[i])
+            sum += parseFloat(debtInput[i])
         }
         setDebtSum(sum)
 
@@ -143,14 +139,22 @@ const EditExpenseForm = ({transaction}) => {
 
 
      //everytime there is a cost or participants input change, determine new debt of each participant
-     useEffect(() => {
+    useEffect(() => {
         if (splitText === "equally") {
+            // rounding when needed
+            const equalShare = Math.round(((cost/participantsLength) + Number.EPSILON) * 100) / 100;
             for (let i = 0; i < participantsLength; i++) {
-                // let debtorObj = {};
-                // if (equalPaymentsForm) {
-                debtorObj[participants[i]] = `${cost/participantsLength}`
-                setDebtInput(debtorObj)
-                // }
+                if (i === participantsLength-1) {
+                    let total = 0;
+                    for (let j in debtorObj) {
+                        total += parseFloat(debtorObj[j]);
+                    }
+                    debtorObj[participants[i]] = `${cost-total}`
+                }
+                else {
+                    debtorObj[participants[i]] = `${equalShare}`
+                }
+            setDebtInput({...debtorObj})
             }
         }
         else {
@@ -216,19 +220,16 @@ const EditExpenseForm = ({transaction}) => {
 
     // adding participants to transaction from a list of users friends
     const addParticipants = (e) => {
-        console.log('participants before:', participants)
-        console.log('type of:', typeof participants[0])
-        console.log('target value:', e.target.value)
-        console.log('type of:', typeof e.target.value)
         if (participants.includes(e.target.value)) {
             const index = participants.indexOf(e.target.value)
             participants.splice(index, 1);
             setParticipants([...participants]);
-            console.log('participants after:', participants)
         } else {
             setParticipants([...participants, e.target.value])
         }
     }
+
+
     if (friends.length === 0) return null;
 
     return (
@@ -317,7 +318,7 @@ const EditExpenseForm = ({transaction}) => {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 ${debtSum}
-                                ${parseInt(cost) - debtSum} left
+                                ${parseFloat(cost) - debtSum} left
                             </div>
                         </div>
                     </>
@@ -346,7 +347,7 @@ const EditExpenseForm = ({transaction}) => {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 ${debtSum}
-                                ${parseInt(cost) - debtSum} left
+                                ${parseFloat(cost) - debtSum} left
                             </div>
                         </div>
                     </>
@@ -375,7 +376,7 @@ const EditExpenseForm = ({transaction}) => {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 %{debtSum}
-                                %{100 - debtSum} left
+                                %{100.00 - debtSum} left
                             </div>
                         </div>
                     </>

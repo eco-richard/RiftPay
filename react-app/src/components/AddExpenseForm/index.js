@@ -123,7 +123,7 @@ export default function AddExpenseForm() {
         // console.log('name:', participant)
         // console.log('newdebtvalue:', newDebtValue)
     };
-    console.log('later debt input:', debtInput)
+    // console.log('later debt input:', debtInput)
 
     const [debtSum, setDebtSum] = useState('')
     // console.log('debtsum:', parseInt(debtSum))
@@ -135,14 +135,14 @@ export default function AddExpenseForm() {
             if (debtInput[i].length === 0) {
                 debtInput[i] = 0
             }
-            sum += parseInt(debtInput[i])
+            sum += parseFloat(debtInput[i])
         }
         // console.log('sum:', sum)
         setDebtSum(sum)
         // console.log('debt input in use effect:', debtInput)
         if (splitText === 'equally') {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
-            // console.log('in if equal repayments:', repayments)
+            console.log('in if equal repayments:', repayments)
         }
         else if (exactPaymentsForm) {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
@@ -154,15 +154,23 @@ export default function AddExpenseForm() {
         }
     }, [debtInput])
 
-     //everytime there is a cost or participants input change, calculate equal share
+     // everytime there is a cost or participants input change, calculate equal share
     useEffect(() => {
         if (splitText === "equally") {
+            // rounding when needed
+            const equalShare = Math.round(((cost/participantsLength) + Number.EPSILON) * 100) / 100;
             for (let i = 0; i < participantsLength; i++) {
-                // let debtorObj = {};
-                debtorObj[participants[i]] = `${cost/participantsLength}`
-                // add some rounding up for participant at index 0 and down for others
-                setDebtInput(debtorObj)
-                // console.log('debtorobj in useeffect:', debtorObj)
+                if (i === participantsLength-1) {
+                    let total = 0;
+                    for (let j in debtorObj) {
+                        total += parseFloat(debtorObj[j]);
+                    }
+                    debtorObj[participants[i]] = `${cost-total}`
+                }
+                else {
+                    debtorObj[participants[i]] = `${equalShare}`
+                }
+            setDebtInput({...debtorObj})
             }
         }
         else {
@@ -358,7 +366,7 @@ export default function AddExpenseForm() {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 ${debtSum}
-                                ${parseInt(cost) - debtSum} left
+                                ${parseFloat(cost) - debtSum} left
                             </div>
                         </div>
                     </>
@@ -388,7 +396,7 @@ export default function AddExpenseForm() {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 ${debtSum}
-                                ${parseInt(cost) - debtSum} left
+                                ${parseFloat(cost) - debtSum} left
                             </div>
                         </div>
                     </>
@@ -418,7 +426,7 @@ export default function AddExpenseForm() {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 %{debtSum}
-                                %{100 - debtSum} left
+                                %{100.00 - debtSum} left
                             </div>
                         </div>
                     </>

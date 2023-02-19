@@ -12,7 +12,7 @@ export function exactPayments(creatorId, participants, debtInput, cost) {
   let repayments = [];
   let total = 0;
   for (let i in debtInput) {
-    total += parseInt(debtInput[i])
+    total += parseFloat(debtInput[i])
   }
   if (total != cost) {
     return "Unequal payments";
@@ -27,13 +27,13 @@ export function percentPayments(creatorId, participants, debtInput, cost) {
     let repayments = [];
     let total = 0;
     for (let i in debtInput) {
-      total += parseInt(debtInput[i])
+      total += parseFloat(debtInput[i])
     }
     if (total !== 100) {
       return "Insufficient percentages"
     }
     for (let i = 0; i < participants.length; i++) {
-      const userOwes = parseInt(debtInput[participants[i]]/100)*parseInt(cost)
+      const userOwes = parseFloat(debtInput[participants[i]]/100)*parseFloat(cost)
       repayments.push(`${creatorId}/${participants[i]}/${userOwes}`)
     }
     return repayments.join(',')
