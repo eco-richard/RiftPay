@@ -93,7 +93,7 @@ export function updateTransaction(transactionId, transaction) {
         });
 
         if (response.ok) {
-            const transaction = response.json();
+            const transaction = await response.json();
             dispatch(update(transaction))
         }
     }

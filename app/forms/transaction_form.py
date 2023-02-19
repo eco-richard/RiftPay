@@ -14,6 +14,6 @@ class TransactionForm(FlaskForm):
     note = wtf.StringField("Note")
     image = wtf.StringField("Image")
     created_at = wtf.StringField("Created At", validators=[DataRequired()])
-    # updated_at = wtf.StringField("Updated At")
+    updated_at = wtf.StringField("Updated At")
     payers = wtf.StringField("Payers", validators=[DataRequired()])
     repayments = wtf.StringField("Repayments", validators=[DataRequired()])

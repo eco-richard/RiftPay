@@ -12,6 +12,7 @@ export default function AddExpenseForm() {
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
     const creator = user;
+    const creatorId = creator.id
     const createdAt = new Date();
     const stringDate = createdAt.toISOString().slice(0,10)
     // console.log('stringdate:', stringDate)
@@ -138,15 +139,15 @@ export default function AddExpenseForm() {
         setDebtSum(sum)
         // console.log('debt input in use effect:', debtInput)
         if (splitText === 'equally') {
-            setRepayments(exactPayments(creator, participants, debtInput, cost))
+            setRepayments(exactPayments(creatorId, participants, debtInput, cost))
             // console.log('in if equal repayments:', repayments)
         }
         else if (exactPaymentsForm) {
-            setRepayments(exactPayments(creator, participants, debtInput, cost))
+            setRepayments(exactPayments(creatorId, participants, debtInput, cost))
             // console.log('in if exact repayments:', repayments)
         }
         else {
-            setRepayments(percentPayments(creator, participants, debtInput, cost))
+            setRepayments(percentPayments(creatorId, participants, debtInput, cost))
             // console.log('in if percent repayments:', repayments)
         }
     }, [debtInput])

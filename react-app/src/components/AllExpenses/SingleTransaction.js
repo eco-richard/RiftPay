@@ -37,6 +37,8 @@ export default function SingleTransaction({transaction}) {
     if (!user) return <Redirect to="/"/>;
     //had to add because log out was not working
 
+    console.log('created at in single transaction:', transaction.created_at)
+    console.log('transaction in single transaction:', transaction)
     const monthIdx = Number(transaction.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];

@@ -8,7 +8,7 @@
 //   return repayments
 // }
 
-export function exactPayments(creator, participants, debtInput, cost) {
+export function exactPayments(creatorId, participants, debtInput, cost) {
   let repayments = [];
   let total = 0;
   for (let i in debtInput) {
@@ -18,12 +18,12 @@ export function exactPayments(creator, participants, debtInput, cost) {
     return "Unequal payments";
   }
   for (let i = 0; i < participants.length; i++) {
-    repayments.push(`${creator.id}/${participants[i]}/${debtInput[participants[i]]}`)
+    repayments.push(`${creatorId}/${participants[i]}/${debtInput[participants[i]]}`)
   }
   return repayments.join(',')
 }
 
-export function percentPayments(creator, participants, debtInput, cost) {
+export function percentPayments(creatorId, participants, debtInput, cost) {
     let repayments = [];
     let total = 0;
     for (let i in debtInput) {
@@ -34,7 +34,7 @@ export function percentPayments(creator, participants, debtInput, cost) {
     }
     for (let i = 0; i < participants.length; i++) {
       const userOwes = parseInt(debtInput[participants[i]]/100)*parseInt(cost)
-      repayments.push(`${creator.id}/${participants[i]}/${userOwes}`)
+      repayments.push(`${creatorId}/${participants[i]}/${userOwes}`)
     }
     return repayments.join(',')
 }

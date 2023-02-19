@@ -3,17 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { exactPayments, percentPayments } from "../AddExpenseForm/split_options";
 import { useModal } from "../../context/Modal";
 import { loadFriendsThunk } from "../../store/friends";
-import { createTransaction } from "../../store/transaction";
+import { updateTransaction } from "../../store/transaction";
 
 
 const EditExpenseForm = ({transaction}) => {
+    console.log('transaction:', transaction);
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
-    let creator;
-    const createdAt = new Date();
-    const stringDate = createdAt.toISOString().slice(0,10)
+    console.log('friends:', friends)
+    const creatorId = transaction.creator_id;
+    const isUserCreator = () => {
+        if (user.id === creatorId) {
+            return 'you'
+        }
+        for (let i in friends) {
+            if (friends[i].id === creatorId) {
+                return `${friends[i].first_name} ${friends[i].last_name[0]}.`
+            }
+        }
+    }
+    console.log('is user creator:', isUserCreator())
+    const updatedAt = new Date();
+    const stringDate = updatedAt.toISOString().slice(0,10)
 
     useEffect(() => {
         dispatch(loadFriendsThunk())
@@ -47,12 +60,12 @@ const EditExpenseForm = ({transaction}) => {
 
     const [cost, setCost] = useState(transaction.cost);
     let costLength = cost.length
-    const [creationMethod, setCreationMethod] = useState(transaction.creationMethod);
+    const [creationMethod, setCreationMethod] = useState(transaction.creation_method);
     const [description, setDescription] = useState(transaction.description);
     const [note, setNote] = useState(transaction.note);
     const [image, setImage] = useState(transaction.image)
     const [users, setUsers] = useState(transaction.users)
-    const [payers, setPayers] = useState(transaction.payers)
+    // const [payers, setPayers] = useState(transaction.payers)
     const [repayments, setRepayments] = useState(transaction.repayments)
     console.log('transaction repayments:', repayments)
     const [errors, setErrors] = useState([]);
@@ -128,13 +141,13 @@ const EditExpenseForm = ({transaction}) => {
 
         // refactor repayments so they can populate database without error depeding on split type
         if (splitText === 'equally') {
-            setRepayments(exactPayments(creator, participants, debtInput, cost))
+            setRepayments(exactPayments(creatorId, participants, debtInput, cost))
         }
         else if (exactPaymentsForm) {
-            setRepayments(exactPayments(creator, participants, debtInput, cost))
+            setRepayments(exactPayments(creatorId, participants, debtInput, cost))
         }
         else {
-            setRepayments(percentPayments(creator, participants, debtInput, cost))
+            setRepayments(percentPayments(creatorId, participants, debtInput, cost))
         }
     }, [debtInput])
 
@@ -143,8 +156,10 @@ const EditExpenseForm = ({transaction}) => {
      useEffect(() => {
         for (let i = 0; i < participantsLength; i++) {
             // let debtorObj = {};
-            debtorObj[participants[i]] = `${cost/participantsLength}`
-            setDebtInput(debtorObj)
+            if (equalPaymentsForm) {
+                debtorObj[participants[i]] = `${cost/participantsLength}`
+                setDebtInput(debtorObj)
+            }
             // console.log('debtorobj in useeffect:', debtorObj)
         }
     }, [costLength, participantsLength, equalPaymentsForm])
@@ -162,11 +177,11 @@ const EditExpenseForm = ({transaction}) => {
             note,
             image,
             updated_at:stringDate,
-            payers,
+            payers:`${creatorId}/${cost}`,
             repayments
         }
 
-        const response = await dispatch(createTransaction(newTransaction))
+        const response = await dispatch(updateTransaction(transaction.id, newTransaction))
             .then(closeModal)
             .catch(
                 async (res) => {
@@ -259,7 +274,7 @@ const EditExpenseForm = ({transaction}) => {
                 />
             </div>
             <div className="form-payment-option-div">
-                Paid by you and split <button className="payment-option-button" type="button" onClick={paymentTypeModalClick}>{splitText}</button>
+                Paid by {isUserCreator()} and split <button className="payment-option-button" type="button" onClick={paymentTypeModalClick}>{splitText}</button>
             </div>
             <div className="form-cancel-save-div">
                 <button className="cancel-button" onClick={closeModal}>Cancel</button>
