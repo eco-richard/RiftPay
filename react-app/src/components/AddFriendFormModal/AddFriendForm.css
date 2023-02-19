@@ -1,0 +1,27 @@
+.add-friend-form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.add-friend-header{
+    display: flex;
+    justify-content: center ;
+}
+.add-friend-input{
+    height: 22px;
+    width: 97%;
+}
+.add-friend-button-container{
+    display: flex;
+    justify-content: end;
+}
+.add-friend-button{
+    margin-top: 2%;
+    width: 50%;
+    padding: 2% 2.5%;
+    background-color: #ff652f;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+}

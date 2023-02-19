@@ -7,8 +7,9 @@ def seed_transactions():
         cost=100,
         creation_method='equal',
         description='first transaction',
-        created_at='02/13/2023',
-        updated_at='02/13/2023',
+        image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
+        created_at='2023-02-13',
+        updated_at='2023-02-13',
         payers = '1/100',
         repayments = '1/1/25,1/2/25,1/3/25,1/4/25'
     )
@@ -17,8 +18,9 @@ def seed_transactions():
         cost=100,
         creation_method='equal',
         description='second transaction',
-        created_at='02/13/2023',
-        updated_at='02/13/2023',
+        image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
+        created_at='2023-02-13',
+        updated_at='2023-02-13',
         payers = '2/100',
         repayments = '2/2/25,2/3/25,2/4/25,2/5/25'
     )
@@ -27,8 +29,9 @@ def seed_transactions():
         cost=100,
         creation_method='equal',
         description='third transaction',
-        created_at='02/13/2023',
-        updated_at='02/13/2023',
+        image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
+        created_at='2023-02-13',
+        updated_at='2023-02-13',
         payers = '3/100',
         repayments = '3/3/25,3/4/25,3/5/25,3/6/25'
     )
@@ -37,8 +40,9 @@ def seed_transactions():
         cost=100,
         creation_method='equal',
         description='fourth transaction',
-        created_at='02/13/2023',
-        updated_at='02/13/2023',
+        image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
+        created_at='2023-02-13',
+        updated_at='2023-02-13',
         payers = '1/100',
         repayments = '1/1/25,1/6/25,1/7/25,1/8/25'
     )

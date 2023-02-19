@@ -1,10 +1,28 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
+import { getAllTransactions } from '../../store/transaction';
+import { Redirect } from 'react-router-dom';
+import SingleTransaction from './SingleTransaction';
+import OpenModalButton from '../OpenModalButton';
+import AddExpenseForm from '../AddExpenseForm';
 import "./AllExpenses.css"
 
 function AllExpenses() {
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user)
+    const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
+    console.log("Transactions: ", transactions);
+
+    useEffect(() => {
+        dispatch(getAllTransactions())
+    }, [dispatch])
+
+    if (!user) {
+        return (<Redirect to="/"/>)
+    }
+    if (transactions.length == 0) return null;
+
     return (
         <div className="column-wrapper">
             <div className="left-column-container">
@@ -15,7 +33,11 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <button className="expense-button">Add an expense</button>
+                            <OpenModalButton
+                                className="add-expense-button"
+                                buttonText="Add an Expense"
+                                modalComponent={<AddExpenseForm />}
+                            ></OpenModalButton>
                             <span className="button-seperator"></span>
                             <button>Settle Up</button>
                         </div>
@@ -23,8 +45,9 @@ function AllExpenses() {
 
                 </div>
                 <div className='expenses-content-container'>
-                    <div className="expense-bills-container">
-                    </div>
+                    {transactions.map(transaction => (
+                        <SingleTransaction transaction={transaction} />
+                    ))}
                 </div>
             </div>
             <div className="right-column-container">

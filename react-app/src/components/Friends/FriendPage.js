@@ -1,9 +1,32 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useParams, useHistory, Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
+import { removeFriendThunk, loadSingleFriendThunk, loadFriendsThunk } from '../../store/friends';
 
 function FriendPage() {
+
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const {friendId} = useParams()
+
+    const user = useSelector((state) => state.session.user)
+    const singleFriend = useSelector(state => state.friends.singleFriend)
+
+    useEffect(() => {
+        dispatch(loadSingleFriendThunk(friendId))
+    },[dispatch, friendId])
+
+    if (!user) return <Redirect to="/"/>
+    if (Object.values(singleFriend).length === 0) return null
+
+    const removeFriendHandleClick = async (e) => {
+        if (window.confirm("Are you sure you want to remove this friend?")) {
+            dispatch(removeFriendThunk(singleFriend.id)).then(history.push("/dashboard"))
+        }
+    }
+
+
     return (
         <div className="column-wrapper">
             <div className="left-column-container">
@@ -28,6 +51,11 @@ function FriendPage() {
             </div>
             <div className="right-column-container">
                 <div className="right-column-content">
+                    <div className="remove-friend-button-container">
+                        <button className="remove-friend-button" style={{marginTop: "18.72px"}} onClick={removeFriendHandleClick}>
+                            Remove This Friend
+                        </button>
+                    </div>
                     <h2 className="your-total-balance-label">YOUR BALANCE</h2>
                     <div className='balance-info-container'>
                         <div className='balance-summary'>
@@ -39,7 +67,6 @@ function FriendPage() {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

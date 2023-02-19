@@ -34,12 +34,6 @@ function App() {
           <Route exact path="/friends/:friendId">
             <FriendPage />
           </Route>
-          <Route path="/login" >
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
         </Switch>
       )}
     </>

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, Redirect } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -17,48 +20,52 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        closeModal()
+      history.push("/dashboard")
+      closeModal()
     }
   };
+
 
   const logInDemoUser = async (e) => {
     e.preventDefault()
 
     return dispatch(login("demo@aa.io", "password"))
-      .then(closeModal)
+      .then(closeModal).then(history.push("/dashboard"))
   }
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div classsName="login-form-container">
+      <div className="login-header">Log In</div>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Email
+        <div className="login-inputs-container">
           <input
+            className="login-input"
+            placeholder="Email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
           <input
+            className="login-input"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
-        <button className="demo-user-button" type="submit" onClick={logInDemoUser}>Demo-User</button>
+        </div>
+        <div className="login-buttons-container">
+          <button className="login-form-button" type="submit">Log In</button>
+          <button className="login-form-button" type="submit" onClick={logInDemoUser}>Demo-User</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 
