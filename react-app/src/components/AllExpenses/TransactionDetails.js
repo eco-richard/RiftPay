@@ -1,6 +1,7 @@
 import './TransactionDetails.css';
 import OpenModalButton from "../OpenModalButton";
 import EditExpenseForm from '../EditExpenseForm';
+import AllComments from '../Comments/AllComments';
 
 function styleLoanerName(repayment) {
     return `${repayment.loaner.first_name} ${repayment.loaner.last_name[0]}.`
@@ -22,46 +23,54 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
 
 
     return (
-    <div className='transaction-details-wrapper'>
-        <div className='transaction-details-header'>
-            <div className='transaction-details-image'>
-                <img src={transaction.image} alt="transaction"/>
+        <div className='transaction-details-wrapper'>
+            <div className='transaction-details-header'>
+                <div className='transaction-details-image'>
+                    <img src={transaction.image} alt="transaction" />
+                </div>
+                <div className='transaction-details-header-info'>
+                    <div className='transaction-details-header-description'>
+                        {transaction.description}
+                    </div>
+                    <div className='transaction-details-header-amount'>
+                        ${transaction.cost.toFixed(2)}
+                    </div>
+                    <div className='transaction-details-header-added'>
+                        {added}
+                    </div>
+                    <div className='transaction-details-header-update'>
+                        <OpenModalButton
+                            buttonText="Edit Transaction"
+                            modalComponent={<EditExpenseForm transaction={transaction}/>}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className='transaction-details-header-info'>
-                <div className='transaction-details-header-description'>
-                    {transaction.description}
+            <div className="transaction-details-body-wrapper">
+                <div className="left-column-wrapper">
+                    <div className="transaction-details-body">
+                        <div className='transaction-details-payers'>
+                            {repayments.map(repayment =>
+                                repayment.loaner.id === repayment.debtor.id ?
+                                    <div className='transaction-details-payer'>
+                                        {styleDebtorName(repayment)} paid ${payers.amount} and owes ${repayment.amount}.
+                                    </div>
+                                    :
+                                    <div className='transaction-details-ower'>
+                                        {styleDebtorName(repayment)} owes ${repayment.amount}.
+                                    </div>
+                            )
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div className='transaction-details-header-amount'>
-                    ${transaction.cost.toFixed(2)}
-                </div>
-                <div className='transaction-details-header-added'>
-                    {added}
-                </div>
-                <div className='transaction-details-header-update'>
-                    <OpenModalButton
-                        buttonText="Edit Transaction"
-                        modalComponent={<EditExpenseForm transaction={transaction}/>}
-                    />
+                <div className="right-column-wrapper">
+                    <div className="transaction-details-comments">
+                        <AllComments transaction_id={transaction.id} />
+                    </div>
                 </div>
             </div>
         </div>
-        <div className="transaction-details-body">
-            <div className='transaction-details-payers'>
-                {repayments.map(repayment =>
-                    repayment.loaner.id === repayment.debtor.id ?
-                    <div className='transaction-details-payer'>
-                        {styleDebtorName(repayment)} paid ${payers.amount} and owes ${repayment.amount}.
-                    </div>
-                     :
-                    <div className='transaction-details-ower'>
-                        {styleDebtorName(repayment)} owes ${repayment.amount}.
-                    </div>
-                    )
-                }
-            </div>
-            <div className="transaction-details-comments">
-            </div>
-        </div>
-    </div>
+
     )
 }

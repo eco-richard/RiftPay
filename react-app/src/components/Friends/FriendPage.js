@@ -67,7 +67,6 @@ function FriendPage() {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

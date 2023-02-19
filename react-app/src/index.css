@@ -1,4 +1,7 @@
 /* TODO Add site wide styles */
+a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer {
+    cursor: pointer;
+}
 body {
     margin: 0;
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
