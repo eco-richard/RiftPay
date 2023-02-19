@@ -7,12 +7,10 @@ import { updateTransaction } from "../../store/transaction";
 
 
 const EditExpenseForm = ({transaction}) => {
-    console.log('transaction:', transaction);
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
-    console.log('friends:', friends)
     const creatorId = transaction.creator_id;
     const isUserCreator = () => {
         if (user.id === creatorId) {
@@ -24,7 +22,6 @@ const EditExpenseForm = ({transaction}) => {
             }
         }
     }
-    console.log('is user creator:', isUserCreator())
     const updatedAt = new Date();
     const stringDate = updatedAt.toISOString().slice(0,10)
 
@@ -67,7 +64,6 @@ const EditExpenseForm = ({transaction}) => {
     const [users, setUsers] = useState(transaction.users)
     // const [payers, setPayers] = useState(transaction.payers)
     const [repayments, setRepayments] = useState(transaction.repayments)
-    console.log('transaction repayments:', repayments)
     const [errors, setErrors] = useState([]);
     const [openSplitModal, setOpenSplitModal] = useState(false);
     let pariticpantsArr = [];
@@ -97,21 +93,15 @@ const EditExpenseForm = ({transaction}) => {
     let debtorObj = {};
     useEffect(() => {
         for (let i in repayments) {
-            console.log('repayments:', repayments)
-            console.log('repayments at index:', repayments[i])
             let singleRepayment = repayments[i];
-            console.log('single repayment:', singleRepayment)
             let repaymentDebtor = singleRepayment.debtor;
-            pariticpantsArr.push(repaymentDebtor.id)
+            // needs to be string to see if target value matches
+            pariticpantsArr.push(repaymentDebtor.id.toString())
             // fill participants state variable
-            console.log('participants inside for loop:', participants)
             debtorObj[repaymentDebtor.id] = singleRepayment.amount
-            console.log('debtor object:', debtorObj)
         }
         setParticipants(pariticpantsArr);
         setDebtInput(debtorObj);
-        console.log('debtInput outside loop:', repayments)
-        console.log('participants:', participants)
     }, [dispatch])
 
     // payment splits state variable
@@ -152,15 +142,28 @@ const EditExpenseForm = ({transaction}) => {
     }, [debtInput])
 
 
-     //everytime there is a cost or participants input change, calculate equal share
+     //everytime there is a cost or participants input change, determine new debt of each participant
      useEffect(() => {
-        for (let i = 0; i < participantsLength; i++) {
-            // let debtorObj = {};
-            if (equalPaymentsForm) {
+        if (splitText === "equally") {
+            for (let i = 0; i < participantsLength; i++) {
+                // let debtorObj = {};
+                // if (equalPaymentsForm) {
                 debtorObj[participants[i]] = `${cost/participantsLength}`
                 setDebtInput(debtorObj)
+                // }
             }
-            // console.log('debtorobj in useeffect:', debtorObj)
+        }
+        else {
+            const newDebtInput = {};
+            for (let i of participants) {
+                if (debtInput[i]) {
+                    newDebtInput[i] = debtInput[i]
+                }
+                else {
+                    newDebtInput[i] = ''
+                }
+            }
+            setDebtInput(newDebtInput)
         }
     }, [costLength, participantsLength, equalPaymentsForm])
 
@@ -195,12 +198,9 @@ const EditExpenseForm = ({transaction}) => {
     // function that allows names of those involved in transaction to be rendered in payment splits form
     const getParticipantName = (participant) => {
         let id = parseInt(participant);
-        console.log('id:', id)
         let person;
-        console.log(user.id)
         if (id === user.id) {
             person = user
-            console.log('person:', person)
             return `${person.first_name} ${person.last_name}`
         }
         for (let i = 0; i < friends.length; i++) {
@@ -214,12 +214,17 @@ const EditExpenseForm = ({transaction}) => {
     // if statemment to determing what button that renders split payments form displayes
     let splitText = exactPaymentsForm || percentPaymentsForm ? "unequally" : "equally";
 
-
+    // adding participants to transaction from a list of users friends
     const addParticipants = (e) => {
+        console.log('participants before:', participants)
+        console.log('type of:', typeof participants[0])
+        console.log('target value:', e.target.value)
+        console.log('type of:', typeof e.target.value)
         if (participants.includes(e.target.value)) {
             const index = participants.indexOf(e.target.value)
             participants.splice(index, 1);
-            setParticipants(participants)
+            setParticipants([...participants]);
+            console.log('participants after:', participants)
         } else {
             setParticipants([...participants, e.target.value])
         }

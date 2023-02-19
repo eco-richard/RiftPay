@@ -75,6 +75,7 @@ export default function AddExpenseForm() {
     //default should be a string interpolation using methid that gets you current time
     const [participants, setParticipants] = useState([user.id]);
     let participantsLength = participants.length;
+    // console.log('participants length at beginning:', participantsLength)
     const [repayments, setRepayments] = useState('')
     // console.log('participants:', participants);
     // const [debtInputs, setDebtInputs] = useState([]);
@@ -122,6 +123,7 @@ export default function AddExpenseForm() {
         // console.log('name:', participant)
         // console.log('newdebtvalue:', newDebtValue)
     };
+    console.log('later debt input:', debtInput)
 
     const [debtSum, setDebtSum] = useState('')
     // console.log('debtsum:', parseInt(debtSum))
@@ -154,12 +156,30 @@ export default function AddExpenseForm() {
 
      //everytime there is a cost or participants input change, calculate equal share
     useEffect(() => {
-        for (let i = 0; i < participantsLength; i++) {
-            // let debtorObj = {};
-            debtorObj[participants[i]] = `${cost/participantsLength}`
-            setDebtInput(debtorObj)
-            // console.log('debtorobj in useeffect:', debtorObj)
+        if (splitText === "equally") {
+            for (let i = 0; i < participantsLength; i++) {
+                // let debtorObj = {};
+                debtorObj[participants[i]] = `${cost/participantsLength}`
+                // add some rounding up for participant at index 0 and down for others
+                setDebtInput(debtorObj)
+                // console.log('debtorobj in useeffect:', debtorObj)
+            }
         }
+        else {
+            const newDebtInput = {};
+            for (let i of participants) {
+                if (debtInput[i]) {
+                    newDebtInput[i] = debtInput[i]
+                }
+                else {
+                    newDebtInput[i] = ''
+                }
+            }
+            setDebtInput(newDebtInput)
+        }
+        // console.log('participants length:', participantsLength)
+        // setParticipants(participants)
+        // console.log('participants in array length change:', participants)
     }, [costLength, participantsLength, equalPaymentsForm])
 
     const handleSubmit = async (e) => {
@@ -230,13 +250,26 @@ export default function AddExpenseForm() {
 
     const addParticipants = (e) => {
         if (participants.includes(e.target.value)) {
+            // console.log('participants before:', participants)
             const index = participants.indexOf(e.target.value)
             participants.splice(index, 1);
-            setParticipants(participants)
+            setParticipants([...participants]);
+            // participantsLength = participants.length
+            // console.log('participantsLength:', participantsLength)
+            // console.log('participants after:', participants)
         } else {
             setParticipants([...participants, e.target.value])
+            // console.log('participants:', participants)
         }
     }
+
+    // re render when participant is taken away
+    // useEffect(() => {
+    //     console.log('participants length inside final use effect:', participantsLength)
+    //     setParticipants(participants)
+    // }, [participantsLength])
+
+
     if (friends.length === 0) return null;
 
     return (
