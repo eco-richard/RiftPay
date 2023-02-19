@@ -44,11 +44,12 @@
 }
 .signup-form-button{
     margin-top: 2%;
-    width: 50%;
+    width: 20%;
     padding: 2% 2.5%;
     background-color: #ff652f;
     border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
     color: white;
     font-size: 14px;
+    border-radius: 5px;
     /* padding: 2px; */
 }

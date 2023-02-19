@@ -19,34 +19,35 @@ function AddFriendFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        closeModal()
-        history.push("/dashboard")
+      closeModal()
+      history.push("/dashboard")
     }
   };
 
 
   return (
     <>
-    <div className="add-friend-form-container">
-      <h1>Add Friend</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-        <label>
-          Email
+      <div className="add-friend-form-container">
+        <h1 className="add-friend-header">Add Friend</h1>
+        <form onSubmit={handleSubmit}>
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
           <input
+            className="add-friend-input"
+            placeholder="Email Address"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Add Friend</button>
-      </form>
-    </div>
+          <div className="add-friend-button-container">
+            <button className="add-friend-button" type="submit">Add Friend</button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }
