@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removeCommentThunk } from "../../store/comment";
@@ -9,6 +9,7 @@ import "./SingleComment.css";
 function SingleComment({ comment }) {
     const dispatch = useDispatch();
 
+    const user = useSelector((state) => state.session.user)
     const removeCommentHandleCLick = async (e) => {
         if (window.confirm("Are you sure you want to remove this comment?")) {
             dispatch(removeCommentThunk(comment));
@@ -24,6 +25,24 @@ function SingleComment({ comment }) {
     const monthIdx = parseInt(dateArr[0]) - 1
     const parsedDate = `${monthNames[monthIdx]} ${day}`
 
+    let comment_buttons = null
+    if (user.id === comment.commentor_id) {
+        comment_buttons = (
+            <div className="single-comment-buttons">
+                <div className="edit-comment-button">
+                    <OpenModalButton
+                        buttonText="Edit"
+                        modalComponent={<EditCommentFormModal comment={comment} />}
+                    />
+                </div>
+                <button
+                    className="delete-comment-button"
+                    onClick={removeCommentHandleCLick}>
+                    X
+                </button>
+            </div>
+        )
+    }
 
     // END OF DATE PARSER
     if (!comment.user) return null;
@@ -38,19 +57,7 @@ function SingleComment({ comment }) {
                         {parsedDate}
                     </div>
                 </div>
-                <div className="single-comment-buttons">
-                    <div className="edit-comment-button">
-                        <OpenModalButton
-                            buttonText="Edit"
-                            modalComponent={<EditCommentFormModal comment={comment} />}
-                        />
-                    </div>
-                    <button
-                        className="delete-comment-button"
-                        onClick={removeCommentHandleCLick}>
-                        X
-                    </button>
-                </div>
+            <div className="comment-buttons">{comment_buttons}</div>
             </div>
             <div className="single-comment-content">{comment.content}</div>
         </div>
