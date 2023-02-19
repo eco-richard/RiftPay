@@ -1,4 +1,6 @@
-import './TransactionDetails.css'
+import './TransactionDetails.css';
+import OpenModalButton from "../OpenModalButton";
+import EditExpenseForm from '../EditExpenseForm';
 
 function styleLoanerName(repayment) {
     return `${repayment.loaner.first_name} ${repayment.loaner.last_name[0]}.`
@@ -36,18 +38,21 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                     {added}
                 </div>
                 <div className='transaction-details-header-update'>
-                    <button>Update</button>
+                    <OpenModalButton
+                        buttonText="Edit Transaction"
+                        modalComponent={<EditExpenseForm transaction={transaction}/>}
+                    />
                 </div>
             </div>
         </div>
         <div className="transaction-details-body">
             <div className='transaction-details-payers'>
-                {repayments.map(repayment => 
-                    repayment.loaner.id === repayment.debtor.id ? 
+                {repayments.map(repayment =>
+                    repayment.loaner.id === repayment.debtor.id ?
                     <div className='transaction-details-payer'>
                         {styleDebtorName(repayment)} paid ${payers.amount} and owes ${repayment.amount}.
                     </div>
-                     : 
+                     :
                     <div className='transaction-details-ower'>
                         {styleDebtorName(repayment)} owes ${repayment.amount}.
                     </div>
