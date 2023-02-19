@@ -23,7 +23,7 @@ export default function SingleTransaction({transaction}) {
         "DEC"
     ]
 
-    const monthIdx = Number(transaction.created_at.split("-")[1])-1 
+    const monthIdx = Number(transaction.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]

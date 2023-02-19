@@ -30,8 +30,16 @@ def seed_comments():
         created_at='02/13/2023',
         updated_at='02/13/2023'
     )
+    comment5 = Comment(
+        content = 'I made this too!',
+        commentor_id = 2,
+        transaction_id = 1,
+        created_at='02/13/2023',
+        updated_at='02/13/2023'
+    )
 
-    all_comments = [comment1, comment2, comment3, comment4]
+
+    all_comments = [comment1, comment2, comment3, comment4, comment5]
     add_comments = [db.session.add(comment) for comment in all_comments]
     db.session.commit()
 
