@@ -1,17 +1,33 @@
-/* .splash-page-wrapper {
-    background-color: black;
+.icons-container {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-} */
+    flex-direction: row;
+    justify-content: space-between;
+    color: #5bc5a7;;
+}
+
+.fa-solid {
+    width: 50px;
+    height: 50px;
+    margin-top: 50px;
+}
+
+.splash-page-wrapper {
+    height: 100%;
+}
+
+.splash-page-wrapper {
+    background-image: url(https://imgs.search.brave.com/DCch__yfWo6ftzGNZRYPR5C8zeUhVzlXY4HWqc98XeA/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvcHJl/dmlld3MvMDAwLzU4/NC8wMjQvb3JpZ2lu/YWwvYWJzdHJhY3Qt/d2hpdGUtZ3JheS1w/b2x5Z29uYWwtZ2Vv/bWV0cmljLWJhY2tn/cm91bmQtdmVjdG9y/LWlsbHVzdHJhdGlv/bi5qcGc);
+    /* opacity: 0.3; */
+}
 
 .splash-header-container {
     width: 100vw;
-    height: 8vh;
+    height: 15vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     font-weight: 550;
+    align-items: center;
 }
 
 .splash-header-content {
@@ -25,16 +41,21 @@
 
 .left-top-tile-container {
     width: 100vw;
-    height: 55vh;
+    height: 75vh;
     min-height: 5vh;
     border-style: solid;
+    display: flex;
+    flex-direction: column;
 }
 
 .left-top-tile-content {
     display: flex;
     height: 100%;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin-left: 4vw;
+    margin-right: 3vw;
+    margin-top: 10vh;
 }
 
 .left-tile-text {
@@ -47,6 +68,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    height: 225px
 }
 
 .left-tile-text-description {
@@ -60,7 +82,7 @@
 
 .right-top-tile-container {
     width: 100vw;
-    height: 55vh;
+    height: 75vh;
     border-style: solid;
 }
 
@@ -125,4 +147,32 @@
     text-align: center;
     border-style: solid;
     font-size: 18px;
+}
+
+.features-header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.features-header {
+    font-size: 36px;
+    font-weight: 300px;
+}
+
+.features-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100%
+}
+
+.features-list-content {
+
+}
+
+.single-feature {
+
 }

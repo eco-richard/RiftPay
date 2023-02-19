@@ -12,6 +12,10 @@ function SplashPage() {
         <div className="splash-page-wrapper">
             <div className="splash-header-container">
                 <div className="splash-header-content">Welcome to RiftPay!</div>
+                {/* <div className="left-tile-text-description-bottom">
+                                With RiftPay, you will never forget who you owe
+                                and who owes you.
+                            </div> */}
             </div>
             <div className="top-two-tile-container">
                 <div className="left-top-tile-container">
@@ -20,25 +24,47 @@ function SplashPage() {
                             RiftPay makes it easy to share expenses with anyone,
                             anywhere, at anytime.
                         </div>
-                        <div className="icons">ICONS GO HERE</div>
+                        <div className="icons-container">
+
+                            <span>
+                            <i class="fa-solid fa-plane fa-5x"></i>
+                            </span>
+
+                            <span>
+                            <i class="fa-solid fa-house fa-5x"></i>
+                            </span>
+
+                            <span>
+                            <i class="fa-solid fa-user-group fa-5x"></i>
+                            </span>
+
+                            <span>
+                            <i class="fa-solid fa-utensils fa-5x"></i>
+                            </span>
+
+                        </div>
                         <div className="text-details">
                             <div className="left-tile-text-description">
                                 Keep track of your shared expenses and balances
                                 with friends and family.
-                            </div>
-                            <div className="left-tile-text-description-bottom">
-                                With RiftPay, you will never forget who you owe
-                                and who owes you.
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="right-top-tile-container">
-                    ICON and stuff goes here ICON
+                            <div className="features-list-header">header</div>
+                            <div className="features-list-container">
+                                <li>test</li>
+                                <li>test</li>
+                                <li>test</li>
+
+                            </div>
+
                 </div>
+
             </div>
-            <div className="vertical-tile-container">
+            {/* <div className="vertical-tile-container">
                 <div className="vertical-left-container">
                     <div className="vertical-tile-content-container">
                         <div className="feature-text-wrapper">
@@ -118,9 +144,26 @@ function SplashPage() {
                         <div className="feature-image">!!! FEATURE IMAGE GOES HERE !!!</div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="features-container">FEATURES LIST</div>
+            {/* <div className="features-container">
+                <div className="features-header-container">
+                    <div className="features-header">
+                        The whole nine yards
+                    </div>
+                    <div className="features-list-container">
+                        <div className="features-list-content">
+                            <div className="single-feature">
+
+                            <li>TEST</li>
+                            <li>TEST</li>
+                            <li>TEST</li>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
         </div>
     );
 }
