@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import { getAllTransactions } from '../../store/transaction';
+import { Redirect } from 'react-router-dom';
 import SingleTransaction from './SingleTransaction';
 import OpenModalButton from '../OpenModalButton';
 import AddExpenseForm from '../AddExpenseForm';
@@ -9,6 +10,7 @@ import "./AllExpenses.css"
 
 function AllExpenses() {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
     console.log("Transactions: ", transactions);
 
@@ -16,6 +18,9 @@ function AllExpenses() {
         dispatch(getAllTransactions())
     }, [dispatch])
 
+    if (!user) {
+        return (<Redirect to="/"/>)
+    }
     if (transactions.length == 0) return null;
 
     return (
@@ -28,7 +33,7 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton 
+                            <OpenModalButton
                                 className="add-expense-button"
                                 buttonText="Add an Expense"
                                 modalComponent={<AddExpenseForm />}
@@ -41,7 +46,7 @@ function AllExpenses() {
                 </div>
                 <div className='expenses-content-container'>
                     {transactions.map(transaction => (
-                        <SingleTransaction transaction={transaction} /> 
+                        <SingleTransaction transaction={transaction} />
                     ))}
                 </div>
             </div>
