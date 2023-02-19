@@ -14,7 +14,7 @@ export default function AddExpenseForm() {
     const creator = user;
     const createdAt = new Date();
     const stringDate = createdAt.toISOString().slice(0,10)
-    console.log('stringdate:', stringDate)
+    // console.log('stringdate:', stringDate)
 
     // console.log("Friends: ", friends);
     useEffect(() => {
@@ -24,11 +24,18 @@ export default function AddExpenseForm() {
 
     //form render state variables
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
-    console.log('qualPaymentsForm', equalPaymentsForm)
+    // console.log('qualPaymentsForm', equalPaymentsForm)
     const [exactPaymentsForm, setExactPaymentsForm] = useState()
-    console.log('exactPaymentsForm', exactPaymentsForm)
+    // console.log('exactPaymentsForm', exactPaymentsForm)
     const [percentPaymentsForm, setPercentPaymentsForm] = useState()
-    console.log('percentPaymentsForm', percentPaymentsForm)
+    // console.log('percentPaymentsForm', percentPaymentsForm)
+
+    const debtInputReset = () => {
+        for (let i in debtInput) {
+            debtInput[i] = ''
+        }
+        setDebtInput(debtInput)
+    }
 
     const onClickEqual = () => {
         setExactPaymentsForm(false);
@@ -43,7 +50,8 @@ export default function AddExpenseForm() {
         setPercentPaymentsForm(false);
         setExactPaymentsForm(true);
         setCreationMethod("Unequal")
-        setDebtInput({})
+        // debtInputReset()
+        // console.log('debtinput exact', debtInput)
     }
 
     const onClickPercent = () => {
@@ -51,7 +59,8 @@ export default function AddExpenseForm() {
         setEqualPaymentsForm(false);
         setPercentPaymentsForm(true);
         setCreationMethod("Unequal")
-        setDebtInput({})
+        // debtInputReset()
+        // console.log('debtinput percent', debtInput)
     }
 
     // Hooks for form input
@@ -77,7 +86,11 @@ export default function AddExpenseForm() {
 
     const paymentTypeModalClick = () => {
         setOpenSplitModal(!openSplitModal);
-        setEqualPaymentsForm(true);
+        if (splitText === "equally") {
+            setEqualPaymentsForm(true);
+        }
+        // setExactPaymentsForm(false);
+        // setPercentPaymentsForm(false);
         // setDebtInput(debtorObj)
     }
 
@@ -121,18 +134,20 @@ export default function AddExpenseForm() {
             }
             sum += parseInt(debtInput[i])
         }
-        console.log('sum:', sum)
+        // console.log('sum:', sum)
         setDebtSum(sum)
-        console.log('debt input in use effect:', debtInput)
+        // console.log('debt input in use effect:', debtInput)
         if (splitText === 'equally') {
             setRepayments(exactPayments(creator, participants, debtInput, cost))
-            console.log('in if repayments:', repayments)
+            // console.log('in if equal repayments:', repayments)
         }
         else if (exactPaymentsForm) {
             setRepayments(exactPayments(creator, participants, debtInput, cost))
+            // console.log('in if exact repayments:', repayments)
         }
         else {
             setRepayments(percentPayments(creator, participants, debtInput, cost))
+            // console.log('in if percent repayments:', repayments)
         }
     }, [debtInput])
 
@@ -144,7 +159,7 @@ export default function AddExpenseForm() {
             setDebtInput(debtorObj)
             // console.log('debtorobj in useeffect:', debtorObj)
         }
-    }, [costLength, participantsLength, exactPaymentsForm])
+    }, [costLength, participantsLength, equalPaymentsForm])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -163,7 +178,7 @@ export default function AddExpenseForm() {
         // else {
         //     //error here
         // }
-        console.log('repayments:', repayments)
+        // console.log('repayments:', repayments)
 
         const newTransaction = {
             cost,
@@ -175,7 +190,7 @@ export default function AddExpenseForm() {
             payers:`${user.id}/${cost}`,
             repayments
         }
-        console.log('new transaction', newTransaction)
+        // console.log('new transaction', newTransaction)
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
@@ -369,7 +384,7 @@ export default function AddExpenseForm() {
                             <div className="total-repayment">TOTAL</div>
                             <div className="repayment-versus-cost">
                                 %{debtSum}
-                                %{parseInt(cost) - debtSum} left
+                                %{100 - debtSum} left
                             </div>
                         </div>
                     </>

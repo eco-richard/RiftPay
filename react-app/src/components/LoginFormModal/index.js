@@ -28,9 +28,17 @@ function LoginFormModal() {
 
   const logInDemoUser = async (e) => {
     e.preventDefault()
+    //made whats commented out is what was there before
+    const data = await dispatch(login("demo@aa.io", "password"));
+    if (data) {
+      setErrors(data);
+    } else {
+        history.push("/dashboard")
+        closeModal()
+    }
 
-    return dispatch(login("demo@aa.io", "password"))
-      .then(closeModal).then(history.push("/dashboard"))
+    // return dispatch(login("demo@aa.io", "password"))
+    //   .then(closeModal).then(history.push("/dashboard"))
   }
 
   return (

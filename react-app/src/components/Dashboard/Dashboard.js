@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBalances, getFriendBalance } from '../../store/balances';
-import OpenModalButton from '../OpenModalButton';   
+import OpenModalButton from '../OpenModalButton';
 import SettleUpForm from '../SettleUpForm';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import OweYouFriendBill from '../FriendBill/OweYouFriendBill';
@@ -31,15 +31,17 @@ function Dashboard() {
         )
     }
     useEffect(() => {
-        dispatch(getBalances()); 
-        // dispatch(getFriendBalance()); 
+        dispatch(getBalances());
+        // dispatch(getFriendBalance());
     }, [dispatch])
+
+    if (!user) return <Redirect to="/"/>;
 
     if (Object.values(balances) === 0) return null;
 
     const youOweFriends = [];
     const owesYouFriends = [];
-    for (const friend of Object.values(balances.friends)) { 
+    for (const friend of Object.values(balances.friends)) {
         if (friend.balance > 0) {
             if (friend.id == user.id) {
                 continue;
@@ -49,8 +51,8 @@ function Dashboard() {
             youOweFriends.push(friend);
         }
     }
- 
-    if (!user) return <Redirect to="/"/>;
+
+    // if (!user) return <Redirect to="/"/>;
 
     return (
         <div className="column-wrapper">
@@ -64,7 +66,7 @@ function Dashboard() {
                         <div className="dashboard-header-buttons">
                             <button className="expense-button">Add an expense</button>
                             <span className="button-seperator"></span>
-                            <OpenModalButton 
+                            <OpenModalButton
                                 className="dash-settle-up-button"
                                 buttonText="Settle Up"
                                 modalComponent={<SettleUpForm />}

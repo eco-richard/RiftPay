@@ -26,7 +26,9 @@ export function exactPayments(creator, participants, debtInput, cost) {
 export function percentPayments(creator, participants, debtInput, cost) {
     let repayments = [];
     let total = 0;
-    debtInput.forEach(percent => total += percent)
+    for (let i in debtInput) {
+      total += parseInt(debtInput[i])
+    }
     if (total !== 100) {
       return "Insufficient percentages"
     }
