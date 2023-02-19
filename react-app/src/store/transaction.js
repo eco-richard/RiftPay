@@ -39,7 +39,7 @@ const remove = (transaction) => ({
 export function getAllTransactions() {
     return async (dispatch) => {
         const response = await fetch('/api/transactions/current');
-        
+
         if (response.ok) {
             const transactions = await response.json();
             dispatch(getAll(transactions))
@@ -93,7 +93,7 @@ export function updateTransaction(transactionId, transaction) {
         });
 
         if (response.ok) {
-            const transaction = response.json();
+            const transaction = await response.json();
             dispatch(update(transaction))
         }
     }
@@ -115,11 +115,10 @@ export function deleteTransaction(transaction) {
 
 const initialState = {allTransactions: {}, singleTransaction: {}}
 export default function reducer(state = initialState, action) {
-    let newState
+    let newState;
     switch (action.type) {
         case GET_TRANSACTIONS:
-            newState = {...state, allTransactions: {}, singleTransaction: {}}
-            console.log("Action.transactions: ", action.transactions);
+            newState = {allTransactions: {}, singleTransaction: {}}
             action.transactions.Transactions.forEach(transaction => {
                 newState.allTransactions[transaction.id] = transaction
             })
@@ -134,6 +133,7 @@ export default function reducer(state = initialState, action) {
                 newState.allTransactions[transaction.id] = transaction
             })
             return newState;
+            //this should not be here ^^^^
         case ADD_TRANSACTION:
             newState = {...state, allTransactions: {...state.allTransactions}}
             newState.allTransactions[action.transaction.id] = action.transaction

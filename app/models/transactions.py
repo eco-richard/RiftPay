@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .join_tables import transaction_users
 from app.models import User
-
+import sys
 class Transaction(db.Model):
     __tablename__ = "transactions"
 
@@ -56,7 +56,7 @@ class Transaction(db.Model):
         # 1. 1/1/25,1/2/25,1/3/25
         # 2. ['1/1/25', '1/2/25', '1/3/25']
         # 3. ['[1], [1], [25]']
-        repayments_list = self.repayments.split(',') 
+        repayments_list = self.repayments.split(',')
         final_repayments = []
         for repayment in repayments_list:
             loaner_id, debtor_id, amount = repayment.split('/')
@@ -68,15 +68,30 @@ class Transaction(db.Model):
                 "amount": round(float(amount), 2)
             })
         return final_repayments
-        
+
 
     def add_repayment_users(self):
         repayments = self.structure_repayments()
         for repayment in repayments:
-            user_id = repayment["debtor_id"]
+            user_id = repayment["debtor"]["id"]
             user = User.query.get(user_id)
-            user.transacations.append(self)
+            user.transactions.append(self)
             self.users.append(user)
+            db.session.commit()
+
+    def add_friends(self):
+        """
+        When participants are added to a transaction, they all
+        automatically become friends
+        """
+        for user in self.users:
+            for friend in self.users:
+                if friend in user.friends or user == friend:
+                    continue
+                else:
+                    user.friends.append(friend)
+                    friend.friends.append(user)
+
 
     def to_dict(self):
         return {

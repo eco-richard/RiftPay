@@ -6,22 +6,52 @@ import { Redirect } from 'react-router-dom';
 import SingleTransaction from './SingleTransaction';
 import OpenModalButton from '../OpenModalButton';
 import AddExpenseForm from '../AddExpenseForm';
+import SettleUpForm from '../SettleUpForm';
 import "./AllExpenses.css"
+import { getBalances } from '../../store/balances';
 
 function AllExpenses() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
-    console.log("Transactions: ", transactions);
+    const balances = useSelector(state => state.balance);
 
     useEffect(() => {
         dispatch(getAllTransactions())
+        dispatch(getBalances())
     }, [dispatch])
 
     if (!user) {
         return (<Redirect to="/"/>)
     }
-    if (transactions.length == 0) return null;
+    let totalBalanceComponent;
+    if (balances.owes > balances.owed) {
+        const total = balances.owes - balances.owed;
+        totalBalanceComponent = (
+            <div className="balance-info-container" style={{color: "rgb(255, 101, 47)"}}>
+                <div className='balance-summary'>
+                    you owe
+                </div>
+                <div className='balance-info-container'>
+                    ${total.toFixed(2)}
+                </div>
+            </div>
+        )
+    } else {
+        const total = balances.owed - balances.owes;
+        totalBalanceComponent = (
+            <div className="balance-info-container" style={{color: "rgb(91, 197, 167)"}}>
+                <div className='balance-summary'>
+                    you are owed
+                </div>
+                <div className='balance-summary-amount'>
+                    ${total.toFixed(2)}
+                </div>
+            </div>
+        )
+    }
+    if (Object.values(balances).length === 0) return null;
+    if (transactions.length === 0) return null;
 
     return (
         <div className="column-wrapper">
@@ -39,7 +69,11 @@ function AllExpenses() {
                                 modalComponent={<AddExpenseForm />}
                             ></OpenModalButton>
                             <span className="button-seperator"></span>
-                            <button>Settle Up</button>
+                            <OpenModalButton
+                                className="dash-settle-up-button"
+                                buttonText="Settle Up"
+                                modalComponent={<SettleUpForm />}
+                            ></OpenModalButton>
                         </div>
                     </div>
 
@@ -53,14 +87,7 @@ function AllExpenses() {
             <div className="right-column-container">
                 <div className="right-column-content">
                     <h2 className="your-total-balance-label">YOUR TOTAL BALANCE</h2>
-                    <div className='balance-info-container'>
-                        <div className='balance-summary'>
-                            you owe
-                        </div>
-                        <div className='balance-summary-amount'>
-                            $145.00
-                        </div>
-                    </div>
+                    {totalBalanceComponent}
                 </div>
             </div>
 

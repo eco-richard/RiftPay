@@ -52,21 +52,26 @@ class User(db.Model, UserMixin):
 
 
     def get_friends(self):
-        friend_list = [friend.simple_user() for friend in self.friends]
+        friend_list = []
+        for friend in self.friends:
+            friend_item = friend.simple_user()
+            friend_item["image"] = friend.picture
+            friend_list.append(friend_item)
+
         transactions_repayments = [transaction.structure_repayments() for transaction in self.transactions]
         balances = []
         for friend in friend_list:
             sum = 0
             for transaction in transactions_repayments:
-                user_debts = list(filter(lambda payment: payment['loaner_id'] == friend['id'] and payment['debtor_id'] == self.id, transaction))
+                user_debts = list(filter(lambda payment: payment['loaner']["id"] == friend['id'] and payment['debtor']["id"] == self.id, transaction))
                 for debt in user_debts:
                     sum -= debt['amount']
-                user_loans = list(filter(lambda payment: payment['loaner_id'] == self.id and payment['debtor_id'] == friend['id'], transaction))
+                user_loans = list(filter(lambda payment: payment['loaner']["id"] == self.id and payment['debtor']["id"] == friend['id'], transaction))
                 for loan in user_loans:
                     sum += loan['amount']
             friend['balance'] = sum
             balances.append(friend)
-        print("Balances: ", balances)
+        # print("Balances: ", balances)
         return balances
 
 
