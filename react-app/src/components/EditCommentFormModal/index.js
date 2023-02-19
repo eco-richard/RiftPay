@@ -5,7 +5,7 @@ import { useModal } from "../../context/Modal";
 import { updateCommentThunk, loadCommentsThunk } from "../../store/comment";
 import "./EditCommentForm.css";
 
-function EditCommentFormModal({comment}) {
+function EditCommentFormModal({ comment }) {
     const dispatch = useDispatch();
     const [content, setContent] = useState(comment.content);
     const { closeModal } = useModal();
@@ -32,26 +32,26 @@ function EditCommentFormModal({comment}) {
         };
 
         return dispatch(updateCommentThunk(updatedComment, comment.id))
-        .then(() => {dispatch(loadCommentsThunk(comment.transaction_id))})
-        .then(closeModal());
+            .then(() => { dispatch(loadCommentsThunk(comment.transaction_id)) })
+            .then(closeModal());
     };
     return (
-        <>
-            <h2>Edit Comment</h2>
+        <div className="edit-comment-form-container">
+            <div className="edit-comment-header">Edit Comment</div>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Comment
-                    <input
-                        type="text"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                    />
-                </label>
-                <button type="submit">
-                    Submit
+                <div className="edit-comment-label-input">
+                        <textarea
+                            className="edit-comment-input"
+                            type="text"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                        />
+                </div>
+                <button className="edit-comment-form-button" type="submit">
+                    Edit
                 </button>
             </form>
-        </>
+        </div>
     );
 }
 
