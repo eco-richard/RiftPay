@@ -33,6 +33,7 @@ function Dashboard() {
     useEffect(() => {
         dispatch(getBalances());
         // dispatch(getFriendBalance());
+        // dispatch to get all transactions here?
     }, [dispatch])
 
     if (!user) return <Redirect to="/"/>;

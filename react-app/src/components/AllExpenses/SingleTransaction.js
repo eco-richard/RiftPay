@@ -1,15 +1,22 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "./TransactionDetails";
 import './SingleTransaction.css'
 
 export default function SingleTransaction({transaction}) {
+    const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
     // console.log('user:', user)
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
     const [isClicked, setIsClicked] = useState(false);
+
+    useEffect(() => {
+        dispatch(getSingleTransaction(transaction.id))
+        //not sure if this is necessary
+    }, [dispatch])
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
     const MONTHS = [
