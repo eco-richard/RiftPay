@@ -25,145 +25,118 @@ function SplashPage() {
                             anywhere, at anytime.
                         </div>
                         <div className="icons-container">
-
                             <span>
-                            <i class="fa-solid fa-plane fa-5x"></i>
+                                <i class="fa-solid fa-plane fa-5x"></i>
                             </span>
 
                             <span>
-                            <i class="fa-solid fa-house fa-5x"></i>
+                                <i class="fa-solid fa-house fa-5x"></i>
                             </span>
 
                             <span>
-                            <i class="fa-solid fa-user-group fa-5x"></i>
+                                <i class="fa-solid fa-user-group fa-5x"></i>
                             </span>
 
                             <span>
-                            <i class="fa-solid fa-utensils fa-5x"></i>
+                                <i class="fa-solid fa-utensils fa-5x"></i>
                             </span>
 
+                            <span>
+                            <i class="fa-solid fa-file-invoice-dollar fa-5x"></i>
+                            </span>
                         </div>
                         <div className="text-details">
                             <div className="left-tile-text-description">
-                                Keep track of your shared expenses and balances
-                                with friends and family.
+                                RiftPay helps you keep track of your shared
+                                expenses and balances with housemates, trips,
+                                groups, friends, and family.
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div className="right-top-tile-container">
-                            <div className="features-list-header">header</div>
-                            <div className="features-list-container">
-                                <li>test</li>
-                                <li>test</li>
-                                <li>test</li>
-
-                            </div>
-
-                </div>
-
-            </div>
-            {/* <div className="vertical-tile-container">
-                <div className="vertical-left-container">
-                    <div className="vertical-tile-content-container">
-                        <div className="feature-text-wrapper">
-                            <div className="feature-header-wrapper">
-                                <div className="feature-header">
-                                    Track balances
-                                </div>
-                                <div className="feature-details-wrapper">
-                                    <div className="feature-details">
-                                        Keep track of shared expenses, balances,
-                                        and who owes who.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <div className="feature-image">!!! FEATURE IMAGE GOES HERE !!!</div>
-                    </div>
-                </div>
-                <div className="vertical-right-container">
-                    <div className="vertical-tile-content-container">
-                        <div className="feature-text-wrapper">
-                            <div className="feature-header-wrapper">
-                                <div className="feature-header">
-                                    Organize expenses
-                                </div>
-                                <div className="feature-details-wrapper">
-                                    <div className="feature-details">
-                                        Split expenses with any group: trips,
-                                        housemates, friends, and family.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feature-image">!!! FEATURE IMAGE GOES HERE !!!</div>
                     </div>
                 </div>
             </div>
-
-            <div className="vertical-tile-container">
-                <div className="vertical-left-container">
-                    <div className="vertical-tile-content-container">
-                        <div className="vertical-tile-content-header">
-                            <div className="feature-text-wrapper">
-                                <div className="feature-header-wrapper">
-                                    <div className="feature-header">
-                                        Add expenses easily
-                                    </div>
-                                    <div className="feature-details-wrapper">
-                                        <div className="feature-details">
-                                            Quickly add expenses on the go
-                                            before you forget who paid.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feature-image">!!! FEATURE IMAGE GOES HERE !!!</div>
-                    </div>
-                </div>
-                <div className="vertical-right-container">
-                    <div className="vertical-tile-content-container">
-                        <div className="vertical-tile-content-header">
-                            <div className="feature-text-wrapper">
-                                <div className="feature-header-wrapper">
-                                    <div className="feature-header">
-                                        Pay friends back
-                                    </div>
-                                    <div className="feature-details-wrapper">
-                                        <div className="feature-details">
-                                            Settle up with a friend and record
-                                            any cash or online payment.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feature-image">!!! FEATURE IMAGE GOES HERE !!!</div>
-                    </div>
-                </div>
-            </div> */}
-
-            {/* <div className="features-container">
-                <div className="features-header-container">
-                    <div className="features-header">
-                        The whole nine yards
+            <div className="bottom-half-container">
+                <div className="bottom-content">
+                    <div className="features-list-header">
+                        With RiftPay, you will never forget who you owe and who
+                        owes you.
                     </div>
                     <div className="features-list-container">
-                        <div className="features-list-content">
-                            <div className="single-feature">
-
-                            <li>TEST</li>
-                            <li>TEST</li>
-                            <li>TEST</li>
-
+                        <div className="left-features-column-container">
+                            <div className="features-content-container">
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-user-group"></i>
+                                        </span>
+                                        Add friends and other users
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        </span>
+                                        Split expenses and track debts
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-not-equal"></i>
+                                        </span>
+                                        Equal or unequal splits
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-percent"></i>
+                                        </span>
+                                        Split by percentage or shares
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="right-features-column-container">
+                            <div className="features-content-container">
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-calculator"></i>
+                                        </span>
+                                        Calculate total balances
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-people-group"></i>
+                                        </span>
+                                        Create expenses with multiple people
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-dollar-sign"></i>
+                                        </span>
+                                        Update existing expenses
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-user-pen"></i>
+                                        </span>
+                                        Leave comments for your friends to see
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 }
