@@ -14,7 +14,6 @@ function SignupFormModal() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
 	const { closeModal } = useModal();
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password === confirmPassword) {
@@ -32,71 +31,87 @@ function SignupFormModal() {
 	};
 
 	return (
-		<>
-			<h1>Sign Up</h1>
-			<form onSubmit={handleSubmit}>
-				<ul>
-					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
-					))}
-				</ul>
-				<label>
-					First Name
-					<input
-						type="text"
-						value={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
-						required
-					/>
-				</label>
-				<label>
-					Last Name
-					<input
-						type="text"
-						value={lastName}
-						onChange={(e) => setLastName(e.target.value)}
-						required
-					/>
-				</label>
-				<label>
-					Email
-					<input
-						type="text"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
-				</label>
-				{/* <label>
-					Username
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						required
-					/>
-				</label> */}
-				<label>
-					Password
-					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-				</label>
-				<label>
-					Confirm Password
-					<input
-						type="password"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						required
-					/>
-				</label>
-				<button type="submit">Sign Up</button>
-			</form>
-		</>
+		<div className="signup-form-container">
+			<div className="signup-left-column-container">
+				ICON GOES HERE
+			</div>
+			<div className="signup-right-column-container">
+				<div className="signup-form-header-and-body">
+					<div className="signup-form-header">INTRODUCE YOURSELF</div>
+					<form className="signup-form-body" onSubmit={handleSubmit}>
+						<ul className="signup-errors-container">
+							{errors.map((error, idx) => (
+								<li key={idx}>{error}</li>
+							))}
+						</ul>
+						<div className="signup-label-input">
+							<label>
+								My First Name is:
+								<input
+									className="signup-form-input-field"
+									type="text"
+									value={firstName}
+									onChange={(e) => setFirstName(e.target.value)}
+									required
+								/>
+							</label>
+						</div>
+						<div className="signup-label-input">
+							<label>
+								My Last Name is:
+								<input
+									className="signup-form-input-field"
+									type="text"
+									value={lastName}
+									onChange={(e) => setLastName(e.target.value)}
+									required
+								/>
+							</label>
+
+						</div>
+						<div className="signup-label-input">
+							<label>
+								Here's my email address:
+								<input
+									className="signup-form-input-field"
+									type="text"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									required
+								/>
+							</label>
+
+						</div>
+						<div className="signup-label-input">
+							<label>
+								And here's my password:
+								<input
+									className="signup-form-input-field"
+									type="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									required
+								/>
+							</label>
+
+						</div>
+						<div className="signup-label-input">
+							<label>
+								Confirm Password
+								<input
+									className="signup-form-input-field"
+									type="password"
+									value={confirmPassword}
+									onChange={(e) => setConfirmPassword(e.target.value)}
+									required
+								/>
+							</label>
+						</div>
+						<button className="signup-form-button" type="submit">Sign Me Up!</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	);
 }
 
