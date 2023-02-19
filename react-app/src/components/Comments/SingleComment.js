@@ -14,32 +14,45 @@ function SingleComment({ comment }) {
             dispatch(removeCommentThunk(comment.id));
         }
     };
+    // DATE PARSER
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const dateArr = comment.created_at.split("/")
+    const day = dateArr[1]
+    // console.log(dateArr)
+    const monthIdx = parseInt(dateArr[0]) - 1
+    const parsedDate = `${monthNames[monthIdx]} ${day}`
 
+
+    // END OF DATE PARSER
     if (!comment.user) return null;
     return (
         <div className="single-comment-wrapper">
-            <div className="single-comment-container">
-                <div className="single-comment-header">
+            <div className="single-comment-header">
+                <div className="commenter-name-date">
                     <div className="commenter-name">
                         {comment.user.first_name} {comment.user.last_name}
                     </div>
-                    <span className="comment-date">{comment.created_at}</span>
+                    <div className="comment-date">
+                        {parsedDate}
+                    </div>
+                </div>
+                <div className="single-comment-buttons">
                     <div className="edit-comment-button">
                         <OpenModalButton
-                            buttonText="E"
+                            buttonText="Edit"
                             modalComponent={<EditCommentFormModal comment={comment} />}
                         />
                     </div>
-                    <div
+                    <button
                         className="delete-comment-button"
-                        onClick={removeCommentHandleCLick}
-                    >
+                        onClick={removeCommentHandleCLick}>
                         X
-                    </div>
+                    </button>
                 </div>
-
-                <div className="single-comment-content">{comment.content}</div>
             </div>
+            <div className="single-comment-content">{comment.content}</div>
         </div>
     );
 }

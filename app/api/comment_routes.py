@@ -71,11 +71,12 @@ def update_comment(comment_id):
         comment_content = form.data["content"]
         print(f"\n\n\n COMMENT CONTENT:", type(comment_content))
 
-        comment.content=form.data["content"],
+        comment.content=form.data["content"]
 
         comment.updated_at=form.data["updated_at"]
         print(f"\n\n\n COMMENT:", comment.to_dict())
 
+        
         db.session.commit()
         print(f"\n\n\n NEWCOMMENT:", comment.to_dict())
         return comment.to_dict()

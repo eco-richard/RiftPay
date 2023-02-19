@@ -1,0 +1,45 @@
+.single-comment-wrapper{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3% 2%;;
+    background: #fff;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+.single-comment-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1%
+}
+.commenter-name-date{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    width: 80%;
+}
+.commenter-name{
+    margin-right: 2%;
+    font-weight: bold;
+}
+.comment-date{
+    margin-right: 2%;
+    font-size: 10px;;
+    color: #999
+}
+.single-comment-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    width: 24%;
+}
+.delete-comment-button{
+    border: 1px solid black;
+    border-radius: 4px;
+    word-wrap: break-word;
+    background: #fff;
+    color: red;
+}

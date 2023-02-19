@@ -1,0 +1,28 @@
+.transaction-details-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: 3%;
+}
+.transaction-details-header{
+    border-bottom: 1px solid rgb(145, 145, 153);
+    padding-bottom: 3%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.transaction-details-header-info{
+    margin-left: 2%;
+}
+.transaction-details-body-wrapper{
+    padding-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.left-column-wrapper{
+    width: 48%;
+}
+.right-column-wrapper{
+    width: 48%;
+}
