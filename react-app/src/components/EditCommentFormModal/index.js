@@ -16,6 +16,7 @@ function EditCommentFormModal({comment}) {
             window.alert(
                 "Please enter a valid comment that is less than 500 characters."
             );
+            return
         }
 
         const today = new Date();
@@ -39,7 +40,7 @@ function EditCommentFormModal({comment}) {
             <h2>Edit Comment</h2>
             <form onSubmit={handleSubmit}>
                 <label>
-                    test
+                    Comment
                     <input
                         type="text"
                         value={content}

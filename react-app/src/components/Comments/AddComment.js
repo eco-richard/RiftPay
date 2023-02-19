@@ -20,6 +20,7 @@ function AddComment({ transaction_id }) {
             window.alert(
                 "Please enter a valid comment that is less than 500 characters."
             );
+            return
         }
 
         const today = new Date();
