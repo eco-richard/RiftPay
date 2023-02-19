@@ -1,0 +1,28 @@
+.login-form-container{
+    display: flex;
+    flex-direction: column;
+}
+.login-header{
+    font-size: 1.75rem;
+}
+.login-inputs-container{
+    display: flex;
+    flex-direction: column;
+}
+.login-input {
+    height: 24px;
+    margin-bottom: 5%;
+    width: 96%;
+}
+.login-buttons-container{
+    display: flex;
+    flex-direction: column;
+}
+.login-form-button {
+    background-color: #18A582;
+    height: 24px;
+    border-radius: 5px;
+    color: white;
+    border: 0 solid;
+    margin-bottom: 5%;
+}
