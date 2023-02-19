@@ -1,0 +1,128 @@
+/* .splash-page-wrapper {
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+} */
+
+.splash-header-container {
+    width: 100vw;
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-weight: 550;
+}
+
+.splash-header-content {
+    font-size: 30px;
+}
+
+.top-two-tile-container {
+    display: flex;
+}
+
+
+.left-top-tile-container {
+    width: 100vw;
+    height: 55vh;
+    min-height: 5vh;
+    border-style: solid;
+}
+
+.left-top-tile-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.left-tile-text {
+    font-size: 38px;
+    font-weight: 550;
+    color: rgb(55, 59, 63)
+}
+
+.text-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.left-tile-text-description {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.left-tile-text-description-bottom {
+    font-size: 28px;
+}
+
+.right-top-tile-container {
+    width: 100vw;
+    height: 55vh;
+    border-style: solid;
+}
+
+.vertical-tile-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.vertical-left-container {
+    border-style: solid;
+    width: 100vw;
+    height: 75vh
+}
+
+.vertical-right-container {
+    border-style: solid;
+    width: 100vw;
+    height: 75vh;
+}
+
+.vertical-tile-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%
+}
+
+.feature-text-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.feature-header-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    width: 320px;
+    height: 125px;
+    margin-top: 25px;
+    border-style: solid;
+}
+
+.feature-header {
+    font-size: 26px;
+    font-weight: 650;
+    border-style: solid
+}
+
+.feature-details-wrapper {
+    border-style: solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.feature-details {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    width: 100%;
+    text-align: center;
+    border-style: solid;
+    font-size: 18px;
+}
