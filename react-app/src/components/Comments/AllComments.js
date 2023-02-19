@@ -10,23 +10,29 @@ function AllComments({transaction_id}) {
 
     const dispatch = useDispatch()
 
-    const comments = useSelector(state => state.comments)
+    const comments = useSelector(state => state.comments.allCommentsByTransactionId[transaction_id])
+    console.log("comments_state:", comments)
 
     useEffect(() => {
         dispatch(loadCommentsThunk(transaction_id));
-        return () => dispatch(clearComments())
+        // return () => dispatch(clearComments())
     },[dispatch, transaction_id])
 
     if (!comments) {
         return null;
     }
-    const allComments = comments.allComments
 
-    if (!allComments) {
-        return null;
-    }
+    // const allComments = comments.allCommentsByTransactionId
 
-    const commentsArr = Object.values(allComments)
+    // if (!allComments) {
+    //     return null;
+    // }
+
+    // if (!allComments[transaction_id]) {
+    //     return null;
+    // }
+
+    const commentsArr = Object.values(comments)
     // console.log(allComments)
     // const commentsArr = Object.values(allComments)
     // console.log("commentsArr", commentsArr)

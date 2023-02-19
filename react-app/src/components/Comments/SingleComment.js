@@ -11,7 +11,7 @@ function SingleComment({ comment }) {
 
     const removeCommentHandleCLick = async (e) => {
         if (window.confirm("Are you sure you want to remove this comment?")) {
-            dispatch(removeCommentThunk(comment.id));
+            dispatch(removeCommentThunk(comment));
         }
     };
     // DATE PARSER

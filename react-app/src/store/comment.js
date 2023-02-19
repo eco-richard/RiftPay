@@ -6,10 +6,11 @@ const UPDATE_COMMENT = "comments/UPDATE_COMMENT"
 const CLEAR_COMMENTS = "reviews/CLEAR_COMMENTS"
 
 // action creators
-const loadComments = (comments) => {
+const loadComments = (comments, transaction_id) => {
     return {
         type: GET_ALL_COMMENTS,
-        comments
+        comments,
+        transaction_id
     }
 }
 
@@ -27,10 +28,10 @@ const updateComment = (comment) => {
     }
 }
 
-const removeComment = (commentId) => {
+const removeComment = (comment) => {
     return {
         type: REMOVE_COMMENT,
-        commentId
+        comment
     }
 }
 
@@ -45,7 +46,7 @@ export const loadCommentsThunk = (transaction_id) => async dispatch => {
     const response = await fetch(`/api/comments/${transaction_id}`)
     if (response.ok) {
         const comments = await response.json()
-        dispatch(loadComments(comments))
+        dispatch(loadComments(comments, transaction_id))
         return comments
     }
 }
@@ -58,7 +59,7 @@ export const addCommentThunk = (comment, transaction_id) => async dispatch => {
     })
     if (response.ok){
         const newComment = await response.json()
-        console.log("newComment in thunk", newComment)
+        // console.log("newComment in thunk", newComment)
         dispatch(addComment(newComment))
         return newComment
     }
@@ -73,28 +74,28 @@ export const updateCommentThunk = (comment, comment_id) => async dispatch => {
     })
 
     if (response.ok) {
-        console.log("RESPONSE:", response)
+        // console.log("RESPONSE:", response)
         const updatedComment = await response.json()
         dispatch(updateComment(updatedComment))
         return updatedComment
     }
 }
 
-export const removeCommentThunk = (comment_id) => async dispatch => {
-    const response = await fetch(`/api/comments/${comment_id}`, {
+export const removeCommentThunk = (comment) => async dispatch => {
+    const response = await fetch(`/api/comments/${comment.id}`, {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
     })
     if (response.ok) {
         const badComment = await response.json()
-        console.log("badComment:", badComment)
-        dispatch(removeComment(comment_id))
+        // console.log("badComment:", badComment)
+        dispatch(removeComment(comment))
         return badComment
     }
 }
 
 const initialState = {
-    allComments: {},
+    allCommentsByTransactionId: {},
     singleComment: {}
 }
 
@@ -102,33 +103,45 @@ const comments = (state = initialState, action) => {
     let newState = {}
     switch (action.type) {
         case GET_ALL_COMMENTS: {
+            let normalizedTransactions = {...state.allCommentsByTransactionId}
             let normalizedComments = {}
             action.comments.comments.forEach((comment) => {
                 normalizedComments[comment.id] = comment
-                // newState.allComments[comment.id] = comment
+                // newState.allCommentsByTransactionId[comment.id] = comment
             })
-            newState.allComments = normalizedComments
+            normalizedTransactions[action.transaction_id] = normalizedComments
+            newState.allCommentsByTransactionId = normalizedTransactions
             return newState
         }
         case ADD_COMMENT: {
-            newState.allComments = {...state.allComments}
-            newState.allComments[action.comment.id] = action.comment
+            const transactionId = action.comment.transaction_id
+            const commentId = action.comment.id
+            newState.allCommentsByTransactionId = {...state.allCommentsByTransactionId}
+            newState.allCommentsByTransactionId[transactionId] = {...state.allCommentsByTransactionId[transactionId]}
+            newState.allCommentsByTransactionId[transactionId][commentId] = action.comment
             return newState
         }
         case REMOVE_COMMENT: {
-            newState.allComments = {...state.allComments}
-            delete newState.allComments[action.commentId]
+            const transactionId = action.comment.transaction_id
+            const commentId = action.comment.id
+            newState.allCommentsByTransactionId = {...state.allCommentsByTransactionId}
+            newState.allCommentsByTransactionId[transactionId] = {...state.allCommentsByTransactionId[transactionId]}
+            delete newState.allCommentsByTransactionId[action.comment.transaction_id][action.comment.id]
             return newState
         }
         case UPDATE_COMMENT: {
-            newState.allComments = {...state.allComments, ...state.singleComment}
-            newState.allComments[action.comment.id] = action.comment
+            const transactionId = action.comment.transaction_id
+            const commentId = action.comment.id
+            newState.allCommentsByTransactionId = {...state.allCommentsByTransactionId}
+            newState.singleComment = action.comment
+            // newState.allCommentsByTransactionId[transactionId] = {...state.allCommentsByTransactionId[transactionId]}
+            newState.allCommentsByTransactionId[transactionId][commentId] = action.comment
             newState.singleComment = action.comment
             return newState
         }
         case CLEAR_COMMENTS: {
             newState = {...state}
-            newState.allComments = {}
+            newState.allCommentsByTransactionId = {}
             return newState
         }
         default:
