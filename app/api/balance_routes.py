@@ -12,7 +12,7 @@ def get_total_balance():
     """
     Get the total balance of the currently logged in user
     """
-    return current_user.user_friends
+    return current_user.user_friends()
 
 @balance_routes.route('/friend/<int:friend_id>')
 @login_required

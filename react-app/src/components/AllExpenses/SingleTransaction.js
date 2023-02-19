@@ -1,13 +1,24 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "./TransactionDetails";
 import './SingleTransaction.css'
 
 export default function SingleTransaction({transaction}) {
+    const dispatch = useDispatch();
+    // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
+    // console.log('user:', user)
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
     const [isClicked, setIsClicked] = useState(false);
 
+    // useEffect(() => {
+    //     dispatch(getSingleTransaction(transaction.id))
+    //     //not sure if this is necessary
+    // }, [dispatch])
+
+    const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
     const MONTHS = [
         "JAN",
         "FEB",
@@ -23,11 +34,18 @@ export default function SingleTransaction({transaction}) {
         "DEC"
     ]
 
+    if (!user) return <Redirect to="/"/>;
+    //had to add because log out was not working
+
+    // console.log('created at in single transaction:', transaction.created_at)
+    // console.log('transaction in single transaction:', transaction)
     const monthIdx = Number(transaction.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
     const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
+    // optional chaining here?
+    // console.log('single repayment:', singleRepayment)
 
     let lentNameFull = "";
     let lentAmount;
@@ -43,9 +61,10 @@ export default function SingleTransaction({transaction}) {
         }
 
     } else {
-        payerName = payer.payer.first_name + payer.payer.last_name[0] + '.';
+        payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment.amount;
+        //optional chaining here?
     }
 
     return (
@@ -66,7 +85,7 @@ export default function SingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className="single-expense-image">
-                    <img src={transaction.image} alt="transaction"/>
+                    <img src={transactionRecipent} alt=""/>
                 </div>
                 <div className="single-expense-name-desc">
                     <div className="single-expense-desc">
