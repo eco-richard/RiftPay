@@ -15,19 +15,19 @@ function AddFriendFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(addFriendThunk(email))
-    // if (data) {
-    //   setErrors(data);
-    // } else {
-    //     closeModal()
-    // }
-    closeModal()
-    history.push("/dashboard")
+    const data = await dispatch(addFriendThunk(email))
+    if (data) {
+      setErrors(data);
+    } else {
+        closeModal()
+        history.push("/dashboard")
+    }
   };
 
 
   return (
     <>
+    <div className="add-friend-form-container">
       <h1>Add Friend</h1>
       <form onSubmit={handleSubmit}>
         <ul>
@@ -46,6 +46,7 @@ function AddFriendFormModal() {
         </label>
         <button type="submit">Add Friend</button>
       </form>
+    </div>
     </>
   );
 }
