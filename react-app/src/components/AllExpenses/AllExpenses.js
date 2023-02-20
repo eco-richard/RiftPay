@@ -53,6 +53,7 @@ function AllExpenses() {
     if (Object.values(balances).length === 0) return null;
     if (transactions.length === 0) return null;
 
+    transactions.reverse();
     return (
         <div className="column-wrapper">
             <div className="left-column-container">

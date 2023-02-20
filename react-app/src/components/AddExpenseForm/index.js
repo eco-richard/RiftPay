@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 import { loadFriendsThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
-import { createTransaction } from "../../store/transaction";
+import { createTransaction, getAllTransactions } from "../../store/transaction";
 
 export default function AddExpenseForm() {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ export default function AddExpenseForm() {
     const creator = user;
     const creatorId = creator.id
     const createdAt = new Date();
-    const stringDate = createdAt.toISOString().slice(0,10)
+    const stringDate = createdAt.toISOString().slice(0, 10)
     // console.log('stringdate:', stringDate)
 
     // console.log("Friends: ", friends);
@@ -65,7 +65,7 @@ export default function AddExpenseForm() {
     }
 
     // Hooks for form input
-    const [cost, setCost] = useState("");
+    const [cost, setCost] = useState(0);
     let costLength = cost.length
     const [creationMethod, setCreationMethod] = useState("Equal");
     const [description, setDescription] = useState("");
@@ -127,7 +127,7 @@ export default function AddExpenseForm() {
         const newDebtValue = e.target.value;
         // debtorObj[participant] = newDebtValue;
         // console.log('debtorObj in user input change:', debtorObj)
-        setDebtInput({...debtInput, [participant]: newDebtValue})
+        setDebtInput({ ...debtInput, [participant]: newDebtValue })
         // console.log('name:', participant)
         // console.log('newdebtvalue:', newDebtValue)
     };
@@ -162,23 +162,23 @@ export default function AddExpenseForm() {
         }
     }, [debtInput])
 
-     // everytime there is a cost or participants input change, calculate equal share
+    // everytime there is a cost or participants input change, calculate equal share
     useEffect(() => {
         if (splitText === "equally") {
             // rounding when needed
-            const equalShare = Math.round(((cost/participantsLength) + Number.EPSILON) * 100) / 100;
+            const equalShare = Math.round(((cost / participantsLength) + Number.EPSILON) * 100) / 100;
             for (let i = 0; i < participantsLength; i++) {
-                if (i === participantsLength-1) {
+                if (i === participantsLength - 1) {
                     let total = 0;
                     for (let j in debtorObj) {
                         total += parseFloat(debtorObj[j]);
                     }
-                    debtorObj[participants[i]] = `${cost-total}`
+                    debtorObj[participants[i]] = `${cost - total}`
                 }
                 else {
                     debtorObj[participants[i]] = `${equalShare}`
                 }
-            setDebtInput({...debtorObj})
+                setDebtInput({ ...debtorObj })
             }
         }
         else {
@@ -223,8 +223,8 @@ export default function AddExpenseForm() {
             description,
             note,
             image,
-            created_at:stringDate,
-            payers:`${user.id}/${cost}`,
+            created_at: stringDate,
+            payers: `${user.id}/${cost}`,
             repayments
         }
         // console.log('new transaction', newTransaction)
@@ -239,7 +239,7 @@ export default function AddExpenseForm() {
                     // else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-
+        dispatch(getAllTransactions())
     }
 
     const getParticipantName = (participant) => {
@@ -286,6 +286,7 @@ export default function AddExpenseForm() {
     // }, [participantsLength])
 
 
+
     if (friends.length === 0) return null;
 
     return (
@@ -298,23 +299,23 @@ export default function AddExpenseForm() {
                             <button onClick={closeModal}>X</button>
                         </div>
                     </div>
-                    <div className="add-expense-form-body-wrapper">
-                        <form onSubmit={handleSubmit} >
-                            <div className="participants-selection">
+                    <form className="add-expense-form-body-wrapper" onSubmit={handleSubmit}>
+                        <div className="participants-selection">
                             <label>
                                 With you and:
-                            <select
-                                value={participants}
-                                multiple="true"
-                                onChange={(e) => addParticipants(e)}>
-                                {friends.map(friend => (
-                                    <option value={friend.id}>{`${friend.first_name} ${friend.last_name}`}</option>
-                                ))}
-                            </select>
+                                <select
+                                    value={participants}
+                                    multiple="true"
+                                    onChange={(e) => addParticipants(e)}>
+                                    {friends.map(friend => (
+                                        <option value={friend.id}>{`${friend.first_name} ${friend.last_name}`}</option>
+                                    ))}
+                                </select>
                             </label>
-                            </div>
-                            <div className="reciept-image">
-                            </div>
+                        </div>
+                        <div className="reciept-image">
+                        </div>
+                        <div className="desription-amount-container">
                             <div className="form-description-div">
                                 <input
                                     className="form-description"
@@ -326,28 +327,29 @@ export default function AddExpenseForm() {
                                 />
                             </div>
                             <div className="form-amount-div">
-                                $<input
+                                <div className="currency-code">$</div>
+                                <input
                                     className="form-amount"
                                     type="number"
                                     value={cost}
                                     onChange={(e) => setCost(e.target.value)}
                                     placeholder="0.00"
                                     required
-                                />
+                                    />
                             </div>
-                            <div className="form-payment-option-div">
-                                Paid by you and split <button className="payment-option-button" type="button" onClick={paymentTypeModalClick}>{splitText}</button>
-                            </div>
-                            <div className='form-image-notes'>
-                                <button type="button" onClick={openImagesNotes}>Add images/notes</button>
-                            </div>
-                            <div className="form-cancel-save-div">
-                                <button className="cancel-button" onClick={closeModal}>Cancel</button>
-                                <button className="save-button" type="submit">Save</button>
+                        </div>
+                        <div className="form-payment-option-div">
+                            Paid by you and split <button className="payment-option-button" type="button" onClick={paymentTypeModalClick}>{splitText}</button>
+                        </div>
+                        <div className='form-image-notes'>
+                            <button type="button" onClick={openImagesNotes}>Add images/notes</button>
+                        </div>
+                        <div className="form-cancel-save-div">
+                            <button className="cancel-button" onClick={closeModal}>Cancel</button>
+                            <button className="save-button" type="submit">Save</button>
 
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
                 {openSplitModal && (
                 <div className="choose-split-options-div">
@@ -364,34 +366,34 @@ export default function AddExpenseForm() {
                             <button onClick={onClickPercent}>%</button>
                         </div>
                         {equalPaymentsForm && (
-                            <>
+                            <div className="split-body-wrapper">
                                 <div className="equal-repayments">
                                     {participants.map(participant => (
                                         <div className="single-debtor">
-                                            <div>{getParticipantName(participant)}</div>
-                                            <div>${debtInput[participant]}</div>
+                                            <div className="debtor-name">{getParticipantName(participant)}</div>
+                                            <div className="debtor-amount">${debtInput[participant]}</div>
                                         </div>
                                         ))}
                                 </div>
                                 <div className="aggregate-repayment">
                                     <div className="total-repayment">TOTAL</div>
-                                    <div className="repayment-versus-cost">
-                                        ${debtSum}
-                                        ${parseFloat(cost) - debtSum} left
+                                    <div className="repayment-vs-cost">
+                                        <div className="repayment-amount">${debtSum}</div>
+                                        <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )}
                         {exactPaymentsForm && (
-                            <>
+                            <div className="split-body-wrapper">
                                 <form className="exact-repayments">
                                 {participants.map(participant => (
                                     <div className="single-debtor">
-                                        <div>{getParticipantName(participant)}</div>
+                                        <div className="debtor-name">{getParticipantName(participant)}</div>
                                         <div className="debt" key={participant}>
                                             <label> $
                                             <input
-                                                className="debt-amount"
+                                                className="debtor-amount-input"
                                                 type="number"
                                                 value={debtInput[participant] || ''}
                                                 name={participant}
@@ -405,29 +407,29 @@ export default function AddExpenseForm() {
                                 </form>
                                 <div className="aggregate-repayment">
                                     <div className="total-repayment">TOTAL</div>
-                                    <div className="repayment-versus-cost">
-                                        ${debtSum}
-                                        ${parseFloat(cost) - debtSum} left
+                                    <div className="repayment-vs-cost">
+                                        <div className="repayment-amount">${debtSum}</div>
+                                        <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )}
                         {percentPaymentsForm && (
-                            <>
+                            <div className="split-body-wrapper">
                                 <form className="percent-repayments">
                                 {participants.map(participant => (
                                     <div className="single-debtor">
-                                        <div>{getParticipantName(participant)}</div>
+                                        <div className="debtor-name">{getParticipantName(participant)}</div>
                                         <div className="debt">
                                             <label> %
-                                            <input
-                                                className="debt-amount"
-                                                type="number"
-                                                value={debtInput[participant] || ''}
-                                                name={participant}
-                                                onChange={handleUserInputChange}
+                                                <input
+                                                    className="debtor-amount-input"
+                                                    type="number"
+                                                    value={debtInput[participant] || ''}
+                                                    name={participant}
+                                                    onChange={handleUserInputChange}
                                                 // placeholder={cost/participants.length}
-                                            />
+                                                />%
                                             </label>
                                         </div>
                                     </div>
@@ -436,11 +438,11 @@ export default function AddExpenseForm() {
                                 <div className="aggregate-repayment">
                                     <div className="total-repayment">TOTAL</div>
                                     <div className="repayment-versus-cost">
-                                        %{debtSum}
-                                        %{100.00 - debtSum} left
+                                        <div className="repayment-amount">{debtSum}%</div>
+                                        <div className="cost-amount">{100.00 - debtSum}% left</div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>)}
@@ -484,3 +486,5 @@ export default function AddExpenseForm() {
         </>
     );
 }
+// %{debtSum}
+// %{100.00 - debtSum} left

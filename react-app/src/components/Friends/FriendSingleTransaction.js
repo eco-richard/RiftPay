@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getSingleTransaction, deleteTransaction } from "../../store/transaction";
-import TransactionDetails from "./TransactionDetails";
-import './SingleTransaction.css'
+import { getSingleTransaction } from "../../store/transaction";
+import TransactionDetails from "../AllExpenses/TransactionDetails";
 
-export default function SingleTransaction({transaction}) {
+export default function FriendSingleTransaction({transaction}) {
     const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
@@ -17,11 +16,6 @@ export default function SingleTransaction({transaction}) {
     //     dispatch(getSingleTransaction(transaction.id))
     //     //not sure if this is necessary
     // }, [dispatch])
-    // add this and then a use selector for single transaction?
-
-    const deleteTransactionFunction = async (transaction) => {
-        return dispatch(deleteTransaction(transaction));
-    }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
     const MONTHS = [
@@ -44,21 +38,20 @@ export default function SingleTransaction({transaction}) {
 
     // console.log('created at in single transaction:', transaction.created_at)
     // console.log('transaction in single transaction:', transaction)
-    const monthIdx = Number(transaction?.created_at.split("-")[1])-1
+    const monthIdx = Number(transaction.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
     const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
     // optional chaining here?
-    console.log('single repayment:', singleRepayment)
+    // console.log('single repayment:', singleRepayment)
 
-    if (singleRepayment === undefined) return null;
     let lentNameFull = "";
     let lentAmount;
     let payerName = "";
     if (payer.payer.id === user.id) {
         payerName = "you"
-        lentAmount = payer.amount - singleRepayment?.amount
+        lentAmount = singleRepayment.amount
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -69,10 +62,9 @@ export default function SingleTransaction({transaction}) {
     } else {
         payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
-        lentAmount = singleRepayment?.amount;
+        lentAmount = singleRepayment.amount;
         //optional chaining here?
     }
-
 
     return (
         <>
@@ -116,11 +108,11 @@ export default function SingleTransaction({transaction}) {
                         {lentNameFull}
                     </div>
                     <div className="single-expense-loaner-amount">
-                        ${lentAmount?.toFixed(2)}
+                        ${lentAmount.toFixed(2)}
                     </div>
                 </div>
                 <div className={renderDelete}>
-                    <button onClick={() =>deleteTransactionFunction(transaction)}>X</button>
+                    X
                 </div>
             </div>
         </div>
