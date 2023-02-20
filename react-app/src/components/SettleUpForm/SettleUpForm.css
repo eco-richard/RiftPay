@@ -66,8 +66,9 @@
 }
 
 .choose-recipient-wrapper {
-  height: 440px;
+  /* height: 440px; */
   width: 350px;
+  max-height: fit-content;
   margin-left: 15px;
   display: flex;
   flex-direction: column;
@@ -116,4 +117,66 @@
   width: 40px;
   border: 1px solid black;
   height: 30px;
+}
+
+
+.settle-up-form-images {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.settle-up-form-user-image-div img {
+  border-radius: 20px;
+  height: 50px;
+  width: 50px;
+}
+
+.settle-up-form-arrow-div img {
+  height: 20px;
+  width: 30px;
+}
+
+.settle-up-form-friend-image-div img {
+  border-radius: 20px;
+  height: 50px;
+  width: 50px;
+}
+
+.settle-up-you-paid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settle-up-amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.settle-up-date-notes-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.settle-up-date {
+  padding-right: 10px;
+}
+
+.settle-up-form-footer {
+  position:absolute;
+  bottom: 0px;
+}
+
+.settle-up-form-body {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 20px;
 }
