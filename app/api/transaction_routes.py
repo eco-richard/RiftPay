@@ -108,7 +108,7 @@ def get_single_transaction(transaction_id):
 @transaction_routes.route("/<int:transaction_id>", methods=["DELETE"])
 @login_required
 def delete_single_transaction(transaction_id):
-    transaction = Transaction.query.get(transaction_id)
+    transaction = Transaction.query.get_or_404(transaction_id)
 
     if transaction is None:
         return {"error": f"No transaction found with id {transaction_id}"}

@@ -6,7 +6,7 @@ import AddComment from "./AddComment";
 import SingleComment from "./SingleComment";
 import './AllComments.css'
 
-function AllComments({transaction_id}) {
+function AllComments({transaction_id, transactionNote}) {
 
     const dispatch = useDispatch()
 
@@ -42,6 +42,14 @@ function AllComments({transaction_id}) {
         <div className="all-comments-wrapper">
             <div className="all-comments-header">
                 *icon* Notes and Comments
+            </div>
+            <div className="transaction-note-container">
+                <div className="note-header">
+                    Note
+                </div>
+                <div className="note-content">
+                    {transactionNote}
+                </div>
             </div>
             <div className="single-comment-container">
                 <div className="single-comment-content">

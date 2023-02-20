@@ -66,7 +66,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                 </div>
                 <div className="right-column-wrapper">
                     <div className="transaction-details-comments">
-                        <AllComments transaction_id={transaction.id} />
+                        <AllComments transaction_id={transaction.id} transactionNote={transaction.note}/>
                     </div>
                 </div>
             </div>
