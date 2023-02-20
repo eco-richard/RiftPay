@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import { getAllTransactions } from '../../store/transaction';
@@ -7,50 +7,109 @@ import SingleTransaction from './SingleTransaction';
 import OpenModalButton from '../OpenModalButton';
 import AddExpenseForm from '../AddExpenseForm';
 import SettleUpForm from '../SettleUpForm';
+import { loadFriendsThunk } from "../../store/friends";
 import "./AllExpenses.css"
-import { getBalances } from '../../store/balances';
+// import { getBalances } from '../../store/balances';
 
 function AllExpenses() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
-    const balances = useSelector(state => state.balance);
+    const transactionsLength = transactions.length
+    const friendsObj = useSelector((state) => state.friends.friends)
+    const friends = Object.values(friendsObj)
+    // const balances = useSelector(state => state.balance);
+
+    let totalLoan = 0;
+    let totalDebt = 0;
+    let loanerFriend = [];
+    let debtorFriend = [];
+    let placeholderFriend = []
+
+    for (let i = 0; i < friends.length; i++) {
+        if (friends[i].balance > 0) {
+            totalLoan += parseInt(friends[i].balance)
+            loanerFriend.push(friends[i])
+        }
+        else if (friends[i].balance < 0){
+            totalDebt -= parseInt(friends[i].balance)
+            debtorFriend.push(friends[i])
+        }
+        else {
+            placeholderFriend.push(friends[i])
+        }
+    }
+
+    const totalBalance = Math.abs(totalLoan - totalDebt)
+    // console.log('totalDebt', totalDebt)
+    // console.log('totalLoan', totalLoan)
+    // console.log('totalBalance', totalBalance)
+    // console.log('loaner friends:', loanerFriend)
+    // console.log('debtor friends:', debtorFriend)
+    useEffect(() => {
+        dispatch(loadFriendsThunk())
+    }, [transactionsLength])
+
 
     useEffect(() => {
         dispatch(getAllTransactions())
-        dispatch(getBalances())
+        // dispatch(getBalances())
     }, [dispatch])
+
+    let colorVar;
+    if (totalLoan > totalDebt) {
+        colorVar = "rgb(91, 197, 167)"
+    }
+    else if (totalDebt > totalLoan) {
+        colorVar = "rgb(255, 101, 47)"
+    }
+    else {
+        colorVar = "rgb(91, 197, 167)"
+    }
+
+    const oweOrOwed = () => {
+        if (totalLoan > totalDebt) {
+            return 'you are owed'
+        }
+        else if (totalDebt > totalLoan) {
+            return 'you owe'
+        }
+        else {
+            return 'you are settled up'
+        }
+    }
+    // console.log('colorVar:', colorVar)
 
     if (!user) {
         return (<Redirect to="/"/>)
     }
     let totalBalanceComponent;
-    if (balances.owes > balances.owed) {
-        const total = balances.owes - balances.owed;
+    // if (balances.owes > balances.owed) {
+    //     const total = balances.owes - balances.owed;
         totalBalanceComponent = (
-            <div className="balance-info-container" style={{color: "rgb(255, 101, 47)"}}>
+            <div className="balance-info-container" style={{color: colorVar}}>
                 <div className='balance-summary'>
-                    you owe
+                    {oweOrOwed()}
                 </div>
                 <div className='balance-info-container'>
-                    ${total.toFixed(2)}
+                    ${totalBalance.toFixed(2)}
                 </div>
             </div>
         )
-    } else {
-        const total = balances.owed - balances.owes;
-        totalBalanceComponent = (
-            <div className="balance-info-container" style={{color: "rgb(91, 197, 167)"}}>
-                <div className='balance-summary'>
-                    you are owed
-                </div>
-                <div className='balance-summary-amount'>
-                    ${total.toFixed(2)}
-                </div>
-            </div>
-        )
-    }
-    if (Object.values(balances).length === 0) return null;
+    // } else {
+    //     const total = balances.owed - balances.owes;
+    //     totalBalanceComponent = (
+    //         <div className="balance-info-container" style={{color: "rgb(91, 197, 167)"}}>
+    //             <div className='balance-summary'>
+    //                 you are owed
+    //             </div>
+    //             <div className='balance-summary-amount'>
+    //                 ${total.toFixed(2)}
+    //             </div>
+    //         </div>
+    //     )
+    // }
+    // if (Object.values(balances).length === 0) return null;
     if (transactions.length === 0) return null;
 
     transactions.reverse();

@@ -5,7 +5,7 @@ import { loadFriendsThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
 import { createTransaction, getAllTransactions } from "../../store/transaction";
-import { getBalances, getFriendBalance } from "../../store/balances";
+// import { getBalances, getFriendBalance } from "../../store/balances";
 
 export default function AddExpenseForm() {
     const dispatch = useDispatch();
@@ -247,9 +247,7 @@ export default function AddExpenseForm() {
                 }
             );
         console.log('response:', response)
-        // dispatch(getAllTransactions())
-        // dispatch(getFriendBalance())
-        dispatch(getBalances())
+        dispatch(loadFriendsThunk())
     }
 
     const getParticipantName = (participant) => {

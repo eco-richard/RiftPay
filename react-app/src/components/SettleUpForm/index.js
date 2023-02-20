@@ -2,20 +2,29 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { getBalances } from '../../store/balances';
+import { loadFriendsThunk } from '../../store/friends';
 import { createTransaction, getAllTransactions } from '../../store/transaction';
 import { MONTHS } from '../AllExpenses/TransactionDetails';
+import { useParams } from 'react-router-dom';
 
 import './SettleUpForm.css'
 
-export default function SettleUpForm() {
+export default function SettleUpForm({singleFriend}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const user = useSelector(state => state.session.user);
-  const friends = Object.values(useSelector(state => state.balance.friends))
-
+  const friends = Object.values(useSelector(state => state.friends.friends));
+  let initialFriend;
+  // console.log('single friend:', singleFriend)
+  if (!singleFriend) {
+    initialFriend = friends[0]
+  }
+  else {
+    initialFriend = singleFriend
+  }
+  // console.log('inital friend after:', initialFriend)
   // Transaction Hooks
-  const [friend, setFriend] = useState(friends[0]);
+  const [friend, setFriend] = useState(initialFriend);
   const [amount, setAmount] = useState("");
   const [image, setImage] = useState("");
   const [note, setNote] = useState("");
@@ -27,23 +36,23 @@ export default function SettleUpForm() {
   const userImage = user.picture === null ? DEFAULT_IMAGE_URL : user.picture;
 
   useEffect(() => {
-    dispatch(getBalances())
+    dispatch(loadFriendsThunk())
   }, [dispatch])
 
   if (friend === undefined) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let date = new Date();
     date = date.toISOString().slice(0, 10);
     const payers = `${user.id}/${amount}`;
-    const repayments = `${user.id}/${user.id}/0,${user.id}/${friend.id}/${amount}`;
+    const repayments = `${friend.id}/${user.id}/0,${user.id}/${friend.id}/${amount}`;
     if (image === null) {
       image = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"
     }
     let transaction = {
       cost: amount,
-      creation_method: "PAYMENT",
+      creation_method: "Payment",
       description: "Payment",
       note,
       image,

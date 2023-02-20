@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { getSingleTransaction, deleteTransaction } from "../../store/transaction";
 import TransactionDetails from "./TransactionDetails";
 import './SingleTransaction.css'
+import { loadFriendsThunk } from "../../store/friends";
 
 export default function SingleTransaction({transaction}) {
     const dispatch = useDispatch();
@@ -20,7 +21,9 @@ export default function SingleTransaction({transaction}) {
     // add this and then a use selector for single transaction?
 
     const deleteTransactionFunction = async (transaction) => {
-        return dispatch(deleteTransaction(transaction));
+        window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
+        await dispatch(deleteTransaction(transaction))
+            // .then(dispatch(loadFriendsThunk))
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -50,7 +53,7 @@ export default function SingleTransaction({transaction}) {
     const payer = transaction.payers[0]
     const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
     // optional chaining here?
-    console.log('single repayment:', singleRepayment)
+    // console.log('single repayment:', singleRepayment)
 
     if (singleRepayment === undefined) return null;
     let lentNameFull = "";
