@@ -19,9 +19,9 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     //     //not sure if this is necessary
     // }, [dispatch])
 
-    useEffect(() => {
-        dispatch(loadSingleFriendThunk(singleFriend.id))
-    }, [transaction])
+    // useEffect(() => {
+    //     dispatch(loadSingleFriendThunk(singleFriend?.id))
+    // }, [transaction])
 
     const deleteTransactionFunction = async (transaction) => {
         window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
@@ -54,7 +54,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
-    const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment.debtor.id === singleFriend.id && repayment?.loaner.id === user.id))[0];
+    const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment?.debtor.id === singleFriend?.id && repayment?.loaner.id === user.id))[0];
     // optional chaining here?
     // console.log('single repayment:', singleRepayment)
 
@@ -115,7 +115,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
                         {payerName} paid
                     </div>
                     <div className="single-expense-payer-amount">
-                        ${payer.amount.toFixed(2)}
+                        ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
                 <div className="single-expense-loaner">
@@ -123,7 +123,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
                         {lentNameFull}
                     </div>
                     <div className="single-expense-loaner-amount">
-                        ${lentAmount.toFixed(2)}
+                        ${lentAmount?.toFixed(2)}
                     </div>
                 </div>
                 <div className={renderDelete}>
