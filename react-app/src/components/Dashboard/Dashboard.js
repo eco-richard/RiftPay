@@ -10,6 +10,7 @@ import YouOweFriendBill from '../FriendBill/YouOweFriendBill';
 import AddExpenseForm from '../AddExpenseForm';
 
 import "./Dashboard.css"
+import { loadFriendsThunk } from '../../store/friends';
 
 function Dashboard() {
     const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function Dashboard() {
         )
     }
     useEffect(() => {
+        dispatch(loadFriendsThunk());
         dispatch(getBalances());
         // dispatch(getFriendBalance());
         // dispatch to get all transactions here?
