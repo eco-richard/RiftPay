@@ -72,7 +72,7 @@ const EditExpenseForm = ({transaction}) => {
 
     //so the correct for shows up on initial click of update expense
     useEffect(() => {
-        if (creationMethod === 'equally') {
+        if (creationMethod === 'Equal') {
             setEqualPaymentsForm(true)
         }
         else {
@@ -138,7 +138,7 @@ const EditExpenseForm = ({transaction}) => {
     }, [debtInput])
 
 
-     //everytime there is a cost or participants input change, determine new debt of each participant
+    // everytime there is a cost or participants input change, determine new debt of each participant
     useEffect(() => {
         if (splitText === "equally") {
             // rounding when needed
