@@ -4,25 +4,25 @@ from app.models import db, User, environment, SCHEMA
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        first_name='Demo', last_name='smith', email='demo@aa.io', password='password')
+        first_name='Demo', last_name='Smith', email='demo@aa.io', password='password')
     marnie = User(
-        first_name='marnie', last_name='jones', email='marnie@aa.io', password='password')
+        first_name='Marnie', last_name='Jones', email='marnie@aa.io', password='password')
     bobbie = User(
-        first_name='bobbie', last_name='williams', email='bobbie@aa.io', password='password')
+        first_name='Bobbie', last_name='Williams', email='bobbie@aa.io', password='password')
     john = User(
-        first_name='john', last_name='westbrook', email='john@aa.io', password='password')
+        first_name='John', last_name='Westbrook', email='john@aa.io', password='password')
     sarah = User(
-        first_name='sarah', last_name='kim', email='sarah@aa.io', password='password')
+        first_name='Sarah', last_name='Kim', email='sarah@aa.io', password='password')
     richard = User(
-        first_name='richard', last_name='diaz', email='richard@aa.io', password='password')
+        first_name='Richard', last_name='Diaz', email='richard@aa.io', password='password')
     kevin = User(
-        first_name='kevin', last_name='ong', email='kevin@aa.io', password='password')
+        first_name='Kevin', last_name='Ong', email='kevin@aa.io', password='password')
     christian = User(
-        first_name='christian', last_name='lee', email='christian@aa.io', password='password')
+        first_name='Christian', last_name='Lee', email='christian@aa.io', password='password')
     paul = User(
-        first_name='paul', last_name='fixler', email='paul@aa.io', password='password')
+        first_name='Paul', last_name='Fixler', email='paul@aa.io', password='password')
     sean = User(
-        first_name='sean', last_name='connor', email='sean@aa.io', password='password')
+        first_name='Sean', last_name='Connor', email='sean@aa.io', password='password')
 
 
     all_users = [demo, marnie, bobbie, john, sarah,
