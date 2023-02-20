@@ -1,20 +1,144 @@
-import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { NavLink, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./SplashPage.css";
 
 function SplashPage() {
-
     const sessionUser = useSelector((state) => state.session.user);
 
     if (sessionUser) return <Redirect to="/dashboard" />;
 
     return (
-        <div>
-            <h1>
-                THIS IS WHERE THE SPLASH PAGE GOES
-            </h1>
+        <div className="splash-page-wrapper">
+            <div className="splash-header-container">
+                <div className="splash-header-content">Welcome to RiftPay!</div>
+                {/* <div className="left-tile-text-description-bottom">
+                                With RiftPay, you will never forget who you owe
+                                and who owes you.
+                            </div> */}
+            </div>
+            <div className="top-two-tile-container">
+                <div className="left-top-tile-container">
+                    <div className="left-top-tile-content">
+                        <div className="left-tile-text">
+                            RiftPay makes it easy to share expenses with anyone,
+                            anywhere, at anytime.
+                        </div>
+                        <div className="icons-container">
+                            <span>
+                                <i class="fa-solid fa-plane fa-5x"></i>
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-house fa-5x"></i>
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-user-group fa-5x"></i>
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-utensils fa-5x"></i>
+                            </span>
+
+                            <span>
+                            <i class="fa-solid fa-file-invoice-dollar fa-5x"></i>
+                            </span>
+                        </div>
+                        <div className="text-details">
+                            <div className="left-tile-text-description">
+                                RiftPay helps you keep track of your shared
+                                expenses and balances with housemates, trips,
+                                groups, friends, and family.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="bottom-half-container">
+                <div className="bottom-content">
+                    <div className="features-list-header">
+                        With RiftPay, you will never forget who you owe and who
+                        owes you.
+                    </div>
+                    <div className="features-list-container">
+                        <div className="left-features-column-container">
+                            <div className="features-content-container">
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-user-group"></i>
+                                        </span>
+                                        Add friends and other users
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        </span>
+                                        Split expenses and track debts
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-not-equal"></i>
+                                        </span>
+                                        Equal or unequal splits
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-percent"></i>
+                                        </span>
+                                        Split by percentage or shares
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="right-features-column-container">
+                            <div className="features-content-container">
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-calculator"></i>
+                                        </span>
+                                        Calculate total balances
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-people-group"></i>
+                                        </span>
+                                        Create expenses with multiple people
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-dollar-sign"></i>
+                                        </span>
+                                        Update existing expenses
+                                    </div>
+                                </div>
+                                <div className="single-feature">
+                                    <div>
+                                        <span>
+                                        <i class="fa-solid fa-user-pen"></i>
+                                        </span>
+                                        Leave comments for your friends to see
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
 export default SplashPage;

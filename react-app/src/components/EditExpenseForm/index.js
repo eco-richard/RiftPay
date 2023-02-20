@@ -237,7 +237,7 @@ const EditExpenseForm = ({transaction}) => {
         <div className="all-forms-container">
         <div className="add-expense-form-wrapper">
             <div className="add-expense-form-header">
-                <div className="add-expense-form-title">Add an expense</div>
+                <div className="add-expense-form-title">Edit an expense</div>
                 <div className="add-expense-form-close-button">
                     <button onClick={closeModal}>X</button>
                 </div>
