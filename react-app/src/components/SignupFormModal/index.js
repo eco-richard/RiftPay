@@ -33,7 +33,7 @@ function SignupFormModal() {
 	return (
 		<div className="signup-form-container">
 			<div className="signup-left-column-container">
-				ICON GOES HERE
+				<i class="fa-solid fa-comment-dollar riftpay-icon fa-10x green"></i>
 			</div>
 			<div className="signup-right-column-container">
 				<div className="signup-form-header-and-body">
@@ -93,7 +93,6 @@ function SignupFormModal() {
 									required
 								/>
 							</label>
-
 						</div>
 						<div className="signup-label-input">
 							<label>
