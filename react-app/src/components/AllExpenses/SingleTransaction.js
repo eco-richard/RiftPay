@@ -111,7 +111,7 @@ export default function SingleTransaction({transaction}) {
                         {payerName} paid
                     </div>
                     <div className="single-expense-payer-amount">
-                        ${payer.amount.toFixed(2)}
+                        ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
                 <div className="single-expense-loaner">

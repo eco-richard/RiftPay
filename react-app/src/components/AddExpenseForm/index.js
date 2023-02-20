@@ -202,23 +202,39 @@ export default function AddExpenseForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // setErrors([]);
-        let errorArr = [];
+        const errors = [];
         console.log('repayments:', repayments)
-        console.log(errorArr)
+        console.log(errors)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
         if (repayments == "Unequal payments") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            errorArr.push('Error: payments do not add up to cost')
-            console.log('errors inside conditional:', errorArr)
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
-            errorArr.push('Error: percentages do not add up to 100')
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+        }
+
+        if (description.length > 50) {
+            errors.push("Description must be less than 50 characters")
+        }
+
+        if (note.length > 250) {
+            errors.push("Note must be less than 250 characters")
+        }
+
+        if (image.length > 250) {
+            errors.push("Image URL must be less than 250 characters")
+        }
+
+        if (cost > 100000000) {
+            errors.push("Cost can not exceed one millions dollars")
         }
 
         const newTransaction = {
@@ -231,10 +247,9 @@ export default function AddExpenseForm() {
             payers: `${user.id}/${cost}`,
             repayments
         }
-        console.log('error array after:', errorArr)
-        console.log('repayments after object:', repayments)
-        setErrors(errorArr)
-        console.log('errors:', errors)
+        if (errors.length > 0) {
+            return window.alert(`${errors[0]}`)
+        }
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)

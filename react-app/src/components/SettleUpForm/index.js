@@ -12,6 +12,7 @@ import './SettleUpForm.css'
 export default function SettleUpForm({singleFriend}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const [errors, setErrors] = useState([]);
   const user = useSelector(state => state.session.user);
   const friends = Object.values(useSelector(state => state.friends.friends));
   let initialFriend;
@@ -43,6 +44,7 @@ export default function SettleUpForm({singleFriend}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errors = [];
     let date = new Date();
     date = date.toISOString().slice(0, 10);
     const payers = `${user.id}/${amount}`;
@@ -50,6 +52,35 @@ export default function SettleUpForm({singleFriend}) {
     if (image === null) {
       image = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"
     }
+
+
+    if (note.length > 250) {
+      errors.push("Note must be less than 250 characters")
+    }
+
+    if (image.length > 250) {
+      errors.push("Image URL must be less than 250 characters")
+    }
+
+    if (amount > 100000000) {
+      errors.push("Cost can not exceed one millions dollars")
+    }
+
+    if (amount <= 0) {
+      errors.push("Must use a positive number to settle up")
+    }
+
+    if (friend.balance >= 0) {
+      errors.push("Can not settle up with someone in debt to you")
+    }
+
+    if (amount > Math.abs(parseInt(friend.balance))) {
+      errors.push("Can not settle more than you owe")
+    }
+    // console.log('amount', amount)
+    // console.log('friend balance', friend.balance)
+    // if ()
+
     let transaction = {
       cost: amount,
       creation_method: "Payment",
@@ -61,8 +92,20 @@ export default function SettleUpForm({singleFriend}) {
       repayments
     };
 
+    if (errors.length > 0) {
+      return window.alert(`${errors[0]}`)
+    }
+
     dispatch(createTransaction(transaction))
-    closeModal();
+      .then(closeModal)
+      .catch(
+          async (res) => {
+              const data = await res.json();
+              // console.log('data:', data)
+              if (data && data.errors) setErrors(data.errors);
+              else if (data && data.title.includes('Error')) setErrors([data.message]);
+          }
+      );
   }
   const openFriends = (e) => {
     // e.preventDefault();
@@ -121,6 +164,7 @@ export default function SettleUpForm({singleFriend}) {
             className="settle-up-amount-field"
             type="number"
             value={amount}
+            required
             onChange={e => setAmount(e.target.value)}
             placeholder="0.00">
             </input>
