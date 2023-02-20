@@ -335,7 +335,7 @@ export default function AddExpenseForm() {
                                     onChange={(e) => setCost(e.target.value)}
                                     placeholder="0.00"
                                     required
-                                    />
+                                />
                             </div>
                         </div>
                         <div className="form-payment-option-div">
@@ -352,135 +352,137 @@ export default function AddExpenseForm() {
                     </form>
                 </div>
                 {openSplitModal && (
-                <div className="choose-split-options-div">
-                    <div className="add-expense-form-header">
-                        <div className="add-expense-form-title">Choose split options</div>
+                    <div className="choose-split-options-div">
+                        <div className="add-expense-form-header">
+                            <div className="add-expense-form-title">Choose split options</div>
                             <div className="add-expense-form-close-button">
                                 <button onClick={closeModal}>X</button>
                             </div>
-                    </div>
-                    <div className="choose-split-form-body">
-                        <div className="split-options-buttons-list">
-                            <button onClick={onClickEqual}>E</button>
-                            <button onClick={onClickExact}>1.23</button>
-                            <button onClick={onClickPercent}>%</button>
                         </div>
-                        {equalPaymentsForm && (
-                            <div className="split-body-wrapper">
-                                <div className="equal-repayments">
-                                    {participants.map(participant => (
-                                        <div className="single-debtor">
-                                            <div className="debtor-name">{getParticipantName(participant)}</div>
-                                            <div className="debtor-amount">${debtInput[participant]}</div>
-                                        </div>
+                        <div className="choose-split-form-body">
+                            <div className="split-options-buttons-list">
+                                <button onClick={onClickEqual}>E</button>
+                                <button onClick={onClickExact}>1.23</button>
+                                <button onClick={onClickPercent}>%</button>
+                            </div>
+                            {equalPaymentsForm && (
+                                <div className="split-body-wrapper">
+                                    <div className="equal-repayments">
+                                        {participants.map(participant => (
+                                            <div className="single-debtor">
+                                                <div className="debtor-name">{getParticipantName(participant)}</div>
+                                                <div className="debtor-amount">${debtInput[participant]}</div>
+                                            </div>
                                         ))}
-                                </div>
-                                <div className="aggregate-repayment">
-                                    <div className="total-repayment">TOTAL</div>
-                                    <div className="repayment-vs-cost">
-                                        <div className="repayment-amount">${debtSum}</div>
-                                        <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
                                     </div>
-                                </div>
-                            </div>
-                        )}
-                        {exactPaymentsForm && (
-                            <div className="split-body-wrapper">
-                                <form className="exact-repayments">
-                                {participants.map(participant => (
-                                    <div className="single-debtor">
-                                        <div className="debtor-name">{getParticipantName(participant)}</div>
-                                        <div className="debt" key={participant}>
-                                            <label> $
-                                            <input
-                                                className="debtor-amount-input"
-                                                type="number"
-                                                value={debtInput[participant] || ''}
-                                                name={participant}
-                                                onChange={handleUserInputChange}
-                                                // placeholder={cost/participants.length}
-                                            />
-                                            </label>
+                                    <div className="aggregate-repayment">
+                                        <div className="total-repayment">TOTAL</div>
+                                        <div className="repayment-vs-cost">
+                                            <div className="repayment-amount">${debtSum}</div>
+                                            <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
                                         </div>
                                     </div>
-                                    ))}
-                                </form>
-                                <div className="aggregate-repayment">
-                                    <div className="total-repayment">TOTAL</div>
-                                    <div className="repayment-vs-cost">
-                                        <div className="repayment-amount">${debtSum}</div>
-                                        <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
-                                    </div>
                                 </div>
-                            </div>
-                        )}
-                        {percentPaymentsForm && (
-                            <div className="split-body-wrapper">
-                                <form className="percent-repayments">
-                                {participants.map(participant => (
-                                    <div className="single-debtor">
-                                        <div className="debtor-name">{getParticipantName(participant)}</div>
-                                        <div className="debt">
-                                            <label> %
-                                                <input
-                                                    className="debtor-amount-input"
-                                                    type="number"
-                                                    value={debtInput[participant] || ''}
-                                                    name={participant}
-                                                    onChange={handleUserInputChange}
-                                                // placeholder={cost/participants.length}
-                                                />%
-                                            </label>
+                            )}
+                            {exactPaymentsForm && (
+                                <div className="split-body-wrapper">
+                                    <form className="exact-repayments">
+                                        {participants.map(participant => (
+                                            <div className="single-debtor">
+                                                <div className="debtor-name">{getParticipantName(participant)}</div>
+                                                <div className="debt" key={participant}>
+                                                    <label> $
+                                                        <input
+                                                            className="debtor-amount-input"
+                                                            type="number"
+                                                            value={debtInput[participant] || ''}
+                                                            name={participant}
+                                                            onChange={handleUserInputChange}
+                                                        // placeholder={cost/participants.length}
+                                                        />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </form>
+                                    <div className="aggregate-repayment">
+                                        <div className="total-repayment">TOTAL</div>
+                                        <div className="repayment-vs-cost">
+                                            <div className="repayment-amount">${debtSum}</div>
+                                            <div className="cost-amount">${parseFloat(cost) - debtSum} left</div>
                                         </div>
                                     </div>
-                                    ))}
-                                </form>
-                                <div className="aggregate-repayment">
-                                    <div className="total-repayment">TOTAL</div>
-                                    <div className="repayment-versus-cost">
-                                        <div className="repayment-amount">{debtSum}%</div>
-                                        <div className="cost-amount">{100.00 - debtSum}% left</div>
+                                </div>
+                            )}
+                            {percentPaymentsForm && (
+                                <div className="split-body-wrapper">
+                                    <form className="percent-repayments">
+                                        {participants.map(participant => (
+                                            <div className="single-debtor">
+                                                <div className="debtor-name">{getParticipantName(participant)}</div>
+                                                <div className="debt">
+                                                    <label>
+                                                        <input
+                                                            className="debtor-amount-input"
+                                                            type="number"
+                                                            value={debtInput[participant] || ''}
+                                                            name={participant}
+                                                            onChange={handleUserInputChange}
+                                                        // placeholder={cost/participants.length}
+                                                        />%
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </form>
+                                    <div className="aggregate-repayment">
+                                        <div className="total-repayment">TOTAL</div>
+                                        <div className="repayment-vs-cost">
+                                            <div className="repayment-amount">{debtSum}%</div>
+                                            <div className="cost-amount">{100.00 - debtSum}% left</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-                </div>)}
+                            )}
+                        </div>
+                    </div>)}
                 {imagesOpen && (
-                <div className='add-image-notes'>
-                    <div className='add-image-header'>
-                        <div className='form-title'>
-                        Add image/notes
+                    <div className='add-image-notes'>
+                        <div className='add-image-header'>
+                            <div className='form-title'>
+                                Add image/notes
+                            </div>
+                            <div className='form-close-button'>
+                                <button onClick={() => setImagesOpen(false)}>X</button>
+                            </div>
                         </div>
-                        <div className='form-close-button'>
-                        <button onClick={() => setImagesOpen(false)}>X</button>
+                        <div className='add-image-body'>
+                            <div className='add-image-image'>
+                                <label className="add-image-label">Include an image:
+                                    <input
+                                        className='image-field'
+                                        value={image}
+                                        type="url"
+                                        onChange={(e) => setImage(e.target.value)}
+                                    />
+                                </label>
+                                <label>
+                                    <input
+                                        className="form-note-field"
+                                        value={note}
+                                        type="textarea"
+                                        onChange={(e) => setNote(e.target.value)}
+                                        placeholder="Add notes"
+                                    />
+                                </label>
+                            </div>
+                            <div className='add-image-footer'>
+                                <div className="done-button-container">
+                                    <button className="done-button" onClick={() => setImagesOpen(false)}>Done</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className='add-image-body'>
-                        <div className='add-image-image'>
-                        <label>Include an image:
-                            <input
-                            className='image-field'
-                            value={image}
-                            type="url"
-                            onChange={(e) => setImage(e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            <input
-                            className="form-note-field"
-                            value={note}
-                            type="textarea"
-                            onChange={(e) => setNote(e.target.value)}
-                            placeholder="Add notes"
-                            />
-                        </label>
-                        </div>
-                        <div className='add-image-footer'>
-                        <button className="done-button" onClick={() => setImagesOpen(false)}>Done</button>
-                        </div>
-                    </div>
-                </div>
                 )}
             </div>
         </>
