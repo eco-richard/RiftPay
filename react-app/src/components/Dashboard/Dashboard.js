@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBalances, getFriendBalance } from '../../store/balances';
@@ -15,47 +15,92 @@ import { loadFriendsThunk } from '../../store/friends';
 function Dashboard() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user)
-    const balances = useSelector(state => state.balance)
+    const friendsObj = useSelector((state) => state.friends.friends)
+    const friends = Object.values(friendsObj)
+    const friendsLength = friends.length
+    // const [totalLoan, setTotalLoan] = useState(0)
+    // const [totalDebt, setTotalDebt] = useState(0)
+    // const [totalLoan, setTotalLoan] = useState(0)
+    console.log('friends in dashbaord:', friends)
 
-    let totalBalanceComponent;
-    if (balances.owes > balances.owed) {
-        const total = balances.owes - balances.owed;
-        totalBalanceComponent = (
-            <div className='dashboard-balance-amounts' style={{color: "rgb(255, 101, 47)"}}>
-                -${total.toFixed(2)}
-            </div>
-        )
-    } else {
-        const total = balances.owed - balances.owes;
-        totalBalanceComponent = (
-            <div className='dashboard-balance-amounts' style={{color: "rgb(91, 197, 167)"}}>
-                ${total.toFixed(2)}
-            </div>
-        )
+    let totalLoan = 0;
+    let totalDebt = 0;
+    let loanerFriend = [];
+    let debtorFriend = [];
+    let placeholderFriend = []
+
+    for (let i = 0; i < friends.length; i++) {
+        if (friends[i].balance > 0) {
+            totalLoan += parseInt(friends[i].balance)
+            loanerFriend.push(friends[i])
+        }
+        else if (friends[i].balance < 0){
+            totalDebt -= parseInt(friends[i].balance)
+            debtorFriend.push(friends[i])
+        }
+        else {
+            placeholderFriend.push(friends[i])
+        }
     }
+
+    const totalBalance = totalLoan - totalDebt
+
+    let colorVar;
+    if (totalBalance > 0) {
+        colorVar = "rgb(91, 197, 167)"
+    }
+    else if (totalBalance < 0) {
+        colorVar = "rgb(255, 101, 47)"
+    }
+    else {
+        colorVar = "rgb(91, 197, 167)"
+    }
+    // console.log('totalDebt', totalDebt)
+    // console.log('totalLoan', totalLoan)
+    // console.log('totalBalance', totalBalance)
+    // console.log('loaner friends:', loanerFriend)
+    // console.log('debtor friends:', debtorFriend)
+    // const balances = useSelector(state => state.balance)
+
+    // let totalBalanceComponent;
+    // if (balances.owes > balances.owed) {
+    //     const total = balances.owes - balances.owed;
+    //     totalBalanceComponent = (
+    //         <div className='dashboard-balance-amounts' style={{color: "rgb(255, 101, 47)"}}>
+    //             -${total.toFixed(2)}
+    //         </div>
+    //     )
+    // } else {
+    //     const total = balances.owed - balances.owes;
+    //     totalBalanceComponent = (
+    //         <div className='dashboard-balance-amounts' style={{color: "rgb(91, 197, 167)"}}>
+    //             ${total.toFixed(2)}
+    //         </div>
+    //     )
+    // }
     useEffect(() => {
         dispatch(loadFriendsThunk());
-        dispatch(getBalances());
+        // dispatch(getBalances());
         // dispatch(getFriendBalance());
         // dispatch to get all transactions here?
-    }, [dispatch])
+    }, [dispatch, friendsLength])
 
     if (!user) return <Redirect to="/"/>;
 
-    if (Object.values(balances) === 0) return null;
+    // if (Object.values(balances) === 0) return null;
 
-    const youOweFriends = [];
-    const owesYouFriends = [];
-    for (const friend of Object.values(balances.friends)) {
-        if (friend.balance > 0) {
-            if (friend.id === user.id) {
-                continue;
-            }
-            owesYouFriends.push(friend)
-        } else if (friend.balance < 0) {
-            youOweFriends.push(friend);
-        }
-    }
+    // const youOweFriends = [];
+    // const owesYouFriends = [];
+    // for (const friend of Object.values(balances.friends)) {
+    //     if (friend.balance > 0) {
+    //         if (friend.id === user.id) {
+    //             continue;
+    //         }
+    //         owesYouFriends.push(friend)
+    //     } else if (friend.balance < 0) {
+    //         youOweFriends.push(friend);
+    //     }
+    // }
 
     if (!user) return <Redirect to="/"/>;
 
@@ -87,19 +132,19 @@ function Dashboard() {
                             <div className="dashboard-balance-labels">
                                 total balance
                             </div>
-                            {totalBalanceComponent}
+                            <div className='dashboard-balance-amounts' style={{color: colorVar}}>${totalBalance.toFixed(2)}</div>
                         </div>
                         <div className='you-owe-container'>
                             <div className="dashboard-balance-labels">
                                 you owe
                             </div>
-                            <div className='dashboard-owe-amounts' style={{color: "rgb(255, 101, 47)"}}>${balances.owes.toFixed(2)}</div>
+                            <div className='dashboard-owe-amounts' style={{color: "rgb(255, 101, 47)"}}>${totalDebt.toFixed(2)}</div>
                         </div>
                         <div className='you-are-owed-container'>
                             <div className="dashboard-balance-labels">
                                 you are owed
                             </div>
-                            <div className='dashboard-owed-amounts' style={{color: "rgb(91, 197, 167)"}}>${balances.owed.toFixed(2)}</div>
+                            <div className='dashboard-owed-amounts' style={{color: "rgb(91, 197, 167)"}}>${totalLoan.toFixed(2)}</div>
                         </div>
                     </div>
                 </div>
@@ -114,12 +159,12 @@ function Dashboard() {
                     </div>
                     <div className="dashboard-bills-container">
                         <div className="bills-you-owe-container">
-                            {youOweFriends.map(friend => (
+                            {debtorFriend.map(friend => (
                                 <YouOweFriendBill friend={friend} />
                             ))}
                         </div>
                         <div className="bills-you-are-owed-container">
-                            {owesYouFriends.map(friend => (
+                            {loanerFriend.map(friend => (
                                 <OweYouFriendBill friend={friend} />
                             ))}
                         </div>

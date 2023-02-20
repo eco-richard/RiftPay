@@ -14,7 +14,8 @@ const loadFriends = (friends) => {
 const loadSingleFriend = (friend) => {
     return {
         type: GET_SINGLE_FRIEND,
-        friend: friend["Single_Friend"]
+        friend
+        // : friend["Single_Friend"]
     }
 }
 const addFriend = (friend) => {
@@ -45,8 +46,10 @@ export const loadFriendsThunk = () => async dispatch => {
 
 export const loadSingleFriendThunk = (friendId) => async dispatch => {
     const response = await fetch(`/api/friends/${friendId}`)
+    // console.log('in friend thunk', response)
     if (response.ok) {
         const friend = await response.json()
+        // console.log('in friend thunk',friend)
         dispatch(loadSingleFriend(friend))
         return friend
     }
@@ -100,7 +103,7 @@ const friends = (state = initialState, action) => {
             return newState
         }
         case GET_SINGLE_FRIEND: {
-            const newState = { friends: {...state.friends}, singleFriend: {} }
+            const newState = { ...state , singleFriend: {} }
             newState.singleFriend = action.friend
             return newState
         }

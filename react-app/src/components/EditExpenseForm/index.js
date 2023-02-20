@@ -9,6 +9,7 @@ import { getBalances, getFriendBalance } from "../../store/balances";
 
 
 const EditExpenseForm = ({ transaction }) => {
+    // console.log('transaction:', transaction)
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
@@ -60,6 +61,7 @@ const EditExpenseForm = ({ transaction }) => {
     const [cost, setCost] = useState(transaction.cost);
     let costLength = cost.length
     const [creationMethod, setCreationMethod] = useState(transaction.creation_method);
+    // console.log('creation method:', creationMethod);
     const [description, setDescription] = useState(transaction.description);
     const [note, setNote] = useState(transaction.note);
     const [image, setImage] = useState(transaction.image)
@@ -75,7 +77,7 @@ const EditExpenseForm = ({ transaction }) => {
 
     //so the correct for shows up on initial click of update expense
     useEffect(() => {
-        if (creationMethod === 'Equal') {
+        if (creationMethod == 'Equal') {
             setEqualPaymentsForm(true)
         }
         else {
@@ -184,20 +186,40 @@ const EditExpenseForm = ({ transaction }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors([]);
+        // setErrors([]);
+        const errors = [];
+        console.log('repayments:', repayments)
+        console.log(errors)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
         if (repayments == "Unequal payments") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            setErrors(['Error: payments do not add up to cost'])
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
-            setErrors(['Error: percentages do not add up to 100'])
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+        }
+
+        if (description.length > 50) {
+            errors.push("Description must be less than 50 characters")
+        }
+
+        if (note.length > 250) {
+            errors.push("Note must be less than 250 characters")
+        }
+
+        if (image.length > 250) {
+            errors.push("Image URL must be less than 250 characters")
+        }
+
+        if (cost > 100000000) {
+            errors.push("Cost can not exceed one millions dollars")
         }
 
         const newTransaction = {
@@ -211,6 +233,10 @@ const EditExpenseForm = ({ transaction }) => {
             payers: `${creatorId}/${cost}`,
             repayments
         }
+        if (errors.length > 0) {
+            return window.alert(`${errors[0]}`)
+        }
+
 
         const response = await dispatch(updateTransaction(transaction.id, newTransaction))
             .then(closeModal)
@@ -224,7 +250,7 @@ const EditExpenseForm = ({ transaction }) => {
             );
         // dispatch(getAllTransactions())
         // dispatch(getFriendBalance())
-        dispatch(getBalances())
+        dispatch(loadFriendsThunk())
     }
 
     // function that allows names of those involved in transaction to be rendered in payment splits form
