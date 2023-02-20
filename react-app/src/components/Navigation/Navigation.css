@@ -18,6 +18,8 @@
 
 .logged-out-nav-buttons-container{
   display: flex;
+  width: 14.5%;
+  justify-content: space-between;
 }
 
 .home-button-container {
@@ -49,6 +51,14 @@
     flex-direction: row;
 }
 
-.home {
-    color: red
+button {
+    border: 1px solid white;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    font-weight: 530;
+}
+
+button:hover {
+    background-color: #5bc5a7;
+    color: white
 }
