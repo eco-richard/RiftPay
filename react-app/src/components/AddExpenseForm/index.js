@@ -151,7 +151,7 @@ export default function AddExpenseForm() {
         // console.log('debt input in use effect:', debtInput)
         if (splitText === 'equally') {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
-            console.log('in if equal repayments:', repayments)
+            // console.log('in if equal repayments:', repayments)
         }
         else if (exactPaymentsForm) {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
@@ -217,6 +217,19 @@ export default function AddExpenseForm() {
         //     //error here
         // }
         // console.log('repayments:', repayments)
+        if (participantsLength == 1) {
+            window.confirm("There is only one person involved in this expense. Do you still want to save it?")
+        }
+
+        if (repayments == "Unequal payments") {
+            window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            setErrors(['Error: payments do not add up to cost'])
+        }
+
+        if (repayments == "Insufficient percentages") {
+            window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+            setErrors(['Error: percentages do not add up to 100'])
+        }
 
         const newTransaction = {
             cost,
@@ -228,7 +241,7 @@ export default function AddExpenseForm() {
             payers: `${user.id}/${cost}`,
             repayments
         }
-        // console.log('new transaction', newTransaction)
+        console.log('errors', errors)
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
@@ -237,7 +250,7 @@ export default function AddExpenseForm() {
                     const data = await res.json();
                     // console.log(data.errors)
                     if (data && data.errors) setErrors(data.errors);
-                    // else if (data && data.title.includes('Error')) setErrors([data.message]);
+                    else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
         // dispatch(getAllTransactions())
@@ -349,7 +362,7 @@ export default function AddExpenseForm() {
                         </div>
                         <div className="form-cancel-save-div">
                             <button className="cancel-button" onClick={closeModal}>Cancel</button>
-                            <button className="save-button" type="submit">Save</button>
+                            <button className="save-button" disabled={!!errors.length} type="submit">Save</button>
 
                         </div>
                     </form>
