@@ -201,34 +201,24 @@ export default function AddExpenseForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors([]);
-        // Validation checking
-        // if (splitText === 'equally') {
-        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
-        //     console.log('in if repayments:', repayments)
-        // }
-        // else if (exactPaymentsForm) {
-        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
-        // }
-        // else if (percentPaymentsForm) {
-        //     setRepayments(percentPayments(creator, participants, debtInput, cost))
-        // }
-        // else {
-        //     //error here
-        // }
-        // console.log('repayments:', repayments)
+        // setErrors([]);
+        let errorArr = [];
+        console.log('repayments:', repayments)
+        console.log(errorArr)
+
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
         if (repayments == "Unequal payments") {
             window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            setErrors(['Error: payments do not add up to cost'])
+            errorArr.push('Error: payments do not add up to cost')
+            console.log('errors inside conditional:', errorArr)
         }
 
         if (repayments == "Insufficient percentages") {
             window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
-            setErrors(['Error: percentages do not add up to 100'])
+            errorArr.push('Error: percentages do not add up to 100')
         }
 
         const newTransaction = {
@@ -241,18 +231,22 @@ export default function AddExpenseForm() {
             payers: `${user.id}/${cost}`,
             repayments
         }
-        console.log('errors', errors)
+        console.log('error array after:', errorArr)
+        console.log('repayments after object:', repayments)
+        setErrors(errorArr)
+        console.log('errors:', errors)
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    // console.log(data.errors)
+                    console.log('in the catch')
                     if (data && data.errors) setErrors(data.errors);
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
+        console.log('response:', response)
         // dispatch(getAllTransactions())
         // dispatch(getFriendBalance())
         dispatch(getBalances())

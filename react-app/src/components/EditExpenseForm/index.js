@@ -184,7 +184,9 @@ const EditExpenseForm = ({ transaction }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors([]);
+        // setErrors([]);
+        let errorArr = [];
+        console.log('repayments:', repayments)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
@@ -192,12 +194,13 @@ const EditExpenseForm = ({ transaction }) => {
 
         if (repayments == "Unequal payments") {
             window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            setErrors(['Error: payments do not add up to cost'])
+            errorArr.push('Error: payments do not add up to cost')
+            console.log('errors:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
             window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
-            setErrors(['Error: percentages do not add up to 100'])
+            errorArr.push('Error: percentages do not add up to 100')
         }
 
         const newTransaction = {
@@ -211,6 +214,10 @@ const EditExpenseForm = ({ transaction }) => {
             payers: `${creatorId}/${cost}`,
             repayments
         }
+        console.log('repayments after object:', repayments)
+        setErrors(errorArr)
+        console.log('errors:', errors)
+
 
         const response = await dispatch(updateTransaction(transaction.id, newTransaction))
             .then(closeModal)
