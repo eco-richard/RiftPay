@@ -45,11 +45,13 @@ function Navigation({ isLoaded }) {
             <div className="nav-buttons-container">
                 <div className="home-button-container">
                         <NavLink exact to="/">
-                            <div className="icon">
+                            <div className="label-logo-container">
 
-                            <span><i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i></span>
+
+                            <i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i>
+
+                            <div className="riftpay-label">RiftPay</div>
                             </div>
-                            <span className="riftpay-label">RiftPay</span>
                         </NavLink>
 
                 </div>

@@ -22,6 +22,7 @@
 
 .home-button-container {
     display: flex;
+    align-items: center;
 }
 
 .home-button-content {
@@ -31,6 +32,8 @@
 
 
 .riftpay-label {
+    display: flex;
+    align-items: center;
     font-weight: 550;
     color: rgb(55, 59, 63);
     font-size: 20px;
@@ -41,10 +44,10 @@
     z-index: 10;
 }
 
-/*
-i {
-    z-index: 1;
-} */
+.label-logo-container {
+    display: flex;
+    flex-direction: row;
+}
 
 .home {
     color: red

@@ -67,7 +67,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-user-group"></i>
+                                        <i class="fa-solid fa-user-group green"></i>
                                         </span>
                                         Add friends and other users
                                     </div>
@@ -75,7 +75,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        <i class="fa-solid fa-money-check-dollar green"></i>
                                         </span>
                                         Split expenses and track debts
                                     </div>
@@ -83,7 +83,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-not-equal"></i>
+                                        <i class="fa-solid fa-not-equal green"></i>
                                         </span>
                                         Equal or unequal splits
                                     </div>
@@ -91,7 +91,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-percent"></i>
+                                        <i class="fa-solid fa-percent green"></i>
                                         </span>
                                         Split by percentage or shares
                                     </div>
@@ -103,7 +103,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-calculator"></i>
+                                        <i class="fa-solid fa-calculator green"></i>
                                         </span>
                                         Calculate total balances
                                     </div>
@@ -111,7 +111,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-people-group"></i>
+                                        <i class="fa-solid fa-people-group green"></i>
                                         </span>
                                         Create expenses with multiple people
                                     </div>
@@ -119,7 +119,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-dollar-sign"></i>
+                                        <i class="fa-solid fa-dollar-sign green"></i>
                                         </span>
                                         Update existing expenses
                                     </div>
@@ -127,7 +127,7 @@ function SplashPage() {
                                 <div className="single-feature">
                                     <div>
                                         <span>
-                                        <i class="fa-solid fa-user-pen"></i>
+                                        <i class="fa-solid fa-user-pen green"></i>
                                         </span>
                                         Leave comments for your friends to see
                                     </div>
