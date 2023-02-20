@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 import { loadFriendsThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
-import { createTransaction } from "../../store/transaction";
+import { createTransaction, getAllTransactions } from "../../store/transaction";
 
 export default function AddExpenseForm() {
     const dispatch = useDispatch();
@@ -231,7 +231,7 @@ export default function AddExpenseForm() {
                     // else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-
+        dispatch(getAllTransactions())
     }
 
     const getParticipantName = (participant) => {

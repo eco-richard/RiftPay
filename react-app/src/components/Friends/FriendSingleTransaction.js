@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getSingleTransaction } from "../../store/transaction";
-import TransactionDetails from "./TransactionDetails";
-import './SingleTransaction.css'
+import TransactionDetails from "../AllExpenses/TransactionDetails";
 
-export default function SingleTransaction({transaction}) {
+export default function FriendSingleTransaction({transaction}) {
     const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
@@ -47,13 +46,12 @@ export default function SingleTransaction({transaction}) {
     // optional chaining here?
     // console.log('single repayment:', singleRepayment)
 
-    if (singleRepayment === undefined) return null;
     let lentNameFull = "";
     let lentAmount;
     let payerName = "";
     if (payer.payer.id === user.id) {
         payerName = "you"
-        lentAmount = payer.amount - singleRepayment.amount
+        lentAmount = singleRepayment.amount
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -67,7 +65,6 @@ export default function SingleTransaction({transaction}) {
         lentAmount = singleRepayment.amount;
         //optional chaining here?
     }
-
 
     return (
         <>
