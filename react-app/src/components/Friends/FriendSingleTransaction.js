@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "../AllExpenses/TransactionDetails";
 import { deleteTransaction } from "../../store/transaction";
+import { loadSingleFriendThunk } from "../../store/friends";
 
 export default function FriendSingleTransaction({transaction, singleFriend}) {
     const dispatch = useDispatch();
@@ -17,6 +18,10 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     //     dispatch(getSingleTransaction(transaction.id))
     //     //not sure if this is necessary
     // }, [dispatch])
+
+    useEffect(() => {
+        dispatch(loadSingleFriendThunk(singleFriend.id))
+    }, [transaction])
 
     const deleteTransactionFunction = async (transaction) => {
         window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
