@@ -397,7 +397,7 @@ const EditExpenseForm = ({ transaction }) => {
                                                             value={debtInput[participant] || ''}
                                                             name={participant}
                                                             onChange={handleUserInputChange}
-                                                        />
+                                                        />%
                                                     </label>
                                                 </div>
                                             </div>
