@@ -61,9 +61,10 @@
 .single-expense-right {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     align-items: center;
     padding: 10px;
-    width: 150px;
+    width: 220px;
     margin-right: 5px;
 }
 
@@ -73,21 +74,27 @@
     text-overflow: ellipsis;
     width: 100px;
     padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }
 
 .single-expense-payer-name {
     font-size: 12px;
     color: #aaa;
     width: 75px;
+    display: flex;
+    justify-content: end;
 }
 
 .single-expense-payer-amount {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: bold
 }
 
 .single-expense-loaner {
-    padding: 11px 10px 12px 5px;
+    padding: 11px 0px 12px 5px;
+    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -100,6 +107,7 @@
 .single-expense-loaner-amount {
     font-size: 16px;
     font-weight: bold;
+    margin-right: 20px;
 }
 
 .single-expense-delete-button {
