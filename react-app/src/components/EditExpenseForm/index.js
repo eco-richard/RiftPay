@@ -4,6 +4,8 @@ import { exactPayments, percentPayments } from "../AddExpenseForm/split_options"
 import { useModal } from "../../context/Modal";
 import { loadFriendsThunk } from "../../store/friends";
 import { updateTransaction } from "../../store/transaction";
+import { getAllTransactions } from "../../store/transaction";
+import { getBalances, getFriendBalance } from "../../store/balances";
 
 
 const EditExpenseForm = ({transaction}) => {
@@ -204,7 +206,9 @@ const EditExpenseForm = ({transaction}) => {
                     if (data && data.errors) setErrors(data.errors);
                 }
             );
-
+        // dispatch(getAllTransactions())
+        // dispatch(getFriendBalance())
+        dispatch(getBalances())
     }
 
     // function that allows names of those involved in transaction to be rendered in payment splits form

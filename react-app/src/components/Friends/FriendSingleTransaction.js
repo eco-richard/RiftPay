@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "../AllExpenses/TransactionDetails";
+import { deleteTransaction } from "../../store/transaction";
 
 export default function FriendSingleTransaction({transaction}) {
     const dispatch = useDispatch();
@@ -16,6 +17,10 @@ export default function FriendSingleTransaction({transaction}) {
     //     dispatch(getSingleTransaction(transaction.id))
     //     //not sure if this is necessary
     // }, [dispatch])
+
+    const deleteTransactionFunction = async (transaction) => {
+        return dispatch(deleteTransaction(transaction));
+    }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
     const MONTHS = [
@@ -112,7 +117,7 @@ export default function FriendSingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className={renderDelete}>
-                    X
+                    <button onClick={() =>deleteTransactionFunction(transaction)}>X</button>
                 </div>
             </div>
         </div>
