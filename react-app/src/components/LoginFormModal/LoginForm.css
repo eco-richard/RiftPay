@@ -1,13 +1,19 @@
-.login-form-container{
+.login-form-container {
     display: flex;
     flex-direction: column;
+    height: 400px;
+    width: 800px;
 }
 .login-header{
+    padding: 20px;
+    padding-bottom: 0px;
     font-size: 1.75rem;
 }
 .login-inputs-container{
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    padding-top: 10px;
 }
 .login-input {
     height: 24px;
@@ -15,6 +21,8 @@
     width: 96%;
 }
 .login-buttons-container{
+    padding: 20px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
 }
