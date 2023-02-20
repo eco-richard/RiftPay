@@ -41,7 +41,7 @@ function AllComments({transaction_id}) {
     return (
         <div className="all-comments-wrapper">
             <div className="all-comments-header">
-                *icon* Notes and Comments
+            <i class="fa-solid fa-book"></i> Notes and Comments
             </div>
             <div className="single-comment-container">
                 <div className="single-comment-content">
