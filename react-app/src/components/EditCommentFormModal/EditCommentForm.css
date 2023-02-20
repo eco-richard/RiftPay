@@ -1,6 +1,7 @@
 .edit-comment-form-container{
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 .edit-comment-header{
     font-size: 1.5rem;

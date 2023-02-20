@@ -6,11 +6,13 @@
 }
 .signup-left-column-container {
     width: 100%;
+    padding: 20px;
 }
 .signup-right-column-container {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding: 20px;
 }
 .signup-form-header-and-body{
     width: 100%;
@@ -55,6 +57,6 @@
     /* padding: 2px; */
 }
 .riftpay-icon.green {
-
+    padding-left: 40px;
     color: #5cc5a7;
 }
