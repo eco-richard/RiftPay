@@ -1,5 +1,20 @@
 .profile-dropdown {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 10%;
+  height: 15%;
+  background-color: white;
+  border: .5px solid lightgray;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1;
+  padding: 10px;
+}
+.profile-dropdown li{
+  list-style-type: none;
 }
 
 .hidden {
@@ -18,4 +33,73 @@
 
 .logged-out-nav-buttons-container{
   display: flex;
+  width: 13.5%;
+  /* justify-content: space-around; */
+}
+
+.login-button {
+    margin-right: 5%;
+}
+
+.home-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.home-button-content {
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.riftpay-label {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-weight: 550;
+    color: white;
+    font-size: 20px;
+}
+
+.riftpay-icon {
+    color: white;
+    z-index: 10;
+}
+
+.label-logo-container {
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    border: 1px solid white;
+    /* padding: 12px; */
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    font-weight: 530;
+}
+
+button:hover {
+    background-color: #5bc5a7;
+    color: white
+}
+.nav-profile-button{
+  height: 20px;
+  width: 200px;
+  display: flex;
+  background-color: #5bc5a7;
+  border: none;
+  color: white;
+}
+
+.user-image-div {
+  height: 50px;
+  width: 50px;
+}
+
+.user-image-div img {
+  height: 15px;
+  width: 15px;
+  border-radius: 100px;
+  border: 0.25px solid gray;
 }

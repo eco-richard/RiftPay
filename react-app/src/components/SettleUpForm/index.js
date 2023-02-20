@@ -30,7 +30,17 @@ export default function SettleUpForm() {
     dispatch(getBalances())
   }, [dispatch])
 
-  if (friend === undefined) return null;
+  if (friends.length === 0) {
+    return (
+      <div>
+        <div className="no-friends-lol">You have no friends to settle up with!</div>
+        <div className="alert-button-container">
+
+          <button className="alert-button" onClick={closeModal}>Ok</button>
+        </div>
+      </div>
+    )
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,65 +87,65 @@ export default function SettleUpForm() {
 
   return (
     <div className='settle-up-forms-container'>
-    <div className='settle-up-form-wrapper'>
-      <div className='settle-up-form-header'>
-        <div className='settle-up-title'>
-          Settle up
-        </div>
-        <div className='settle-up-close-button'>
-        <button onClick={closeModal}>X</button>
-        </div>
-      </div>
-      <div className='settle-up-form-body'>
-        <div className='settle-up-form-images'>
-          <div className='settle-up-form-user-image-div'>
-            <img className='settle-up-form-user-image'
-            src={userImage}
-            alt="" />
+      <div className='settle-up-form-wrapper'>
+        <div className='settle-up-form-header'>
+          <div className='settle-up-title'>
+            Settle up
           </div>
-          <div className='settle-up-form-arrow-div'>
-            <img className='settle-up-form-arrow' src={ARROW_URL} alt=""/>
-          </div>
-          <div className='settle-up-form-friend-image-div'>
-            <img className='settle-up-form-friend-image'
-            src={friend.image === null ? DEFAULT_IMAGE_URL : friend.image}
-            alt=""/>
+          <div className='settle-up-close-button'>
+            <button onClick={closeModal}>X</button>
           </div>
         </div>
-        <div className='settle-up-you-paid'>
-          You paid <button onClick={openFriends}>{`${friend.first_name} ${friend.last_name[0]}.`}</button>
-        </div>
-        <div className='settle-up-amount'>
-          <label>
-            $
-            <input
-            className="settle-up-amount-field"
-            type="number"
-            value={amount}
-            onChange={e => setAmount(e.target.value)}
-            placeholder="0.00">
-            </input>
-          </label>
-        </div>
-        <div className='settle-up-date-notes-div'>
-          <div className='settle-up-date'>
-            {formatDate()}
+        <div className='settle-up-form-body'>
+          <div className='settle-up-form-images'>
+            <div className='settle-up-form-user-image-div'>
+              <img className='settle-up-form-user-image'
+                src={userImage}
+                alt="" />
+            </div>
+            <div className='settle-up-form-arrow-div'>
+              <img className='settle-up-form-arrow' src={ARROW_URL} alt="" />
+            </div>
+            <div className='settle-up-form-friend-image-div'>
+              <img className='settle-up-form-friend-image'
+                src={friend.image === null ? DEFAULT_IMAGE_URL : friend.image}
+                alt="" />
+            </div>
           </div>
-          <div className='settle-up-image-notes'>
-            <button onClick={openImagesNotes}>Add images/notes</button>
+          <div className='settle-up-you-paid'>
+            You paid <button onClick={openFriends}>{`${friend.first_name} ${friend.last_name[0]}.`}</button>
+          </div>
+          <div className='settle-up-amount'>
+            <label>
+              $
+              <input
+                className="settle-up-amount-field"
+                type="number"
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="0.00">
+              </input>
+            </label>
+          </div>
+          <div className='settle-up-date-notes-div'>
+            <div className='settle-up-date'>
+              {formatDate()}
+            </div>
+            <div className='settle-up-image-notes'>
+              <button onClick={openImagesNotes}>Add images/notes</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className='settle-up-form-footer'>
-        <button className='settle-up-cancel'
-        onClick={closeModal}>
-          Cancel
-        </button>
-        <button className='settle-up-save'
-        onClick={handleSubmit}>
-          Save
-        </button>
-      </div>
+        <div className='settle-up-form-footer'>
+          <button className='settle-up-cancel'
+            onClick={closeModal}>
+            Cancel
+          </button>
+          <button className='settle-up-save'
+            onClick={handleSubmit}>
+            Save
+          </button>
+        </div>
       </div>
       {friendsOpen && (
         <div className='choose-recipient-wrapper'>
@@ -150,10 +160,10 @@ export default function SettleUpForm() {
           <div className="choose-recipient-body">
             {friends.map(friend => (
               <div className='recipient-wrapper'
-              onClick={() => setFriend(friend)}>
+                onClick={() => setFriend(friend)}>
                 <div className="recipient-image">
                   <img src={friend.image === null ? DEFAULT_IMAGE_URL : friend.image}
-                  alt=""/>
+                    alt="" />
                 </div>
                 <div className='recipient-name'>
                   {`${friend.first_name} ${friend.last_name}`}
@@ -180,19 +190,19 @@ export default function SettleUpForm() {
             <div className='add-image-image'>
               <label>Include an image:
                 <input
-                className='image-field'
-                value={image}
-                type="url"
-                onChange={(e) => setImage(e.target.value)}
+                  className='image-field'
+                  value={image}
+                  type="url"
+                  onChange={(e) => setImage(e.target.value)}
                 />
               </label>
               <label>
                 <input
-                className="settle-up-note-field"
-                value={note}
-                type="textarea"
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="Add notes"
+                  className="settle-up-note-field"
+                  value={note}
+                  type="textarea"
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Add notes"
                 />
               </label>
             </div>

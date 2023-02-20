@@ -19,8 +19,24 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
     const year = transaction.created_at.slice(0, 4);
 
+    // Getting the updated user and date
+    let updater;
+    let updateDate;
+    if (transaction.updater_id !== null) {
+        updater = transaction.users.filter(user => user.id === transaction.updater_id)[0];
+        const year = transaction.updated_at.slice(0, 4);
+        const month = Number(transaction.updated_at.slice(5, 7));
+        const day = transaction.updated_at.slice(8, 10);
+        updateDate = `${MONTHS[month]} ${day}, ${year}`
+    }
     const added = `Added by ${creator} on ${MONTHS[monthIdx]} ${day}, ${year}`
+    const updated = `Last updated by ${updater?.first_name} ${updater?.last_name[0]}. on ${updateDate}`;
 
+    // const updatedComponent = (
+    //     <div className="trnsaction-details-header-added">
+    //         {updated}
+    //     </div>
+    // )
 
     return (
         <div className='transaction-details-wrapper'>
@@ -38,6 +54,11 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                     <div className='transaction-details-header-added'>
                         {added}
                     </div>
+                    {transaction.updater_id && (
+                        <div className="transaction-details-header-updated">
+                            {updated}
+                        </div>
+                    )}
                     <div className='transaction-details-header-update'>
                         <OpenModalButton
                             buttonText="Edit Transaction"
@@ -66,7 +87,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                 </div>
                 <div className="right-column-wrapper">
                     <div className="transaction-details-comments">
-                        <AllComments transaction_id={transaction.id} />
+                        <AllComments transaction_id={transaction.id} transactionNote={transaction.note}/>
                     </div>
                 </div>
             </div>

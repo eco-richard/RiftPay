@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import { getAllTransactions } from '../../store/transaction';
@@ -15,10 +15,12 @@ function AllExpenses() {
     const user = useSelector(state => state.session.user)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
     const balances = useSelector(state => state.balance);
+    const [calledTransactions, setCalledTransactions] = useState(false)
 
     useEffect(() => {
         dispatch(getAllTransactions())
         dispatch(getBalances())
+        setCalledTransactions(true)
     }, [dispatch])
 
     if (!user) {
@@ -51,8 +53,12 @@ function AllExpenses() {
         )
     }
     if (Object.values(balances).length === 0) return null;
-    if (transactions.length === 0) return null;
+    console.log("console log 1")
+    console.log(calledTransactions)
+    if (transactions.length === 0 && !calledTransactions) return null;
+    console.log("console log 2")
 
+    transactions.reverse();
     return (
         <div className="column-wrapper">
             <div className="left-column-container">

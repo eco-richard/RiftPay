@@ -101,13 +101,13 @@ export function updateTransaction(transactionId, transaction) {
 
 export function deleteTransaction(transaction) {
     return async (dispatch) => {
-        const response = await fetch(`/api/transaction/${transaction.id}`, {
+        const response = await fetch(`/api/transactions/${transaction.id}`, {
             method: "DELETE"
         });
 
         if (response.ok) {
             const message = response.json()
-            dispatch(remove(transaction.id))
+            dispatch(remove(transaction))
             return message;
         }
     }
