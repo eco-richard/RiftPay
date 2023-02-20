@@ -77,6 +77,9 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
         lentAmount = singleRepayment?.amount;
         //optional chaining here?
     }
+    if (lentAmount == undefined){
+        return null;
+    }
 
     return (
         <>
@@ -112,7 +115,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
                         {payerName} paid
                     </div>
                     <div className="single-expense-payer-amount">
-                        ${payer.amount?.toFixed(2)}
+                        ${payer.amount.toFixed(2)}
                     </div>
                 </div>
                 <div className="single-expense-loaner">
@@ -120,7 +123,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
                         {lentNameFull}
                     </div>
                     <div className="single-expense-loaner-amount">
-                        ${lentAmount?.toFixed(2)}
+                        ${lentAmount.toFixed(2)}
                     </div>
                 </div>
                 <div className={renderDelete}>
