@@ -5,7 +5,7 @@ def seed_transactions():
     transaction1 = Transaction(
         creator_id=1,
         cost=100,
-        creation_method='equal',
+        creation_method='Equal',
         description='first transaction',
         image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
         created_at='2023-02-13',
@@ -16,7 +16,7 @@ def seed_transactions():
     transaction2 = Transaction(
         creator_id=2,
         cost=100,
-        creation_method='equal',
+        creation_method='Equal',
         description='second transaction',
         image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
         created_at='2023-02-13',
@@ -27,7 +27,7 @@ def seed_transactions():
     transaction3 = Transaction(
         creator_id=3,
         cost=100,
-        creation_method='equal',
+        creation_method='Equal',
         description='third transaction',
         image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
         created_at='2023-02-13',
@@ -38,7 +38,7 @@ def seed_transactions():
     transaction4 = Transaction(
         creator_id=4,
         cost=100,
-        creation_method='equal',
+        creation_method='Equal',
         description='fourth transaction',
         image = 'https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png',
         created_at='2023-02-13',
