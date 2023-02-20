@@ -17,9 +17,9 @@ export default function SingleTransaction({transaction}) {
     //     dispatch(getSingleTransaction(transaction.id))
     //     //not sure if this is necessary
     // }, [dispatch])
+    // add this and then a use selector for single transaction?
 
     const deleteTransactionFunction = async (transaction) => {
-        console.log(transaction)
         return dispatch(deleteTransaction(transaction));
     }
 
@@ -44,7 +44,7 @@ export default function SingleTransaction({transaction}) {
 
     // console.log('created at in single transaction:', transaction.created_at)
     // console.log('transaction in single transaction:', transaction)
-    const monthIdx = Number(transaction.created_at.split("-")[1])-1
+    const monthIdx = Number(transaction?.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
