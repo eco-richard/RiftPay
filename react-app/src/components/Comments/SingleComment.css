@@ -1,3 +1,7 @@
+.all-comments-header {
+    margin-left: 1%;
+}
+
 .single-comment-wrapper{
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -16,6 +20,11 @@
     width: 100%;
     margin-bottom: 1%
 }
+
+.fa-book {
+    color: #5bc5a7
+}
+
 .commenter-name-date{
     display: flex;
     flex-direction: row;

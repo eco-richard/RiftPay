@@ -18,4 +18,47 @@
 
 .logged-out-nav-buttons-container{
   display: flex;
+  width: 14.5%;
+  justify-content: space-between;
+}
+
+.home-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.home-button-content {
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.riftpay-label {
+    display: flex;
+    align-items: center;
+    font-weight: 550;
+    color: rgb(55, 59, 63);
+    font-size: 20px;
+}
+
+.riftpay-icon {
+    color: white;
+    z-index: 10;
+}
+
+.label-logo-container {
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    border: 1px solid white;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    font-weight: 530;
+}
+
+button:hover {
+    background-color: #5bc5a7;
+    color: white
 }

@@ -126,7 +126,7 @@ function Dashboard() {
             </div>
             <div className="right-column-container">
                 <div className="right-column-content">
-                    <h3>RIFTPAY ON THE GO</h3>
+                    <h2 style={{color: "#999"}}>RIFTPAY ON THE GO</h2>
                     <div>Riftpay for Android and IOS coming soon!</div>
                     <div>Developers needed!!!</div>
                 </div>

@@ -50,6 +50,7 @@
 }
 .dashboard-header-title{
     margin: 10px 0px 10px 0px;
+    color: rgb(55, 59, 63)
 }
 .dashboard-header-buttons{
     display: flex;
@@ -121,4 +122,9 @@
 .individual-bill-container{
     display: flex;
     padding: 7px 13px 7px 13px
+}
+
+.dashboard-balance-labels {
+    color: #999999f1;
+    font-weight: 525;
 }
