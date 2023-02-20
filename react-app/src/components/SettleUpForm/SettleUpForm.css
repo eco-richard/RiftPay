@@ -43,7 +43,7 @@
 }
 
 .settle-up-close-button {
-  padding: 10px; 
+  padding: 10px;
 }
 
 .settle-up-close-button button {
@@ -103,4 +103,17 @@
 
 .recipient-wrapper:hover {
   background-color: lightgrey;
+}
+.no-friends-lol{
+  padding: 15px;;
+}
+.alert-button-container{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.alert-button{
+  width: 40px;
+  border: 1px solid black;
+  height: 30px;
 }

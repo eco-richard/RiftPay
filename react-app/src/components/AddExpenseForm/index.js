@@ -6,6 +6,7 @@ import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
 import { createTransaction, getAllTransactions } from "../../store/transaction";
 import { getBalances, getFriendBalance } from "../../store/balances";
+import { Redirect, useLocation, useHistory } from "react-router-dom";
 
 export default function AddExpenseForm() {
     const dispatch = useDispatch();
@@ -16,6 +17,9 @@ export default function AddExpenseForm() {
     const creatorId = creator.id
     const createdAt = new Date();
     const stringDate = createdAt.toISOString().slice(0, 10)
+    const [alerted, setAlerted] = useState(false)
+    const location = useLocation()
+    const history = useHistory()
     // console.log('stringdate:', stringDate)
 
     // console.log("Friends: ", friends);
@@ -288,9 +292,20 @@ export default function AddExpenseForm() {
     //     setParticipants(participants)
     // }, [participantsLength])
 
+    const alertFunc = () => {
+        window.alert("You have no one in your friends list yet!");
+    }
+    if (friends.length === 0) {
+        return (
+          <div>
+            <div className="no-friends-lol">You have no friends to settle up with!</div>
+            <div className="alert-button-container">
 
-
-    if (friends.length === 0) return null;
+              <button className="alert-button" onClick={closeModal}>Ok</button>
+            </div>
+          </div>
+        )
+      }
 
     return (
         <>
