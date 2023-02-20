@@ -26,23 +26,23 @@ function SplashPage() {
                         </div>
                         <div className="icons-container">
                             <span>
-                                <i class="fa-solid fa-plane fa-5x"></i>
+                                <i class="fa-solid fa-plane fa-5x green"></i>
                             </span>
 
                             <span>
-                                <i class="fa-solid fa-house fa-5x"></i>
+                                <i class="fa-solid fa-house fa-5x green"></i>
                             </span>
 
                             <span>
-                                <i class="fa-solid fa-user-group fa-5x"></i>
+                                <i class="fa-solid fa-user-group fa-5x green"></i>
                             </span>
 
                             <span>
-                                <i class="fa-solid fa-utensils fa-5x"></i>
+                                <i class="fa-solid fa-utensils fa-5x green"></i>
                             </span>
 
                             <span>
-                            <i class="fa-solid fa-file-invoice-dollar fa-5x"></i>
+                            <i class="fa-solid fa-file-invoice-dollar fa-5x green"></i>
                             </span>
                         </div>
                         <div className="text-details">

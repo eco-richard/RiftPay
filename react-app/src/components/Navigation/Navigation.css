@@ -19,3 +19,33 @@
 .logged-out-nav-buttons-container{
   display: flex;
 }
+
+.home-button-container {
+    display: flex;
+}
+
+.home-button-content {
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.riftpay-label {
+    font-weight: 550;
+    color: rgb(55, 59, 63);
+    font-size: 20px;
+}
+
+.riftpay-icon {
+    color: white;
+    z-index: 10;
+}
+
+/*
+i {
+    z-index: 1;
+} */
+
+.home {
+    color: red
+}
