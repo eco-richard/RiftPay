@@ -186,6 +186,20 @@ const EditExpenseForm = ({ transaction }) => {
         e.preventDefault();
         setErrors([]);
 
+        if (participantsLength == 1) {
+            window.confirm("There is only one person involved in this expense. Do you still want to save it?")
+        }
+
+        if (repayments == "Unequal payments") {
+            window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            setErrors(['Error: payments do not add up to cost'])
+        }
+
+        if (repayments == "Insufficient percentages") {
+            window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+            setErrors(['Error: percentages do not add up to 100'])
+        }
+
         const newTransaction = {
             ...transaction,
             cost,
@@ -203,7 +217,9 @@ const EditExpenseForm = ({ transaction }) => {
             .catch(
                 async (res) => {
                     const data = await res.json();
+                    // console.log('data:', data)
                     if (data && data.errors) setErrors(data.errors);
+                    else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
         // dispatch(getAllTransactions())
@@ -300,7 +316,7 @@ const EditExpenseForm = ({ transaction }) => {
                         </div>
                         <div className="form-cancel-save-div">
                             <button className="cancel-button" onClick={closeModal}>Cancel</button>
-                            <button className="save-button" type="submit">Save</button>
+                            <button className="save-button" disabled={!!errors.length} type="submit">Save</button>
 
                         </div>
                     </form>
