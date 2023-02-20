@@ -21,6 +21,7 @@ function FriendPage() {
     const singleFriend = useSelector(state => state.friends.singleFriend)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
     const balances = useSelector(state => state.balance);
+    const [calledTransactions, setCalledTransactions] = useState(false)
     console.log("BALANCE: ", balances);
     const friendBalance = balances.friends[friendId]?.balance;
     console.log("Friend Balance:", friendBalance);
@@ -35,10 +36,15 @@ function FriendPage() {
         dispatch(loadSingleFriendThunk(friendId))
         dispatch(getFriendTransactions(friendId))
         dispatch(getBalances())
+        setCalledTransactions(true)
     },[dispatch, friendId])
 
     if (!user) return <Redirect to="/"/>
-    if (Object.values(singleFriend).length === 0 || transactions.length === 0) return null
+
+    if (Object.values(singleFriend).length === 0) return null
+
+    console.log(calledTransactions)
+    if (transactions.length === 0 && !calledTransactions) return null;
     if (Object.values(balances).length === 0) return null;
 
     const removeFriendHandleClick = async (e) => {

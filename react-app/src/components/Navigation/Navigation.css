@@ -57,6 +57,7 @@
 
 button {
     border: 1px solid white;
+    /* padding: 12px; */
     border-radius: 8px;
     transition-duration: 0.4s;
     font-weight: 530;
