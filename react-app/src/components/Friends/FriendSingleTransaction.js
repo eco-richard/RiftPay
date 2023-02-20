@@ -5,7 +5,7 @@ import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "../AllExpenses/TransactionDetails";
 import { deleteTransaction } from "../../store/transaction";
 
-export default function FriendSingleTransaction({transaction}) {
+export default function FriendSingleTransaction({transaction, singleFriend}) {
     const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
@@ -19,7 +19,9 @@ export default function FriendSingleTransaction({transaction}) {
     // }, [dispatch])
 
     const deleteTransactionFunction = async (transaction) => {
-        return dispatch(deleteTransaction(transaction));
+        window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
+        await dispatch(deleteTransaction(transaction))
+            // .then(dispatch(loadFriendsThunk))
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -47,7 +49,7 @@ export default function FriendSingleTransaction({transaction}) {
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
-    const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
+    const singleRepayment = transaction.repayments.filter((repayment) => (repayment.debtor.id === user.id && repayment.loaner.id === singleFriend.id) || (repayment.debtor.id === singleFriend.id && repayment.loaner.id === user.id))[0];
     // optional chaining here?
     // console.log('single repayment:', singleRepayment)
 
@@ -56,7 +58,7 @@ export default function FriendSingleTransaction({transaction}) {
     let payerName = "";
     if (payer.payer.id === user.id) {
         payerName = "you"
-        lentAmount = singleRepayment.amount
+        lentAmount = singleRepayment?.amount
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -67,7 +69,7 @@ export default function FriendSingleTransaction({transaction}) {
     } else {
         payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
-        lentAmount = singleRepayment.amount;
+        lentAmount = singleRepayment?.amount;
         //optional chaining here?
     }
 

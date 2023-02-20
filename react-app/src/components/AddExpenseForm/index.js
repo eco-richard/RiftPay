@@ -5,7 +5,7 @@ import { loadFriendsThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
 import { createTransaction, getAllTransactions } from "../../store/transaction";
-import { getBalances, getFriendBalance } from "../../store/balances";
+// import { getBalances, getFriendBalance } from "../../store/balances";
 import { Redirect, useLocation, useHistory } from "react-router-dom";
 
 export default function AddExpenseForm() {
@@ -205,34 +205,40 @@ export default function AddExpenseForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors([]);
-        // Validation checking
-        // if (splitText === 'equally') {
-        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
-        //     console.log('in if repayments:', repayments)
-        // }
-        // else if (exactPaymentsForm) {
-        //     setRepayments(exactPayments(creator, participants, debtInput, cost))
-        // }
-        // else if (percentPaymentsForm) {
-        //     setRepayments(percentPayments(creator, participants, debtInput, cost))
-        // }
-        // else {
-        //     //error here
-        // }
-        // console.log('repayments:', repayments)
+        // setErrors([]);
+        const errors = [];
+        console.log('repayments:', repayments)
+        console.log(errors)
+
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
         if (repayments == "Unequal payments") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            setErrors(['Error: payments do not add up to cost'])
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
+            console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
-            window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
-            setErrors(['Error: percentages do not add up to 100'])
+            // window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+            errors.push(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
+        }
+
+        if (description.length > 50) {
+            errors.push("Description must be less than 50 characters")
+        }
+
+        if (note.length > 250) {
+            errors.push("Note must be less than 250 characters")
+        }
+
+        if (image.length > 250) {
+            errors.push("Image URL must be less than 250 characters")
+        }
+
+        if (cost > 100000000) {
+            errors.push("Cost can not exceed one millions dollars")
         }
 
         const newTransaction = {
@@ -245,21 +251,22 @@ export default function AddExpenseForm() {
             payers: `${user.id}/${cost}`,
             repayments
         }
-        console.log('errors', errors)
+        if (errors.length > 0) {
+            return window.alert(`${errors[0]}`)
+        }
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    // console.log(data.errors)
+                    console.log('in the catch')
                     if (data && data.errors) setErrors(data.errors);
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-        // dispatch(getAllTransactions())
-        // dispatch(getFriendBalance())
-        dispatch(getBalances())
+        console.log('response:', response)
+        dispatch(loadFriendsThunk())
     }
 
     const getParticipantName = (participant) => {

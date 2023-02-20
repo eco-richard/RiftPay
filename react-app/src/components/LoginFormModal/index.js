@@ -42,7 +42,7 @@ function LoginFormModal() {
   }
 
   return (
-    <div classsName="login-form-container">
+    <div className="login-form-container">
       <div className="login-header">Log In</div>
       <form onSubmit={handleSubmit}>
         <ul>

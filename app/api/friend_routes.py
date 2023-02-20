@@ -14,8 +14,8 @@ def all_friends():
     """
     Query for all friends by a logged in user id and returns them in a list of user dictionaries
     """
-    user_friends = [{"first_name": friend.first_name.title(), "last_name": friend.last_name.title(), "id": friend.id} for friend in current_user.friends]
-    return {'user_friends': user_friends}
+    # user_friends = [{"first_name": friend.first_name.title(), "last_name": friend.last_name.title(), "id": friend.id, "friends": friend.get_friends()} for friend in current_user.friends]
+    return {'user_friends': current_user.get_friends()}
 
 @friend_routes.route('/<int:friendId>')
 @login_required
@@ -23,8 +23,11 @@ def single_friends(friendId):
     """
     Query for all friends by a logged in user id and returns them in a list of user dictionaries
     """
-    friend = User.query.get(friendId)
-    return {"Single_Friend": friend.to_dict()}
+    friends = current_user.get_friends()
+    friends_list = list(friends)
+    friend = [friend for friend in friends_list if friend["id"] == friendId][0]
+
+    return {'user_friend': friend}
 
 @friend_routes.route('/<int:friendId>', methods=["DELETE"])
 @login_required
@@ -35,7 +38,7 @@ def remove_friend(friendId):
 
     friend = User.query.get(friendId)
 
-    current_user.friends.remove(friend);
+    current_user.friends.remove(friend)
     friend.friends.remove(current_user)
     db.session.commit()
 
@@ -52,7 +55,7 @@ def add_friend():
     form ['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = db.session.execute(db.select(User).filter_by(email=form.data["email"])).scalar_one()
-        current_user.friends.append(user);
+        current_user.friends.append(user)
         user.friends.append(current_user)
         db.session.commit()
         return {"user": {"first_name": user.first_name.title(), "last_name": user.last_name.title(), "id": user.id}}
