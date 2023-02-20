@@ -1,5 +1,5 @@
 .single-expense-delete-hidden {
-    display: none;
+    opacity: 0;
 }
 
 .single-expense-container {
@@ -111,5 +111,5 @@
 }
 
 .single-expense-delete-button {
-    margin-left: 5px;
+    /* margin-left: 5px; */
 }
