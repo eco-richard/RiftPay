@@ -61,7 +61,8 @@ def sign_up():
             first_name=form.data["first_name"].title(),
             last_name=form.data["last_name"].title(),
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            picture="https://s3.amazonaws.com/splitwise/uploads/user/default_avatars/avatar-teal1-100px.png"
         )
         db.session.add(user)
         db.session.commit()
