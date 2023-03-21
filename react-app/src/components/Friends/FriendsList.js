@@ -6,22 +6,22 @@ import OpenModalButton from "../OpenModalButton";
 import AddFriendFormModal from "../AddFriendFormModal";
 import "./FriendsList.css"
 
-function FriendsList() {
+function FriendsList({friends}) {
 
     const dispatch = useDispatch()
 
-    const [flag, setFlag] = useState(true)
+    // const [flag, setFlag] = useState(true)
 
     const current_user = useSelector(state => state.session.user)
-    const friends = useSelector(state => state.friends.friends)
+    // const friends = useSelector(state => state.friends.friends)
     const friendsArr = Object.values(friends)
 
-    useEffect(() => {
-        if (flag) {
-            dispatch(loadFriendsThunk())
-            setFlag(false);
-          }
-    }, [dispatch, current_user, flag, friendsArr])
+    // useEffect(() => {
+    //     if (flag) {
+    //         dispatch(loadFriendsThunk())
+    //         setFlag(false);
+    //       }
+    // }, [dispatch, current_user, flag, friendsArr])
 
     if (Object.keys(friends).length === 0) {
         <div className="friends-list-and-header-container">

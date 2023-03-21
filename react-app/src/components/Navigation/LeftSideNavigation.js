@@ -1,11 +1,24 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { loadFriendsThunk } from '../../store/friends';
 import FriendsList from '../Friends/FriendsList';
 import './LeftSideNavigation.css';
 
 
 function LeftSideNavigation() {
+    const dispatch = useDispatch();
+    const friends = useSelector(state => state.friends.friends);
+
+    useEffect(() => {
+        dispatch(loadFriendsThunk())
+    }, [dispatch])
+
+    if (!friends) {
+        return null
+    }
+
     return (
         <div className='left-side-nav-bar-container'>
             <div className="dashboard-all-expenses-links-container">
@@ -18,7 +31,7 @@ function LeftSideNavigation() {
             </div>
             <div style={{ height: "20px" }}></div>
             <div className="individual-friend">
-                <FriendsList />
+                <FriendsList friends={friends}/>
             </div>
         </div>
     )

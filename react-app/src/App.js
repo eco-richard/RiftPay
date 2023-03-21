@@ -9,6 +9,7 @@ import FriendPage from "./components/Friends/FriendPage";
 import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
+import LeftSideNavigation from "./components/Navigation/LeftSideNavigation";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <LeftSideNavigation />
       {isLoaded && (
         <Switch>
           <Route exact path="/">

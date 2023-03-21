@@ -106,9 +106,9 @@ function Dashboard() {
 
     return (
         <div className="column-wrapper">
-            <div className="left-column-container">
+            {/* <div className="left-column-container">
                 <LeftSideNavigation />
-            </div>
+            </div> */}
             <div className="middle-column-container">
                 <div className='dashboard-header-container'>
                     <div className="dashboard-header-title-and-buttons">
