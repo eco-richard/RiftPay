@@ -1,7 +1,6 @@
 import "./AboutLinks.css"
-import githubLogo from "./splash-images/github-icon.png"
-import linkedInLogo from "./splash-images/linked-in-icon.png"
-import emailIcon from "./splash-images/email-icon.png"
+import githubLogo from "../../images/github-icon.png"
+import linkedInLogo from "../../images/linked-in-icon.png"
 
 function AboutLinks() {
 
