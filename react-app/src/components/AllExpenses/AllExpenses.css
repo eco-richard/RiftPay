@@ -19,7 +19,6 @@
 }
 .right-column-container{
     width: 20%;
-    display: flex;
     margin-right: 10%;
     padding-left: 1%
 }

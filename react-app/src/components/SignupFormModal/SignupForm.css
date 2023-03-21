@@ -2,11 +2,15 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
+    height: 10%;
+    width: 680px;
 }
 .signup-left-column-container {
     width: 100%;
     padding: 20px;
+    display: flex;
+
+    justify-content: center;
 }
 .signup-right-column-container {
     display: flex;
@@ -56,7 +60,9 @@
     border-radius: 5px;
     /* padding: 2px; */
 }
-.riftpay-icon.green {
-    padding-left: 40px;
+#signup-modal-icon {
+    /* padding-left: 40px; */
     color: #5cc5a7;
+    width: auto;
+    height: auto;
 }

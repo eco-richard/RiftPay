@@ -90,6 +90,8 @@ button:hover {
   background-color: #5bc5a7;
   border: none;
   color: white;
+  display: flex;
+  justify-content: end;
 }
 
 .user-image-div {

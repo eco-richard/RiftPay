@@ -1,0 +1,31 @@
+#right-side-links-container{
+    margin-top: 18.72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+#right-side-links-header{
+    font-size: 35px;
+}
+.right-side-person-header{
+    font-size: 20px;
+}
+.right-side-person-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-side-logos-container{
+    display: flex;
+    align-items: center;
+}
+
+.right-side-line-break{
+    margin-top: 10%;
+    width: 100%;
+    border-top: 1.5px solid #5bc5a7;
+    margin-bottom: 10%;
+}
