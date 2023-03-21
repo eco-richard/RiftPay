@@ -128,7 +128,7 @@ export default function reducer(state = initialState, action) {
             newState.singleTransaction = action.transaction;
             return newState;
         case GET_FRIEND_TRANSACTIONS:
-            newState = {...state, allTransactions: {}}
+            newState = {allTransactions: {}, singleTransaction: {}}
             action.transactions.Transactions.forEach(transaction => {
                 newState.allTransactions[transaction.id] = transaction
             })

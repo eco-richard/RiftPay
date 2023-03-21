@@ -36,9 +36,9 @@ export default function SettleUpForm({singleFriend}) {
   const DEFAULT_IMAGE_URL = "https://s3.amazonaws.com/splitwise/uploads/user/default_avatars/avatar-teal1-100px.png"
   const userImage = user.picture === null ? DEFAULT_IMAGE_URL : user.picture;
 
-  useEffect(() => {
-    dispatch(loadFriendsThunk())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(loadFriendsThunk())
+  // }, [dispatch])
 
   if (friends.length === 0) {
     return (
