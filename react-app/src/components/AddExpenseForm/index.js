@@ -23,9 +23,9 @@ export default function AddExpenseForm() {
     // console.log('stringdate:', stringDate)
 
     // console.log("Friends: ", friends);
-    useEffect(() => {
-        dispatch(loadFriendsThunk())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk())
+    // }, [dispatch])
 
 
     //form render state variables

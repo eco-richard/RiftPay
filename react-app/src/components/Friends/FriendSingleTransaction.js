@@ -49,9 +49,9 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
-    const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment.debtor.id === singleFriend.id && repayment?.loaner.id === user.id))[0];
+    const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment.debtor.id === singleFriend?.id && repayment?.loaner.id === user.id))[0];
     // optional chaining here?
-    // console.log('single repayment:', singleRepayment)
+    console.log('single repayment:', singleRepayment)
 
     let lentNameFull = "";
     let lentAmount;
@@ -71,6 +71,10 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment?.amount;
         //optional chaining here?
+    }
+
+    if (!singleRepayment) {
+        return null
     }
 
     return (
