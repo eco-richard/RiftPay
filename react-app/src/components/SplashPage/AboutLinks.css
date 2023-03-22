@@ -19,7 +19,7 @@
     margin-right: 3%;
 }
 #about-links-header{
-    font-size: 40px;
+    font-size: 30px;
     color: white;
     text-align: center;
 }
@@ -48,13 +48,10 @@
 .footer-link-container{
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 50%;
 }
 .footer-field{
     color: white;
-}
-#linked-in-logo{
-    height: 77px;
-    margin-left: 10%;
+    width: 50%;
 }
