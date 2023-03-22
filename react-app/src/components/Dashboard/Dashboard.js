@@ -8,6 +8,7 @@ import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import OweYouFriendBill from '../FriendBill/OweYouFriendBill';
 import YouOweFriendBill from '../FriendBill/YouOweFriendBill';
 import AddExpenseForm from '../AddExpenseForm';
+import RightSideNavigation from '../Navigation/RightSideNavigation';
 
 import "./Dashboard.css"
 import { loadFriendsThunk } from '../../store/friends';
@@ -172,11 +173,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className="right-column-container">
-                <div className="right-column-content">
-                    <h2 style={{color: "#999"}}>RIFTPAY ON THE GO</h2>
-                    <div>Riftpay for Android and IOS coming soon!</div>
-                    <div>Developers needed!!!</div>
-                </div>
+                <RightSideNavigation />
             </div>
 
         </div>

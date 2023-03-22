@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AboutLinks from "./AboutLinks";
 import "./SplashPage.css";
 
 function SplashPage() {
@@ -137,6 +138,7 @@ function SplashPage() {
                     </div>
                 </div>
             </div>
+            <AboutLinks />
         </div>
     );
 }
