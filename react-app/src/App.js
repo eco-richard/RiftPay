@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import SplashPage from "./components/SplashPage"
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -14,6 +14,9 @@ import LeftSideNavigation from "./components/Navigation/LeftSideNavigation";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const location = useLocation()
+  const [pathIsSplash, setPathIsSplash] = useState(location.pathname === "/")
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -21,22 +24,24 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <LeftSideNavigation />
       {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <SplashPage />
-          </Route>
-          <Route exact path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route exact path="/all">
-            <AllExpenses />
-          </Route>
-          <Route exact path="/friends/:friendId">
-            <FriendPage />
-          </Route>
-        </Switch>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          {!pathIsSplash && <LeftSideNavigation />}
+          <Switch>
+            <Route exact path="/">
+              <SplashPage />
+            </Route>
+            <Route exact path="/dashboard">
+              <Dashboard />
+            </Route>
+            <Route exact path="/all">
+              <AllExpenses />
+            </Route>
+            <Route exact path="/friends/:friendId">
+              <FriendPage />
+            </Route>
+          </Switch>
+        </div>
       )}
     </>
   );
