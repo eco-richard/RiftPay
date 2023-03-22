@@ -1,12 +1,15 @@
 .left-side-nav-bar-container{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     margin-top: 18.720px;
+    width: 20%;
+    display: flex;
+    margin-left: 10%;
+    padding-right: 1%;
     color: rgb(145, 145, 153)
 }
 .dashboard-all-expenses-links-container{
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

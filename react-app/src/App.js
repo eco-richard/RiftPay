@@ -21,22 +21,24 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <LeftSideNavigation />
       {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <SplashPage />
-          </Route>
-          <Route exact path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route exact path="/all">
-            <AllExpenses />
-          </Route>
-          <Route exact path="/friends/:friendId">
-            <FriendPage />
-          </Route>
-        </Switch>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <LeftSideNavigation />
+          <Switch>
+            <Route exact path="/">
+              <SplashPage />
+            </Route>
+            <Route exact path="/dashboard">
+              <Dashboard />
+            </Route>
+            <Route exact path="/all">
+              <AllExpenses />
+            </Route>
+            <Route exact path="/friends/:friendId">
+              <FriendPage />
+            </Route>
+          </Switch>
+        </div>
       )}
     </>
   );
