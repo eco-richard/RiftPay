@@ -7,7 +7,7 @@
     font-size: 1em
 }
 .note-content{
-    width: 100%;
+    max-width: 380px;
     word-wrap: break-word;
     font-size: 1em;
 }
