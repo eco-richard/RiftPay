@@ -10,10 +10,11 @@ function styleLoanerName(repayment) {
 function styleDebtorName(repayment) {
     return `${repayment.debtor.first_name} ${repayment.debtor.last_name[0]}.`
 }
-export const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+export const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-export default function TransactionDetails({transaction, monthIdx, day}) {
+export default function TransactionDetails({ transaction, monthIdx, day }) {
     // const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    console.log(transaction.payers)
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
@@ -62,7 +63,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                     <div className='transaction-details-header-update'>
                         <OpenModalButton
                             buttonText="Edit Transaction"
-                            modalComponent={<EditExpenseForm transaction={transaction}/>}
+                            modalComponent={<EditExpenseForm transaction={transaction} />}
                         />
                     </div>
                 </div>
@@ -73,12 +74,18 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                         <div className='transaction-details-payers'>
                             {repayments.map(repayment =>
                                 repayment.loaner.id === repayment.debtor.id ?
-                                    <div className='transaction-details-payer'>
-                                        {styleDebtorName(repayment)} paid ${payers.amount} and owes ${repayment.amount}.
+                                    <div className='transaction-details-payer-container transaction-detail-person-container'>
+                                        <img className="transaction-detail-profile-picture" src={repayment.loaner.picture}></img>
+                                        <div className="transaction-details-payer-information transaction-details-person-information">
+                                            <strong>{styleDebtorName(repayment)}</strong> paid <strong>${payers.amount.toFixed(2)}</strong> and owes <strong>${repayment.amount.toFixed(2)}</strong>.
+                                        </div>
                                     </div>
                                     :
-                                    <div className='transaction-details-ower'>
-                                        {styleDebtorName(repayment)} owes ${repayment.amount}.
+                                    <div className='transaction-details-ower-container transaction-detail-person-container'>
+                                        <img className="transaction-detail-profile-picture" src={repayment.loaner.picture}></img>
+                                        <div className="transaction-details-ower-information transaction-details-person-information">
+                                            <strong>{styleDebtorName(repayment)}</strong> owes <strong>${repayment.amount.toFixed(2)}</strong>.
+                                        </div>
                                     </div>
                             )
                             }
@@ -87,7 +94,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                 </div>
                 <div className="right-column-wrapper">
                     <div className="transaction-details-comments">
-                        <AllComments transaction_id={transaction.id} transactionNote={transaction.note}/>
+                        <AllComments transaction_id={transaction.id} transactionNote={transaction.note} />
                     </div>
                 </div>
             </div>

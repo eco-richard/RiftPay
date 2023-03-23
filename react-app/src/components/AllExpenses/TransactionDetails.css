@@ -26,3 +26,19 @@
 .right-column-wrapper{
     width: 48%;
 }
+.transaction-detail-profile-picture{
+    height: 38px;
+    width: 38px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+    margin-top: -2px;
+}
+.transaction-detail-person-container{
+    display: flex;
+    align-items: center;
+    margin-top: .5em;
+}
+.transaction-details-person-information{
+    font-size: 14px;
+}
