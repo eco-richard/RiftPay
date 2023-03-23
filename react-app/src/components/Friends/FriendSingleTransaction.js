@@ -7,7 +7,7 @@ import { deleteTransaction } from "../../store/transaction";
 import { loadSingleFriendThunk } from "../../store/friends";
 
 export default function FriendSingleTransaction({transaction, singleFriend, friendId}) {
-    console.log('friend id', friendId)
+    // console.log('friend id', friendId)
     const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
