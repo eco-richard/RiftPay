@@ -1,0 +1,13 @@
+.note-container{
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+.note-header{
+    font-weight: bold;
+    font-size: 1em
+}
+.note-content{
+    width: 100%;
+    word-wrap: break-word;
+    font-size: 1em;
+}

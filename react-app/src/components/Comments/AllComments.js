@@ -6,7 +6,7 @@ import AddComment from "./AddComment";
 import SingleComment from "./SingleComment";
 import './AllComments.css'
 
-function AllComments({transaction_id, transactionNote}) {
+function AllComments({ transaction_id, transactionNote }) {
 
     const dispatch = useDispatch()
 
@@ -15,7 +15,7 @@ function AllComments({transaction_id, transactionNote}) {
     useEffect(() => {
         dispatch(loadCommentsThunk(transaction_id));
         // return () => dispatch(clearComments())
-    },[dispatch, transaction_id])
+    }, [dispatch, transaction_id])
 
     if (!comments) {
         return null;
@@ -41,15 +41,19 @@ function AllComments({transaction_id, transactionNote}) {
     return (
         <div className="all-comments-wrapper">
             <div className="all-comments-header">
-            <i class="fa-solid fa-book"></i> Notes and Comments
+                <i class="fa-solid fa-book"></i> <span style={{fontSize: "1em"}}>Notes and Comments</span>
             </div>
             <div className="transaction-note-container">
-                <div className="note-header">
-                    Note
-                </div>
-                <div className="note-content">
-                    {transactionNote}
-                </div>
+                {transactionNote && (
+                    <div className="note-container">
+                        <div className="note-header">
+                            Note
+                        </div>
+                        <div className="note-content">
+                            {transactionNote}
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="single-comment-container">
                 <div className="single-comment-content">
@@ -59,7 +63,7 @@ function AllComments({transaction_id, transactionNote}) {
                 </div>
             </div>
             <div className="comment-submission-container">
-                <AddComment transaction_id={transaction_id}/>
+                <AddComment transaction_id={transaction_id} />
             </div>
         </div>
     )
