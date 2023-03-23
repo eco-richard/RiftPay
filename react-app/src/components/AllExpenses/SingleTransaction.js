@@ -59,9 +59,11 @@ export default function SingleTransaction({transaction}) {
     let lentNameFull = "";
     let lentAmount;
     let payerName = "";
+    let loanerAmountClassName
     if (payer.payer.id === user.id) {
         payerName = "you"
         lentAmount = payer.amount - singleRepayment?.amount
+        loanerAmountClassName = "single-expense-loaner-amount-lender"
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -73,6 +75,7 @@ export default function SingleTransaction({transaction}) {
         payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment?.amount;
+        loanerAmountClassName = "single-expense-loaner-amount-lendee"
         //optional chaining here?
     }
 
@@ -118,7 +121,7 @@ export default function SingleTransaction({transaction}) {
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
-                    <div className="single-expense-loaner-amount">
+                    <div className={loanerAmountClassName}>
                         ${lentAmount?.toFixed(2)}
                     </div>
                 </div>

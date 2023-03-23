@@ -17,7 +17,6 @@ function App() {
   const location = useLocation()
   const [pathIsSplash, setPathIsSplash] = useState(location.pathname === "/")
 
-  console.log(location)
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
