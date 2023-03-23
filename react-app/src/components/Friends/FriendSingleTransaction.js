@@ -51,7 +51,7 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     const payer = transaction.payers[0]
     const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment.debtor.id === singleFriend?.id && repayment?.loaner.id === user.id))[0];
     // optional chaining here?
-    console.log('single repayment:', singleRepayment)
+    // console.log('single repayment:', singleRepayment)
 
     let lentNameFull = "";
     let lentAmount;

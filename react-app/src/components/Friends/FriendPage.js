@@ -19,12 +19,12 @@ function FriendPage() {
 
     const user = useSelector((state) => state.session.user)
     const singleFriendObj = useSelector(state => state.friends.singleFriend)
-    console.log('single friend:', singleFriendObj)
+    // console.log('single friend:', singleFriendObj)
     const singleFriend = singleFriendObj.user_friend
     // const friends = useSelector(state => state.friends.friends)
     // console.log('friends:', friends)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
-    const transactionLength = transactions.length;
+    const transactionsLength = transactions.length;
     // const balances = useSelector(state => state.balance);
     // console.log("BALANCE: ", balances);
     // console.log("Friend Balance:", friendBalance);
@@ -43,9 +43,13 @@ function FriendPage() {
     useEffect(() => {
         // console.log('in use effect:')
         dispatch(loadSingleFriendThunk(friendId))
-            .then(() => dispatch(getFriendTransactions(friendId)))
+        dispatch(getFriendTransactions(friendId))
         // dispatch(getBalances())
     }, [dispatch, friendId])
+
+    // useEffect(() => {
+    //     dispatch(loadSingleFriendThunk(friendId))
+    // }, [transactionsLength])
 
     if (!singleFriend || !transactions) {
         return null
@@ -117,13 +121,13 @@ function FriendPage() {
                             <OpenModalButton
                                 className="add-expense-button"
                                 buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
+                                modalComponent={<AddExpenseForm friendId={friendId}/>}
                             ></OpenModalButton>
                             <span className="button-seperator"></span>
                             <OpenModalButton
                                 className="dash-settle-up-button"
                                 buttonText="Settle Up"
-                                modalComponent={<SettleUpForm singleFriend={singleFriend}/>}
+                                modalComponent={<SettleUpForm singleFriend={singleFriend} friendId={friendId}/>}
                             ></OpenModalButton>
                         </div>
                     </div>

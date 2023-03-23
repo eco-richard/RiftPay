@@ -22,7 +22,7 @@ function Dashboard() {
     // const [totalLoan, setTotalLoan] = useState(0)
     // const [totalDebt, setTotalDebt] = useState(0)
     // const [totalLoan, setTotalLoan] = useState(0)
-    console.log('friends in dashbaord:', friends)
+    // console.log('friends in dashbaord:', friends)
 
     let totalLoan = 0;
     let totalDebt = 0;
@@ -56,6 +56,12 @@ function Dashboard() {
     else {
         colorVar = "rgb(91, 197, 167)"
     }
+
+
+    useEffect(() => {
+        dispatch(loadFriendsThunk())
+    }, [dispatch])
+    
     // console.log('totalDebt', totalDebt)
     // console.log('totalLoan', totalLoan)
     // console.log('totalBalance', totalBalance)
@@ -79,12 +85,12 @@ function Dashboard() {
     //         </div>
     //     )
     // }
-    useEffect(() => {
-        dispatch(loadFriendsThunk());
-        // dispatch(getBalances());
-        // dispatch(getFriendBalance());
-        // dispatch to get all transactions here?
-    }, [dispatch, friendsLength])
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk());
+    //     // dispatch(getBalances());
+    //     // dispatch(getFriendBalance());
+    //     // dispatch to get all transactions here?
+    // }, [dispatch, friendsLength])
 
     if (!user) return <Redirect to="/"/>;
 

@@ -46,15 +46,16 @@ function AllExpenses() {
     // console.log('totalBalance', totalBalance)
     // console.log('loaner friends:', loanerFriend)
     // console.log('debtor friends:', debtorFriend)
-    useEffect(() => {
-        dispatch(loadFriendsThunk())
-    }, [transactionsLength])
-
 
     useEffect(() => {
         dispatch(getAllTransactions())
+        dispatch(loadFriendsThunk())
         // dispatch(getBalances())
     }, [dispatch])
+
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk())
+    // }, [transactionsLength])
 
     let colorVar;
     if (totalLoan > totalDebt) {
