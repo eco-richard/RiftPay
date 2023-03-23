@@ -136,7 +136,7 @@ function FriendPage() {
                 <div className='expenses-content-container'>
                     <div className="expense-bills-container">
                         {transactions.map(transaction => (
-                            <FriendSingleTransaction transaction={transaction} singleFriend={singleFriend}/>
+                            <FriendSingleTransaction transaction={transaction} singleFriend={singleFriend} friendId={friendId}/>
                         ))}
                     </div>
                 </div>

@@ -12,7 +12,7 @@ function styleDebtorName(repayment) {
 }
 export const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-export default function TransactionDetails({transaction, monthIdx, day}) {
+export default function TransactionDetails({transaction, monthIdx, day, friendId}) {
     // const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
@@ -62,7 +62,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                     <div className='transaction-details-header-update'>
                         <OpenModalButton
                             buttonText="Edit Transaction"
-                            modalComponent={<EditExpenseForm transaction={transaction}/>}
+                            modalComponent={<EditExpenseForm transaction={transaction} friendId={friendId}/>}
                         />
                     </div>
                 </div>

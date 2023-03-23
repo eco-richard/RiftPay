@@ -4,8 +4,10 @@ import { Redirect } from "react-router-dom";
 import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "../AllExpenses/TransactionDetails";
 import { deleteTransaction } from "../../store/transaction";
+import { loadSingleFriendThunk } from "../../store/friends";
 
-export default function FriendSingleTransaction({transaction, singleFriend}) {
+export default function FriendSingleTransaction({transaction, singleFriend, friendId}) {
+    console.log('friend id', friendId)
     const dispatch = useDispatch();
     // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
@@ -18,10 +20,10 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
     //     //not sure if this is necessary
     // }, [dispatch])
 
-    const deleteTransactionFunction = async (transaction) => {
+    const deleteTransactionFunction = async (transaction, friendId) => {
         window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
         await dispatch(deleteTransaction(transaction))
-            // .then(dispatch(loadFriendsThunk))
+            .then(dispatch(loadSingleFriendThunk(friendId)))
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -123,11 +125,11 @@ export default function FriendSingleTransaction({transaction, singleFriend}) {
                     </div>
                 </div>
                 <div className={renderDelete}>
-                    <button onClick={() =>deleteTransactionFunction(transaction)}>X</button>
+                    <button onClick={() =>deleteTransactionFunction(transaction, friendId)}>X</button>
                 </div>
             </div>
         </div>
-        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} />) : null}
+        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} friendId={friendId}/>) : null}
         </>
     );
 }

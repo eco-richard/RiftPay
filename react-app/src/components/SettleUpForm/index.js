@@ -118,11 +118,9 @@ export default function SettleUpForm({singleFriend, friendId}) {
       );
 
     if (friendId) {
-        console.log('in single friend')
         dispatch(loadSingleFriendThunk(friendId))
     }
     else {
-        console.log('in all friends')
         dispatch(loadFriendsThunk())
     }
   }

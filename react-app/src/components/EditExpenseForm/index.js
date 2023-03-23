@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { exactPayments, percentPayments } from "../AddExpenseForm/split_options";
 import { useModal } from "../../context/Modal";
-import { loadFriendsThunk } from "../../store/friends";
+import { loadFriendsThunk, loadSingleFriendThunk } from "../../store/friends";
 import { updateTransaction } from "../../store/transaction";
 import { getAllTransactions } from "../../store/transaction";
 import { getBalances, getFriendBalance } from "../../store/balances";
 
 
-const EditExpenseForm = ({ transaction }) => {
+const EditExpenseForm = ({ transaction, friendId }) => {
     // console.log('transaction:', transaction)
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -28,9 +28,9 @@ const EditExpenseForm = ({ transaction }) => {
     const updatedAt = new Date();
     const stringDate = updatedAt.toISOString().slice(0, 10)
 
-    useEffect(() => {
-        dispatch(loadFriendsThunk())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk())
+    // }, [dispatch])
 
     // different forms for different methods of splitting expense
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
@@ -248,9 +248,12 @@ const EditExpenseForm = ({ transaction }) => {
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-        // dispatch(getAllTransactions())
-        // dispatch(getFriendBalance())
-        dispatch(loadFriendsThunk())
+        if (friendId) {
+            dispatch(loadSingleFriendThunk(friendId))
+        }
+        else {
+            dispatch(loadFriendsThunk())
+        }
     }
 
     // function that allows names of those involved in transaction to be rendered in payment splits form

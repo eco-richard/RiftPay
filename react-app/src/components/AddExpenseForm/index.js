@@ -266,13 +266,10 @@ export default function AddExpenseForm({friendId}) {
                 }
             );
         // console.log('response:', response)
-        console.log('urlId', friendId)
         if (friendId) {
-            console.log('in single friend')
             dispatch(loadSingleFriendThunk(friendId))
         }
         else {
-            console.log('in all friends')
             dispatch(loadFriendsThunk())
         }
     }
