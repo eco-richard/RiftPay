@@ -19,7 +19,7 @@
     margin-right: 3%;
 }
 #about-links-header{
-    font-size: 30px;
+    font-size: 1.8em;
     color: white;
     text-align: center;
 }
@@ -43,7 +43,7 @@
 }
 .about-person-header{
     color: white;
-    font-size: 25px;
+    font-size: 1.4em;
 }
 .footer-link-container{
     display: flex;

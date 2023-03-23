@@ -33,3 +33,6 @@
 .right-side-logo{
     height: 4.5em;
 }
+.right-side-logo:hover{
+    height: 5.5em;
+}

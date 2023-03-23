@@ -6,7 +6,7 @@
     display: flex;
     margin-left: 10%;
     padding-right: 1%;
-    color: rgb(145, 145, 153)
+
 }
 .dashboard-all-expenses-links-container{
     /* height: 100%; */
@@ -14,3 +14,26 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.left-nav-link-container{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: 1.5em;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.left-nav-link-container:hover {
+    border-top: 1px gray solid;
+    border-bottom: 1px gray solid;
+    background-color: lightgray;
+}
+.left-navbar-link {
+    width: 100%;
+    color: rgb(145, 145, 153) !important
+}
+.left-navbar-link-active{
+    width: 100%;
+    color: #5bc5a7 !important;
+    padding-left: 4px;
+    border-left: 5px solid #5bc5a7;
+  }
