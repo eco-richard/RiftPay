@@ -267,6 +267,7 @@ export default function AddExpenseForm({friendId}) {
             );
         // console.log('response:', response)
         if (friendId) {
+            // dispatch(loadFriendsThunk())
             dispatch(loadSingleFriendThunk(friendId))
         }
         else {

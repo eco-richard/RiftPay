@@ -26,8 +26,9 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
         updater = transaction.users.filter(user => user.id === transaction.updater_id)[0];
         const year = transaction.updated_at.slice(0, 4);
         const month = Number(transaction.updated_at.slice(5, 7));
+        console.log('month', month)
         const day = transaction.updated_at.slice(8, 10);
-        updateDate = `${MONTHS[month]} ${day}, ${year}`
+        updateDate = `${MONTHS[month-1]} ${day}, ${year}`
     }
     const added = `Added by ${creator} on ${MONTHS[monthIdx]} ${day}, ${year}`
     const updated = `Last updated by ${updater?.first_name} ${updater?.last_name[0]}. on ${updateDate}`;
