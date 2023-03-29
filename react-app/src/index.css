@@ -25,6 +25,7 @@ html {
 #root {
     height: 100%;
     width: 100%;
+}
 
 .add-expense-button button {
     background: #ff652f;
