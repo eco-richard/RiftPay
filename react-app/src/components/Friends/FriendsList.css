@@ -1,12 +1,13 @@
+.friends-list-and-header-container{
+    padding-top: 6%;
+}
 .friends-label{
     font-size: 12px;
 }
-.individual-friend{
-    padding-top: 3%;
-}
 .friends-list-container{
-    padding-top: 3%;
+    padding-top: 6%;
 }
+
 .friends-header-container{
     display: flex;
     width: 100%;

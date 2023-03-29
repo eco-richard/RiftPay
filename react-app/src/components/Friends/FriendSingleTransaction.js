@@ -60,9 +60,11 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
     let lentNameFull = "";
     let lentAmount;
     let payerName = "";
+    let loanerAmountClassName
     if (payer.payer.id === user.id) {
         payerName = "you"
         lentAmount = singleRepayment?.amount
+        loanerAmountClassName = "single-expense-loaner-amount-lender"
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -74,6 +76,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment?.amount;
+        loanerAmountClassName = "single-expense-loaner-amount-lendee"
         //optional chaining here?
     }
     if (lentAmount == undefined){
@@ -125,8 +128,8 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
-                    <div className="single-expense-loaner-amount">
-                        ${lentAmount?.toFixed(2)}
+                    <div className={loanerAmountClassName}>
+                        ${lentAmount.toFixed(2)}
                     </div>
                 </div>
                 <div className={renderDelete}>

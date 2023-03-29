@@ -52,8 +52,8 @@ function FriendsList({friends}) {
             </div>
             <div className='friends-list-container'>
                 {friendsArr.map(friend => (
-                    <div>
-                        <NavLink to={`/friends/${friend.id}`} style={{ color: "rgb(145, 145, 153)" }}>{`${friend.first_name} ${friend.last_name}`}</NavLink>
+                    <div className="left-nav-link-container">
+                        <NavLink to={`/friends/${friend.id}`} className="left-navbar-link" activeClassName="left-navbar-link-active">{`${friend.first_name} ${friend.last_name}`}</NavLink>
                     </div>
                 ))}
             </div>

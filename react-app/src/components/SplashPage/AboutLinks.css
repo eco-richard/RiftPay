@@ -1,5 +1,5 @@
 #about-links-container{
-    margin-top: 5em;
+    margin-top: 20px;
     height: 15em;
     width: 80%;
     display: flex;
@@ -19,7 +19,7 @@
     margin-right: 3%;
 }
 #about-links-header{
-    font-size: 40px;
+    font-size: 1.8em;
     color: white;
     text-align: center;
 }
@@ -43,18 +43,15 @@
 }
 .about-person-header{
     color: white;
-    font-size: 25px;
+    font-size: 1.4em;
 }
 .footer-link-container{
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 50%;
 }
 .footer-field{
     color: white;
-}
-#linked-in-logo{
-    height: 77px;
-    margin-left: 10%;
+    width: 50%;
 }

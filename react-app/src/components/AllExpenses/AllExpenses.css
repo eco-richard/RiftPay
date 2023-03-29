@@ -26,6 +26,7 @@
 .right-column-content{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .expenses-header-container{
     display: flex;
