@@ -2,14 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { loadFriendsThunk } from '../../store/friends';
+import { loadFriendsThunk, loadSingleFriendThunk } from '../../store/friends';
 import { createTransaction, getAllTransactions } from '../../store/transaction';
 import { MONTHS } from '../AllExpenses/TransactionDetails';
 import { useParams } from 'react-router-dom';
 
 import './SettleUpForm.css'
 
-export default function SettleUpForm({singleFriend}) {
+export default function SettleUpForm({singleFriend, friendId}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [errors, setErrors] = useState([]);
@@ -116,6 +116,13 @@ export default function SettleUpForm({singleFriend}) {
               else if (data && data.title.includes('Error')) setErrors([data.message]);
           }
       );
+
+    if (friendId) {
+        dispatch(loadSingleFriendThunk(friendId))
+    }
+    else {
+        dispatch(loadFriendsThunk())
+    }
   }
   const openFriends = (e) => {
     // e.preventDefault();

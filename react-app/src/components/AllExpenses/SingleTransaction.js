@@ -23,7 +23,7 @@ export default function SingleTransaction({transaction}) {
     const deleteTransactionFunction = async (transaction) => {
         window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
         await dispatch(deleteTransaction(transaction))
-            // .then(dispatch(loadFriendsThunk))
+            .then(dispatch(loadFriendsThunk()))
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
