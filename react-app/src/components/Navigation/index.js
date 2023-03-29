@@ -43,22 +43,20 @@ function Navigation({ isLoaded }) {
     }
 
     return (
-        <div>
-            <div className="nav-buttons-container">
-                <div className="home-button-container">
-                        <NavLink exact to="/">
-                            <div className="label-logo-container">
+        <div className="nav-buttons-container">
+            <div className="home-button-container">
+                <NavLink exact to="/">
+                    <div className="label-logo-container">
 
 
-                            <i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i>
+                        <i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i>
 
-                            <div className="riftpay-label">RiftPay</div>
-                            </div>
-                        </NavLink>
+                        <div className="riftpay-label">RiftPay</div>
+                    </div>
+                </NavLink>
 
-                </div>
-                {isLoaded && sessionLinks}
             </div>
+            {isLoaded && sessionLinks}
         </div>
     );
 }

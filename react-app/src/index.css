@@ -3,6 +3,9 @@ a[href], input[type='submit'], input[type='image'], label[for], select, button, 
     cursor: pointer;
 }
 body {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0;
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
@@ -12,4 +15,13 @@ a:visited {
 }
 a:link {
     text-decoration: none;
+}
+html {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+#root {
+    height: 100%;
+    width: 100%;
 }
