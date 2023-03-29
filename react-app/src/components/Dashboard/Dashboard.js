@@ -8,6 +8,7 @@ import LeftSideNavigation from '../Navigation/LeftSideNavigation';
 import OweYouFriendBill from '../FriendBill/OweYouFriendBill';
 import YouOweFriendBill from '../FriendBill/YouOweFriendBill';
 import AddExpenseForm from '../AddExpenseForm';
+import RightSideNavigation from '../Navigation/RightSideNavigation';
 
 import "./Dashboard.css"
 import { loadFriendsThunk } from '../../store/friends';
@@ -21,7 +22,7 @@ function Dashboard() {
     // const [totalLoan, setTotalLoan] = useState(0)
     // const [totalDebt, setTotalDebt] = useState(0)
     // const [totalLoan, setTotalLoan] = useState(0)
-    console.log('friends in dashbaord:', friends)
+    // console.log('friends in dashbaord:', friends)
 
     let totalLoan = 0;
     let totalDebt = 0;
@@ -55,6 +56,12 @@ function Dashboard() {
     else {
         colorVar = "rgb(91, 197, 167)"
     }
+
+
+    useEffect(() => {
+        dispatch(loadFriendsThunk())
+    }, [dispatch])
+
     // console.log('totalDebt', totalDebt)
     // console.log('totalLoan', totalLoan)
     // console.log('totalBalance', totalBalance)
@@ -78,12 +85,12 @@ function Dashboard() {
     //         </div>
     //     )
     // }
-    useEffect(() => {
-        dispatch(loadFriendsThunk());
-        // dispatch(getBalances());
-        // dispatch(getFriendBalance());
-        // dispatch to get all transactions here?
-    }, [dispatch, friendsLength])
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk());
+    //     // dispatch(getBalances());
+    //     // dispatch(getFriendBalance());
+    //     // dispatch to get all transactions here?
+    // }, [dispatch, friendsLength])
 
     if (!user) return <Redirect to="/"/>;
 
@@ -106,25 +113,29 @@ function Dashboard() {
 
     return (
         <div className="column-wrapper">
-            <div className="left-column-container">
+            {/* <div className="left-column-container">
                 <LeftSideNavigation />
-            </div>
+            </div> */}
             <div className="middle-column-container">
                 <div className='dashboard-header-container'>
                     <div className="dashboard-header-title-and-buttons">
                         <h1 className="dashboard-header-title">Dashboard</h1>
                         <div className="dashboard-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm />}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm />}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm />}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
                     <div className="dashboard-balances-header-container">
@@ -172,11 +183,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className="right-column-container">
-                <div className="right-column-content">
-                    <h2 style={{color: "#999"}}>RIFTPAY ON THE GO</h2>
-                    <div>Riftpay for Android and IOS coming soon!</div>
-                    <div>Developers needed!!!</div>
-                </div>
+                <RightSideNavigation />
             </div>
 
         </div>

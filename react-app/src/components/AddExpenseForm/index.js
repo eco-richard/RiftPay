@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { loadFriendsThunk } from "../../store/friends";
+import { loadFriendsThunk, loadSingleFriendThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
 import { createTransaction, getAllTransactions } from "../../store/transaction";
 // import { getBalances, getFriendBalance } from "../../store/balances";
-import { Redirect, useLocation, useHistory } from "react-router-dom";
+import { Redirect, useLocation, useHistory, useParams } from "react-router-dom";
 
-export default function AddExpenseForm() {
+export default function AddExpenseForm({friendId}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
@@ -23,9 +23,9 @@ export default function AddExpenseForm() {
     // console.log('stringdate:', stringDate)
 
     // console.log("Friends: ", friends);
-    useEffect(() => {
-        dispatch(loadFriendsThunk())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk())
+    // }, [dispatch])
 
 
     //form render state variables
@@ -122,7 +122,7 @@ export default function AddExpenseForm() {
     // });
     // console.log('debtorObj:',debtorObj);
     const [debtInput, setDebtInput] = useState({});
-    console.log('debtInput:', debtInput)
+    // console.log('debtInput:', debtInput)
     // const [debtorObjState, setDebtorObjState] = useState(debtorObj)
     // console.log('debtorObj outside function:', debtorObj)
     // let inputName = 0;
@@ -207,8 +207,8 @@ export default function AddExpenseForm() {
         e.preventDefault();
         // setErrors([]);
         const errors = [];
-        console.log('repayments:', repayments)
-        console.log(errors)
+        // console.log('repayments:', repayments)
+        // console.log(errors)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
@@ -217,7 +217,7 @@ export default function AddExpenseForm() {
         if (repayments == "Unequal payments") {
             // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
             errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            console.log('errors inside conditional:', errors)
+            // console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
@@ -265,8 +265,14 @@ export default function AddExpenseForm() {
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-        console.log('response:', response)
-        dispatch(loadFriendsThunk())
+        // console.log('response:', response)
+        if (friendId) {
+            // dispatch(loadFriendsThunk())
+            dispatch(loadSingleFriendThunk(friendId))
+        }
+        else {
+            dispatch(loadFriendsThunk())
+        }
     }
 
     const getParticipantName = (participant) => {

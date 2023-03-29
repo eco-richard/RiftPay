@@ -19,6 +19,9 @@ function SignupFormModal() {
 		if (password === confirmPassword) {
 			const data = await dispatch(signUp(/*username, */firstName, lastName, email, password));
 			if (data) {
+				for (let i = 0; i < data.length; i++) {
+					data[i] = data[i].split(" : ")[1].trim();
+				}
 				setErrors(data);
 			} else {
 				closeModal();
@@ -33,7 +36,7 @@ function SignupFormModal() {
 	return (
 		<div className="signup-form-container">
 			<div className="signup-left-column-container">
-				<i class="fa-solid fa-comment-dollar riftpay-icon fa-10x green"></i>
+				<i className="fa-solid fa-comment-dollar riftpay-icon fa-10x green" id="signup-modal-icon"></i>
 			</div>
 			<div className="signup-right-column-container">
 				<div className="signup-form-header-and-body">

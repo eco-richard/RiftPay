@@ -18,6 +18,9 @@ function LoginFormModal() {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
+      for (let i = 0; i < data.length; i++) {
+        data[i] = data[i].split(" : ")[1].trim();
+      }
       setErrors(data);
     } else {
       history.push("/dashboard")

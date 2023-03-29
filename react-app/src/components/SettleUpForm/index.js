@@ -2,14 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { loadFriendsThunk } from '../../store/friends';
+import { loadFriendsThunk, loadSingleFriendThunk } from '../../store/friends';
 import { createTransaction, getAllTransactions } from '../../store/transaction';
 import { MONTHS } from '../AllExpenses/TransactionDetails';
 import { useParams } from 'react-router-dom';
 
 import './SettleUpForm.css'
 
-export default function SettleUpForm({singleFriend}) {
+export default function SettleUpForm({singleFriend, friendId}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [errors, setErrors] = useState([]);
@@ -36,9 +36,9 @@ export default function SettleUpForm({singleFriend}) {
   const DEFAULT_IMAGE_URL = "https://s3.amazonaws.com/splitwise/uploads/user/default_avatars/avatar-teal1-100px.png"
   const userImage = user.picture === null ? DEFAULT_IMAGE_URL : user.picture;
 
-  useEffect(() => {
-    dispatch(loadFriendsThunk())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(loadFriendsThunk())
+  // }, [dispatch])
 
   if (friends.length === 0) {
     return (
@@ -116,6 +116,13 @@ export default function SettleUpForm({singleFriend}) {
               else if (data && data.title.includes('Error')) setErrors([data.message]);
           }
       );
+
+    if (friendId) {
+        dispatch(loadSingleFriendThunk(friendId))
+    }
+    else {
+        dispatch(loadFriendsThunk())
+    }
   }
   const openFriends = (e) => {
     // e.preventDefault();

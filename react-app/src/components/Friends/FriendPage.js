@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useParams, useHistory, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import LeftSideNavigation from '../Navigation/LeftSideNavigation';
@@ -19,15 +19,14 @@ function FriendPage() {
 
     const user = useSelector((state) => state.session.user)
     const singleFriendObj = useSelector(state => state.friends.singleFriend)
-    const singleFriend = singleFriendObj['user_friend']
+    // console.log('single friend:', singleFriendObj)
+    const singleFriend = singleFriendObj.user_friend
     // const friends = useSelector(state => state.friends.friends)
-    // console.log('single friend:', singleFriend)
     // console.log('friends:', friends)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
-    const transactionLength = transactions.length;
+    const transactionsLength = transactions.length;
     // const balances = useSelector(state => state.balance);
     // console.log("BALANCE: ", balances);
-    const friendBalance = singleFriend?.balance
     // console.log("Friend Balance:", friendBalance);
     // console.log("TRANSACTIONS:", transactions)
     transactions.sort();
@@ -36,17 +35,27 @@ function FriendPage() {
     //     return Number(transaction1.created_at.slice(8)) > Number(transaction2.created_at.slice(8));
     // })
 
-    useEffect(() => {
-        // dispatch(loadFriendsThunk())
-        dispatch(loadSingleFriendThunk(friendId))
-    }, [transactionLength])
+    // useEffect(() => {
+    //     // dispatch(loadFriendsThunk())
+    //     dispatch(loadSingleFriendThunk(friendId))
+    // }, [transactionLength])
 
     useEffect(() => {
         // console.log('in use effect:')
-        dispatch(getFriendTransactions(friendId))
         dispatch(loadSingleFriendThunk(friendId))
+        dispatch(getFriendTransactions(friendId))
         // dispatch(getBalances())
-    },[dispatch, friendId])
+    }, [dispatch, friendId])
+
+    // useEffect(() => {
+    //     dispatch(loadSingleFriendThunk(friendId))
+    // }, [transactionsLength])
+
+    if (!singleFriend || !transactions) {
+        return null
+    }
+
+    const friendBalance = singleFriend?.balance
 
     if (!user) return <Redirect to="/"/>
     // if (Object.values(singleFriend).length === 0 || transactions.length === 0) return null
@@ -101,25 +110,29 @@ function FriendPage() {
     }
     return (
         <div className="column-wrapper">
-            <div className="left-column-container">
+            {/* <div className="left-column-container">
                 <LeftSideNavigation />
-            </div>
+            </div> */}
             <div className="middle-column-container">
                 <div className='expenses-header-container'>
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">{friendName}</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm friendId={friendId}/>}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm singleFriend={singleFriend}/>}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm singleFriend={singleFriend} friendId={friendId}/>}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
 
@@ -127,7 +140,7 @@ function FriendPage() {
                 <div className='expenses-content-container'>
                     <div className="expense-bills-container">
                         {transactions.map(transaction => (
-                            <FriendSingleTransaction transaction={transaction} singleFriend={singleFriend}/>
+                            <FriendSingleTransaction transaction={transaction} singleFriend={singleFriend} friendId={friendId}/>
                         ))}
                     </div>
                 </div>
