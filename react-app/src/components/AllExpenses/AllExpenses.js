@@ -46,15 +46,16 @@ function AllExpenses() {
     // console.log('totalBalance', totalBalance)
     // console.log('loaner friends:', loanerFriend)
     // console.log('debtor friends:', debtorFriend)
-    useEffect(() => {
-        dispatch(loadFriendsThunk())
-    }, [transactionsLength])
-
 
     useEffect(() => {
         dispatch(getAllTransactions())
+        dispatch(loadFriendsThunk())
         // dispatch(getBalances())
     }, [dispatch])
+
+    // useEffect(() => {
+    //     dispatch(loadFriendsThunk())
+    // }, [transactionsLength])
 
     let colorVar;
     if (totalLoan > totalDebt) {
@@ -123,17 +124,21 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm />}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm />}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm />}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
 

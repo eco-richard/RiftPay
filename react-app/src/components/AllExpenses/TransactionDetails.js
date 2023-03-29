@@ -12,7 +12,7 @@ function styleDebtorName(repayment) {
 }
 export const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-export default function TransactionDetails({transaction, monthIdx, day}) {
+export default function TransactionDetails({transaction, monthIdx, day, friendId}) {
     // const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
@@ -26,8 +26,9 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
         updater = transaction.users.filter(user => user.id === transaction.updater_id)[0];
         const year = transaction.updated_at.slice(0, 4);
         const month = Number(transaction.updated_at.slice(5, 7));
+        console.log('month', month)
         const day = transaction.updated_at.slice(8, 10);
-        updateDate = `${MONTHS[month]} ${day}, ${year}`
+        updateDate = `${MONTHS[month-1]} ${day}, ${year}`
     }
     const added = `Added by ${creator} on ${MONTHS[monthIdx]} ${day}, ${year}`
     const updated = `Last updated by ${updater?.first_name} ${updater?.last_name[0]}. on ${updateDate}`;
@@ -62,7 +63,7 @@ export default function TransactionDetails({transaction, monthIdx, day}) {
                     <div className='transaction-details-header-update'>
                         <OpenModalButton
                             buttonText="Edit Transaction"
-                            modalComponent={<EditExpenseForm transaction={transaction}/>}
+                            modalComponent={<EditExpenseForm transaction={transaction} friendId={friendId}/>}
                         />
                     </div>
                 </div>
