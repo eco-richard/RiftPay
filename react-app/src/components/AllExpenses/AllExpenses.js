@@ -124,17 +124,21 @@ function AllExpenses() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">All expenses</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm />}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm />}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm />}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
 

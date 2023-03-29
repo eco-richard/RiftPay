@@ -118,17 +118,21 @@ function FriendPage() {
                     <div className="expenses-header-title-and-buttons">
                         <h1 className="expenses-header-title">{friendName}</h1>
                         <div className="expenses-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm friendId={friendId}/>}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm friendId={friendId}/>}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm singleFriend={singleFriend} friendId={friendId}/>}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm singleFriend={singleFriend} friendId={friendId}/>}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
 

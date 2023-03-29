@@ -61,7 +61,7 @@ function Dashboard() {
     useEffect(() => {
         dispatch(loadFriendsThunk())
     }, [dispatch])
-    
+
     // console.log('totalDebt', totalDebt)
     // console.log('totalLoan', totalLoan)
     // console.log('totalBalance', totalBalance)
@@ -121,17 +121,21 @@ function Dashboard() {
                     <div className="dashboard-header-title-and-buttons">
                         <h1 className="dashboard-header-title">Dashboard</h1>
                         <div className="dashboard-header-buttons">
-                            <OpenModalButton
-                                className="add-expense-button"
-                                buttonText="Add an Expense"
-                                modalComponent={<AddExpenseForm />}
-                            ></OpenModalButton>
+                            <div className='add-expense-button'>
+                                <OpenModalButton
+                                    // className="add-expense-button"
+                                    buttonText="Add an Expense"
+                                    modalComponent={<AddExpenseForm />}
+                                ></OpenModalButton>
+                            </div>
                             <span className="button-seperator"></span>
-                            <OpenModalButton
-                                className="dash-settle-up-button"
-                                buttonText="Settle Up"
-                                modalComponent={<SettleUpForm />}
-                            ></OpenModalButton>
+                            <div className='dash-settle-up-button'>
+                                <OpenModalButton
+                                    // className="dash-settle-up-button"
+                                    buttonText="Settle Up"
+                                    modalComponent={<SettleUpForm />}
+                                ></OpenModalButton>
+                            </div>
                         </div>
                     </div>
                     <div className="dashboard-balances-header-container">
