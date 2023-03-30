@@ -10,6 +10,7 @@ function SingleComment({ comment }) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.session.user)
+
     const removeCommentHandleCLick = async (e) => {
         if (window.confirm("Are you sure you want to remove this comment?")) {
             dispatch(removeCommentThunk(comment));
@@ -19,13 +20,16 @@ function SingleComment({ comment }) {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
+
+    //comment information for rendering
     const dateArr = comment.created_at.split("/")
     const day = dateArr[1]
-    // console.log(dateArr)
     const monthIdx = parseInt(dateArr[0]) - 1
     const parsedDate = `${monthNames[monthIdx]} ${day}`
 
     let comment_buttons = null
+
+    //edit and delete comment options rendered for comments made by current user
     if (user.id === comment.commentor_id) {
         comment_buttons = (
             <div className="single-comment-buttons">

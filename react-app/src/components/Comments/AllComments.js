@@ -14,29 +14,13 @@ function AllComments({ transaction_id, transactionNote }) {
 
     useEffect(() => {
         dispatch(loadCommentsThunk(transaction_id));
-        // return () => dispatch(clearComments())
     }, [dispatch, transaction_id])
 
     if (!comments) {
         return null;
     }
 
-    // const allComments = comments.allCommentsByTransactionId
-
-    // if (!allComments) {
-    //     return null;
-    // }
-
-    // if (!allComments[transaction_id]) {
-    //     return null;
-    // }
-
     const commentsArr = Object.values(comments)
-    // console.log(allComments)
-    // const commentsArr = Object.values(allComments)
-    // console.log("commentsArr", commentsArr)
-    // const finalCommentsArr = commentsArr[0]
-    // console.log(finalCommentsArr)
 
     return (
         <div className="all-comments-wrapper">

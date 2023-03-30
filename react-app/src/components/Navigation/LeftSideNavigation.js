@@ -12,7 +12,6 @@ function LeftSideNavigation() {
     const friends = useSelector(state => state.friends.friends);
 
     useEffect(() => {
-        console.log("rendering left nav bar")
         dispatch(loadFriendsThunk())
     }, [dispatch])
 

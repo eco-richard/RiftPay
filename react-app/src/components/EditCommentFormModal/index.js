@@ -31,6 +31,7 @@ function EditCommentFormModal({ comment }) {
             updated_at: date,
         };
 
+        //then doesnt make sense because there is no promise?
         return dispatch(updateCommentThunk(updatedComment, comment.id))
             .then(() => { dispatch(loadCommentsThunk(comment.transaction_id)) })
             .then(closeModal());

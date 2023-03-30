@@ -1,12 +1,9 @@
-
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { loadFriendsThunk, loadSingleFriendThunk } from '../../store/friends';
-import { createTransaction, getAllTransactions } from '../../store/transaction';
+import { createTransaction} from '../../store/transaction';
 import { MONTHS } from '../AllExpenses/TransactionDetails';
-import { useParams } from 'react-router-dom';
-
 import './SettleUpForm.css'
 
 export default function SettleUpForm({singleFriend, friendId}) {
@@ -15,16 +12,15 @@ export default function SettleUpForm({singleFriend, friendId}) {
   const [errors, setErrors] = useState([]);
   const user = useSelector(state => state.session.user);
   const friends = Object.values(useSelector(state => state.friends.friends));
+
   let initialFriend;
-  // console.log('single friend:', singleFriend)
   if (!singleFriend) {
     initialFriend = friends[0]
   }
   else {
     initialFriend = singleFriend
   }
-  // console.log('inital friend after:', initialFriend)
-  // Transaction Hooks
+
   const [friend, setFriend] = useState(initialFriend);
   const [amount, setAmount] = useState("");
   const [image, setImage] = useState("");
@@ -36,10 +32,8 @@ export default function SettleUpForm({singleFriend, friendId}) {
   const DEFAULT_IMAGE_URL = "https://s3.amazonaws.com/splitwise/uploads/user/default_avatars/avatar-teal1-100px.png"
   const userImage = user.picture === null ? DEFAULT_IMAGE_URL : user.picture;
 
-  // useEffect(() => {
-  //   dispatch(loadFriendsThunk())
-  // }, [dispatch])
 
+  //can not use add transaction form if user has no friends
   if (friends.length === 0) {
     return (
       <div>
@@ -87,9 +81,7 @@ export default function SettleUpForm({singleFriend, friendId}) {
     if (amount > Math.abs(parseInt(friend.balance))) {
       errors.push("Can not settle more than you owe")
     }
-    // console.log('amount', amount)
-    // console.log('friend balance', friend.balance)
-    // if ()
+
 
     let transaction = {
       cost: amount,
@@ -111,12 +103,11 @@ export default function SettleUpForm({singleFriend, friendId}) {
       .catch(
           async (res) => {
               const data = await res.json();
-              // console.log('data:', data)
               if (data && data.errors) setErrors(data.errors);
               else if (data && data.title.includes('Error')) setErrors([data.message]);
           }
       );
-
+    //add in as .then?
     if (friendId) {
         dispatch(loadSingleFriendThunk(friendId))
     }
@@ -124,16 +115,20 @@ export default function SettleUpForm({singleFriend, friendId}) {
         dispatch(loadFriendsThunk())
     }
   }
+
+
   const openFriends = (e) => {
     // e.preventDefault();
     setFriendsOpen(!friendsOpen)
     setImagesOpen(false);
   }
+
   const openImagesNotes = (e) => {
     // e.preventDefault();
     setImagesOpen(!imagesOpen)
     setFriendsOpen(false);
   }
+  
   const formatDate = () => {
     const date = new Date();
     let dateStr = date.toISOString();

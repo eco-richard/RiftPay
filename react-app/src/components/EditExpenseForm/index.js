@@ -9,12 +9,12 @@ import { getBalances, getFriendBalance } from "../../store/balances";
 
 
 const EditExpenseForm = ({ transaction, friendId }) => {
-    // console.log('transaction:', transaction)
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
     const creatorId = transaction.creator_id;
+
     const isUserCreator = () => {
         if (user.id === creatorId) {
             return 'you'
@@ -28,15 +28,14 @@ const EditExpenseForm = ({ transaction, friendId }) => {
     const updatedAt = new Date();
     const stringDate = updatedAt.toISOString().slice(0, 10)
 
-    // useEffect(() => {
-    //     dispatch(loadFriendsThunk())
-    // }, [dispatch])
 
-    // different forms for different methods of splitting expense
+    //form render state variables
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
     const [exactPaymentsForm, setExactPaymentsForm] = useState()
     const [percentPaymentsForm, setPercentPaymentsForm] = useState()
 
+
+    //fucntions to determine which type of payment split form is rendered
     const onClickEqual = () => {
         setExactPaymentsForm(false);
         setPercentPaymentsForm(false);
@@ -58,15 +57,13 @@ const EditExpenseForm = ({ transaction, friendId }) => {
         setCreationMethod("Unequal")
     }
 
+    // Hooks for form input
     const [cost, setCost] = useState(transaction.cost);
     let costLength = cost.length
     const [creationMethod, setCreationMethod] = useState(transaction.creation_method);
-    // console.log('creation method:', creationMethod);
     const [description, setDescription] = useState(transaction.description);
     const [note, setNote] = useState(transaction.note);
     const [image, setImage] = useState(transaction.image)
-    const [users, setUsers] = useState(transaction.users)
-    // const [payers, setPayers] = useState(transaction.payers)
     const [repayments, setRepayments] = useState(transaction.repayments)
     const [errors, setErrors] = useState([]);
     const [imagesOpen, setImagesOpen] = useState(false);
@@ -75,7 +72,7 @@ const EditExpenseForm = ({ transaction, friendId }) => {
     const [participants, setParticipants] = useState(pariticpantsArr);
     let participantsLength = participants.length;
 
-    //so the correct for shows up on initial click of update expense
+    //so the correct form shows up on initial click of update expense
     useEffect(() => {
         if (creationMethod == 'Equal') {
             setEqualPaymentsForm(true)
@@ -186,23 +183,17 @@ const EditExpenseForm = ({ transaction, friendId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setErrors([]);
         const errors = [];
-        console.log('repayments:', repayments)
-        console.log(errors)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
         if (repayments == "Unequal payments") {
-            // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
             errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
-            // window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
             errors.push(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
         }
 
@@ -243,11 +234,12 @@ const EditExpenseForm = ({ transaction, friendId }) => {
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    // console.log('data:', data)
                     if (data && data.errors) setErrors(data.errors);
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
+
+        //potentially move this into .then?
         if (friendId) {
             dispatch(loadSingleFriendThunk(friendId))
         }

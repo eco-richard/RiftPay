@@ -24,20 +24,7 @@ class Transaction(db.Model):
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
     users = db.relationship("User", secondary=transaction_users, back_populates="transactions")
 
-    # def create_loans(self):
-    #     if self.creation_method == "EQUAL":
-    #         split_amount = self.cost / len(self.payers)
-    #         for user in payers:
-    #             loan = Loan(
-    #                 loaner_id = self.creator_id,
-    #                 debtor_id = user.id,
-    #                 amount = split_amount,
-    #                 transaction_id = self.id,
-    #                 created_at = self.created_at,
-    #                 updated_at = self.updated_at,
-    #             )
-    #             db.session.add(loan)
-    #         db.session.commit()
+    
 
     def structure_payers(self):
         payers_list = self.payers.split(',')

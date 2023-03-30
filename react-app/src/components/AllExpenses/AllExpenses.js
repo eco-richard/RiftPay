@@ -18,14 +18,23 @@ function AllExpenses() {
     const transactionsLength = transactions.length
     const friendsObj = useSelector((state) => state.friends.friends)
     const friends = Object.values(friendsObj)
-    // const balances = useSelector(state => state.balance);
 
+    //variables for tracking balance
+
+    //total amount owed to user
     let totalLoan = 0;
+
+    //total amount user owes
     let totalDebt = 0;
+    //which friends owe user
     let loanerFriend = [];
+
+    //which friends user owes
     let debtorFriend = [];
+
     let placeholderFriend = []
 
+    //assigning friends to either loaner or debtor status depending on if they owe or are owed by user
     for (let i = 0; i < friends.length; i++) {
         if (friends[i].balance > 0) {
             totalLoan += parseInt(friends[i].balance)
@@ -41,22 +50,16 @@ function AllExpenses() {
     }
 
     const totalBalance = Math.abs(totalLoan - totalDebt)
-    // console.log('totalDebt', totalDebt)
-    // console.log('totalLoan', totalLoan)
-    // console.log('totalBalance', totalBalance)
-    // console.log('loaner friends:', loanerFriend)
-    // console.log('debtor friends:', debtorFriend)
+
 
     useEffect(() => {
         dispatch(getAllTransactions())
         dispatch(loadFriendsThunk())
-        // dispatch(getBalances())
+
     }, [dispatch])
 
-    // useEffect(() => {
-    //     dispatch(loadFriendsThunk())
-    // }, [transactionsLength])
 
+    //what color the balance number renders as depending on if the user owes money or is owed money in total
     let colorVar;
     if (totalLoan > totalDebt) {
         colorVar = "rgb(91, 197, 167)"
@@ -67,6 +70,7 @@ function AllExpenses() {
     else {
         colorVar = "rgb(91, 197, 167)"
     }
+
 
     const oweOrOwed = () => {
         if (totalLoan > totalDebt) {
@@ -79,14 +83,12 @@ function AllExpenses() {
             return 'you are settled up'
         }
     }
-    // console.log('colorVar:', colorVar)
 
     if (!user) {
         return (<Redirect to="/"/>)
     }
     let totalBalanceComponent;
-    // if (balances.owes > balances.owed) {
-    //     const total = balances.owes - balances.owed;
+
         totalBalanceComponent = (
             <div className="balance-info-container" style={{color: colorVar}}>
                 <div className='balance-summary'>
@@ -97,28 +99,13 @@ function AllExpenses() {
                 </div>
             </div>
         )
-    // } else {
-    //     const total = balances.owed - balances.owes;
-    //     totalBalanceComponent = (
-    //         <div className="balance-info-container" style={{color: "rgb(91, 197, 167)"}}>
-    //             <div className='balance-summary'>
-    //                 you are owed
-    //             </div>
-    //             <div className='balance-summary-amount'>
-    //                 ${total.toFixed(2)}
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    // if (Object.values(balances).length === 0) return null;
+
     if (transactions.length === 0) return null;
 
     transactions.reverse();
+
     return (
         <div className="column-wrapper">
-            {/* <div className="left-column-container">
-                <LeftSideNavigation />
-            </div> */}
             <div className="middle-column-container">
                 <div className='expenses-header-container'>
                     <div className="expenses-header-title-and-buttons">
@@ -126,7 +113,6 @@ function AllExpenses() {
                         <div className="expenses-header-buttons">
                             <div className='add-expense-button'>
                                 <OpenModalButton
-                                    // className="add-expense-button"
                                     buttonText="Add an Expense"
                                     modalComponent={<AddExpenseForm />}
                                 ></OpenModalButton>
@@ -134,7 +120,6 @@ function AllExpenses() {
                             <span className="button-seperator"></span>
                             <div className='dash-settle-up-button'>
                                 <OpenModalButton
-                                    // className="dash-settle-up-button"
                                     buttonText="Settle Up"
                                     modalComponent={<SettleUpForm />}
                                 ></OpenModalButton>

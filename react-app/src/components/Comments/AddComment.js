@@ -7,10 +7,7 @@ import "./AddComment.css";
 function AddComment({ transaction_id }) {
     const dispatch = useDispatch();
     const [content, setContent] = useState("");
-    const [createdAt, setCreatedAt] = useState("");
-    const [updatedAt, setUpdatedAt] = useState("");
-    //dates should be month/day/year 02/17/2023 format
-    const [hasSubmitted, setHasSubmitted] = useState(false);
+
 
     const user = useSelector((state) => state.session.user);
 
@@ -28,8 +25,7 @@ function AddComment({ transaction_id }) {
         const month = today.getUTCMonth() + 1;
         const day = today.getUTCDate();
         const date = `${month}/${day}/${year}`;
-        // setCreatedAt(date)
-        // setUpdatedAt(date)
+
         const comment = {
             content,
             transaction_id,
@@ -37,7 +33,8 @@ function AddComment({ transaction_id }) {
             created_at: date,
             updated_at: date,
         };
-        console.log("comment in add comment form", comment);
+
+        //change this later?
         return dispatch(addCommentThunk(comment, transaction_id))
         .then(setContent(""))
         .then(() => {dispatch(loadCommentsThunk(transaction_id))})
