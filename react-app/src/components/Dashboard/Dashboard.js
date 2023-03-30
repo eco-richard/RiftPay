@@ -19,17 +19,23 @@ function Dashboard() {
     const friendsObj = useSelector((state) => state.friends.friends)
     const friends = Object.values(friendsObj)
     const friendsLength = friends.length
-    // const [totalLoan, setTotalLoan] = useState(0)
-    // const [totalDebt, setTotalDebt] = useState(0)
-    // const [totalLoan, setTotalLoan] = useState(0)
-    // console.log('friends in dashbaord:', friends)
 
+    //variables for tracking balance
+
+    //total amount owed to user
     let totalLoan = 0;
+
+    //total amount user owes
     let totalDebt = 0;
+    //which friends owe user
     let loanerFriend = [];
+
+    //which friends user owes
     let debtorFriend = [];
+
     let placeholderFriend = []
 
+    //assigning friends to either loaner or debtor status depending on if they owe or are owed by user
     for (let i = 0; i < friends.length; i++) {
         if (friends[i].balance > 0) {
             totalLoan += parseInt(friends[i].balance)
@@ -46,6 +52,8 @@ function Dashboard() {
 
     const totalBalance = totalLoan - totalDebt
 
+
+    //what color the balance number renders as depending on if the user owes money or is owed money in total
     let colorVar;
     if (totalBalance > 0) {
         colorVar = "rgb(91, 197, 167)"
@@ -62,60 +70,12 @@ function Dashboard() {
         dispatch(loadFriendsThunk())
     }, [dispatch])
 
-    // console.log('totalDebt', totalDebt)
-    // console.log('totalLoan', totalLoan)
-    // console.log('totalBalance', totalBalance)
-    // console.log('loaner friends:', loanerFriend)
-    // console.log('debtor friends:', debtorFriend)
-    // const balances = useSelector(state => state.balance)
 
-    // let totalBalanceComponent;
-    // if (balances.owes > balances.owed) {
-    //     const total = balances.owes - balances.owed;
-    //     totalBalanceComponent = (
-    //         <div className='dashboard-balance-amounts' style={{color: "rgb(255, 101, 47)"}}>
-    //             -${total.toFixed(2)}
-    //         </div>
-    //     )
-    // } else {
-    //     const total = balances.owed - balances.owes;
-    //     totalBalanceComponent = (
-    //         <div className='dashboard-balance-amounts' style={{color: "rgb(91, 197, 167)"}}>
-    //             ${total.toFixed(2)}
-    //         </div>
-    //     )
-    // }
-    // useEffect(() => {
-    //     dispatch(loadFriendsThunk());
-    //     // dispatch(getBalances());
-    //     // dispatch(getFriendBalance());
-    //     // dispatch to get all transactions here?
-    // }, [dispatch, friendsLength])
-
-    if (!user) return <Redirect to="/"/>;
-
-    // if (Object.values(balances) === 0) return null;
-
-    // const youOweFriends = [];
-    // const owesYouFriends = [];
-    // for (const friend of Object.values(balances.friends)) {
-    //     if (friend.balance > 0) {
-    //         if (friend.id === user.id) {
-    //             continue;
-    //         }
-    //         owesYouFriends.push(friend)
-    //     } else if (friend.balance < 0) {
-    //         youOweFriends.push(friend);
-    //     }
-    // }
 
     if (!user) return <Redirect to="/"/>;
 
     return (
         <div className="column-wrapper">
-            {/* <div className="left-column-container">
-                <LeftSideNavigation />
-            </div> */}
             <div className="middle-column-container">
                 <div className='dashboard-header-container'>
                     <div className="dashboard-header-title-and-buttons">
@@ -123,7 +83,6 @@ function Dashboard() {
                         <div className="dashboard-header-buttons">
                             <div className='add-expense-button'>
                                 <OpenModalButton
-                                    // className="add-expense-button"
                                     buttonText="Add an Expense"
                                     modalComponent={<AddExpenseForm />}
                                 ></OpenModalButton>
@@ -131,7 +90,6 @@ function Dashboard() {
                             <span className="button-seperator"></span>
                             <div className='dash-settle-up-button'>
                                 <OpenModalButton
-                                    // className="dash-settle-up-button"
                                     buttonText="Settle Up"
                                     modalComponent={<SettleUpForm />}
                                 ></OpenModalButton>

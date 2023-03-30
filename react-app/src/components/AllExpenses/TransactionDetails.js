@@ -14,8 +14,7 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 
 
 export default function TransactionDetails({transaction, monthIdx, day, friendId}) {
-    // const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    console.log(transaction.payers)
+    //information transaction to be rendered
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
@@ -28,18 +27,13 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
         updater = transaction.users.filter(user => user.id === transaction.updater_id)[0];
         const year = transaction.updated_at.slice(0, 4);
         const month = Number(transaction.updated_at.slice(5, 7));
-        console.log('month', month)
         const day = transaction.updated_at.slice(8, 10);
         updateDate = `${MONTHS[month-1]} ${day}, ${year}`
     }
     const added = `Added by ${creator} on ${MONTHS[monthIdx]} ${day}, ${year}`
     const updated = `Last updated by ${updater?.first_name} ${updater?.last_name[0]}. on ${updateDate}`;
 
-    // const updatedComponent = (
-    //     <div className="trnsaction-details-header-added">
-    //         {updated}
-    //     </div>
-    // )
+
 
     return (
         <div className='transaction-details-wrapper'>

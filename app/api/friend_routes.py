@@ -14,7 +14,6 @@ def all_friends():
     """
     Query for all friends by a logged in user id and returns them in a list of user dictionaries
     """
-    # user_friends = [{"first_name": friend.first_name.title(), "last_name": friend.last_name.title(), "id": friend.id, "friends": friend.get_friends()} for friend in current_user.friends]
     return {'user_friends': current_user.get_friends()}
 
 @friend_routes.route('/<int:friendId>')

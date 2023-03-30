@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request, session
-# from app.forms import xxx
 from flask_login import login_required, current_user
 from app.models import User, Comment, friends, db
 from app.utilities import validation_errors_to_error_messages
@@ -22,12 +21,11 @@ def all_comments(transaction_id):
         user = User.query.get(comment["commentor_id"])
         comment['user'] = user.to_dict()
 
-    # print("\n\n\n{num_comments}\n\n\n")
-    # comments_test["num_comments"] = num_comments
+
 
     return {"comments": [comment for comment in comments_test],
             "num_comments": num_comments}
-    # return {"comments": [comment[0].to_dict() for comment in comments]}
+
 
 @comment_routes.route("/<int:transaction_id>", methods=["POST"])
 @login_required
@@ -48,7 +46,7 @@ def add_comment(transaction_id):
         )
         db.session.add(new_comment)
         db.session.commit()
-        # print(f"\n\n\n{new_comment.to_dict()}\n\n\n\n")
+
         return new_comment.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

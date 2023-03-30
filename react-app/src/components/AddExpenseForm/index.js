@@ -4,9 +4,8 @@ import { useModal } from "../../context/Modal";
 import { loadFriendsThunk, loadSingleFriendThunk } from "../../store/friends";
 import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
-import { createTransaction, getAllTransactions } from "../../store/transaction";
-// import { getBalances, getFriendBalance } from "../../store/balances";
-import { Redirect, useLocation, useHistory, useParams } from "react-router-dom";
+import { createTransaction} from "../../store/transaction";
+import { useLocation, useHistory } from "react-router-dom";
 
 export default function AddExpenseForm({friendId}) {
     const dispatch = useDispatch();
@@ -20,53 +19,39 @@ export default function AddExpenseForm({friendId}) {
     const [alerted, setAlerted] = useState(false)
     const location = useLocation()
     const history = useHistory()
-    // console.log('stringdate:', stringDate)
-
-    // console.log("Friends: ", friends);
-    // useEffect(() => {
-    //     dispatch(loadFriendsThunk())
-    // }, [dispatch])
 
 
     //form render state variables
     const [equalPaymentsForm, setEqualPaymentsForm] = useState()
-    // console.log('qualPaymentsForm', equalPaymentsForm)
     const [exactPaymentsForm, setExactPaymentsForm] = useState()
-    // console.log('exactPaymentsForm', exactPaymentsForm)
     const [percentPaymentsForm, setPercentPaymentsForm] = useState()
-    // console.log('percentPaymentsForm', percentPaymentsForm)
 
-    const debtInputReset = () => {
-        for (let i in debtInput) {
-            debtInput[i] = ''
-        }
-        setDebtInput(debtInput)
-    }
+    // const debtInputReset = () => {
+    //     for (let i in debtInput) {
+    //         debtInput[i] = ''
+    //     }
+    //     setDebtInput(debtInput)
+    // }
 
+
+    //fucntions to determine which type of payment split form is rendered
     const onClickEqual = () => {
         setExactPaymentsForm(false);
         setPercentPaymentsForm(false);
         setEqualPaymentsForm(true);
         setCreationMethod("Equal");
-        // setDebtInput(debtorObj)
     }
-
     const onClickExact = () => {
         setEqualPaymentsForm(false);
         setPercentPaymentsForm(false);
         setExactPaymentsForm(true);
-        setCreationMethod("Unequal")
-        // debtInputReset()
-        // console.log('debtinput exact', debtInput)
+        setCreationMethod("Unequal");
     }
-
     const onClickPercent = () => {
         setExactPaymentsForm(false);
         setEqualPaymentsForm(false);
         setPercentPaymentsForm(true);
-        setCreationMethod("Unequal")
-        // debtInputReset()
-        // console.log('debtinput percent', debtInput)
+        setCreationMethod("Unequal");
     }
 
     // Hooks for form input
@@ -75,97 +60,70 @@ export default function AddExpenseForm({friendId}) {
     const [creationMethod, setCreationMethod] = useState("Equal");
     const [description, setDescription] = useState("");
     const [note, setNote] = useState("");
-    const [image, setImage] = useState("https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png")
-    // const [createdAt, setCreatedAt] = useState("");
-    //default should be a string interpolation using methid that gets you current time
+    const [image, setImage] = useState("https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png");
     const [participants, setParticipants] = useState([user.id]);
     let participantsLength = participants.length;
-    // console.log('participants length at beginning:', participantsLength)
     const [repayments, setRepayments] = useState('')
-    // console.log('participants:', participants);
-    // const [debtInputs, setDebtInputs] = useState([]);
-    // console.log('debtInputs:', debtInputs);
-    // const [debtAggregate, setDebtAggregate] = useState(0)
-    //will be the aggregate of what is being paid back, displayed in the split modal so the user know its all adds up to cost
-    // const [participantsLoans, setParticipantsLoans] = useState([]);
     const [errors, setErrors] = useState([]);
+
+    //state variable for opening image and notes form
     const [imagesOpen, setImagesOpen] = useState(false);
+
+    //state variable for opening additional modal form (two can be open at once)
     const [openSplitModal, setOpenSplitModal] = useState(false);
 
+    //function to open or close payment type modal for transaction
     const paymentTypeModalClick = () => {
         setOpenSplitModal(!openSplitModal);
         if (splitText === "equally") {
             setEqualPaymentsForm(true);
         }
         setImagesOpen(false)
-        // setExactPaymentsForm(false);
-        // setPercentPaymentsForm(false);
-        // setDebtInput(debtorObj)
     }
 
+    //function to open or close modal to add images or notes to transaction
     const openImagesNotes = (e) => {
         // e.preventDefault();
         setImagesOpen(!imagesOpen)
         setOpenSplitModal(false)
     }
 
-    //for updating debt input state variable
-    // for (let i = 0; i < participantsLength; i++) {
-    //     participantsLoans.push(participants[i]);
-    // }
-    // console.log('participantsLoans', participantsLoans)
-    let debtorObj = {};
-
-
-    // participants.forEach((debtor) => {
-    //     debtorObj[debtor] = "";
-    // });
-    // console.log('debtorObj:',debtorObj);
+    //state variable for tracking amount owed by each participant in transaction
     const [debtInput, setDebtInput] = useState({});
-    // console.log('debtInput:', debtInput)
-    // const [debtorObjState, setDebtorObjState] = useState(debtorObj)
-    // console.log('debtorObj outside function:', debtorObj)
-    // let inputName = 0;
 
+    //function for handling changes in the amount owed for a transaction participant
     const handleUserInputChange = (e) => {
         const participant = e.target.name;
         const newDebtValue = e.target.value;
-        // debtorObj[participant] = newDebtValue;
-        // console.log('debtorObj in user input change:', debtorObj)
         setDebtInput({ ...debtInput, [participant]: newDebtValue })
-        // console.log('name:', participant)
-        // console.log('newdebtvalue:', newDebtValue)
     };
-    // console.log('later debt input:', debtInput)
 
+    //state variable for tracking sum of all indivdual debts within transaction
     const [debtSum, setDebtSum] = useState('')
-    // console.log('debtsum:', parseInt(debtSum))
-    // console.log('cost-debtsum:', parseInt(cost)-debtSum)
+
+    //recalculate sum of all individual debts every time there is a change in debt amount of single participant
     useEffect(() => {
         let sum = 0;
         for (let i in debtInput) {
-            // console.log('i', i, 'i in debtInput', debtInput[i])
             if (debtInput[i].length === 0) {
                 debtInput[i] = 0
             }
             sum += parseFloat(debtInput[i])
         }
-        // console.log('sum:', sum)
         setDebtSum(sum)
-        // console.log('debt input in use effect:', debtInput)
         if (splitText === 'equally') {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
-            // console.log('in if equal repayments:', repayments)
         }
         else if (exactPaymentsForm) {
             setRepayments(exactPayments(creatorId, participants, debtInput, cost))
-            // console.log('in if exact repayments:', repayments)
         }
         else {
             setRepayments(percentPayments(creatorId, participants, debtInput, cost))
-            // console.log('in if percent repayments:', repayments)
         }
     }, [debtInput])
+
+    //object keeps track of participants and the amount they owe within the transaction
+    let debtorObj = {};
 
     // everytime there is a cost or participants input change, calculate equal share
     useEffect(() => {
@@ -198,30 +156,24 @@ export default function AddExpenseForm({friendId}) {
             }
             setDebtInput(newDebtInput)
         }
-        // console.log('participants length:', participantsLength)
-        // setParticipants(participants)
-        // console.log('participants in array length change:', participants)
     }, [costLength, participantsLength, equalPaymentsForm])
 
+
+    //submit form function
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setErrors([]);
         const errors = [];
-        // console.log('repayments:', repayments)
-        // console.log(errors)
 
         if (participantsLength == 1) {
             window.confirm("There is only one person involved in this expense. Do you still want to save it?")
         }
 
+        //repayments is what is returned from the repayments algorithms in split_options.js
         if (repayments == "Unequal payments") {
-            // window.alert(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
             errors.push(`The total of everyone's owed shares ($${debtSum}) is different from the total cost ($${cost})`)
-            // console.log('errors inside conditional:', errors)
         }
 
         if (repayments == "Insufficient percentages") {
-            // window.alert(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
             errors.push(`The total of everyone's owed shares ($${debtSum}) does not add up to 100%`)
         }
 
@@ -260,20 +212,21 @@ export default function AddExpenseForm({friendId}) {
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    console.log('in the catch')
                     if (data && data.errors) setErrors(data.errors);
                     else if (data && data.title.includes('Error')) setErrors([data.message]);
                 }
             );
-        // console.log('response:', response)
+
+        //potentially move this into .then?
         if (friendId) {
-            // dispatch(loadFriendsThunk())
             dispatch(loadSingleFriendThunk(friendId))
         }
         else {
             dispatch(loadFriendsThunk())
         }
     }
+
+
 
     const getParticipantName = (participant) => {
         let id = parseInt(participant);
@@ -287,40 +240,28 @@ export default function AddExpenseForm({friendId}) {
                 person = friends[i]
             }
         }
-        // console.log(person)
         return `${person.first_name} ${person.last_name}`
     }
 
     let splitText = exactPaymentsForm || percentPaymentsForm ? "unequally" : "equally";
-    // Debugging useEffect
-    // useEffect(() => {
-    //     console.log("Participants: ", participants);
-    // }, [participants])
 
+    //updates transaction participants when user adds them in the form
     const addParticipants = (e) => {
         if (participants.includes(e.target.value)) {
-            // console.log('participants before:', participants)
             const index = participants.indexOf(e.target.value)
             participants.splice(index, 1);
             setParticipants([...participants]);
-            // participantsLength = participants.length
-            // console.log('participantsLength:', participantsLength)
-            // console.log('participants after:', participants)
         } else {
             setParticipants([...participants, e.target.value])
-            // console.log('participants:', participants)
         }
     }
 
-    // re render when participant is taken away
-    // useEffect(() => {
-    //     console.log('participants length inside final use effect:', participantsLength)
-    //     setParticipants(participants)
-    // }, [participantsLength])
 
     const alertFunc = () => {
         window.alert("You have no one in your friends list yet!");
     }
+
+    //can not use add transaction form if user has no friends
     if (friends.length === 0) {
         return (
           <div>
@@ -442,7 +383,6 @@ export default function AddExpenseForm({friendId}) {
                                                             value={debtInput[participant] || ''}
                                                             name={participant}
                                                             onChange={handleUserInputChange}
-                                                        // placeholder={cost/participants.length}
                                                         />
                                                     </label>
                                                 </div>
@@ -472,7 +412,6 @@ export default function AddExpenseForm({friendId}) {
                                                             value={debtInput[participant] || ''}
                                                             name={participant}
                                                             onChange={handleUserInputChange}
-                                                        // placeholder={cost/participants.length}
                                                         />%
                                                     </label>
                                                 </div>
@@ -532,5 +471,3 @@ export default function AddExpenseForm({friendId}) {
         </>
     );
 }
-// %{debtSum}
-// %{100.00 - debtSum} left

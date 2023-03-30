@@ -25,5 +25,4 @@ class Comment(db.Model):
         'transaction_id': self.transaction_id,
         'created_at': self.created_at,
         'updated_at': self.updated_at,
-        # 'commentor': self.commentor.simple_user(),
         }

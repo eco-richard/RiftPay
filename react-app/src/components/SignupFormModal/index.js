@@ -9,15 +9,15 @@ function SignupFormModal() {
 	const [email, setEmail] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	// const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
 	const { closeModal } = useModal();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password === confirmPassword) {
-			const data = await dispatch(signUp(/*username, */firstName, lastName, email, password));
+			const data = await dispatch(signUp(firstName, lastName, email, password));
 			if (data) {
 				for (let i = 0; i < data.length; i++) {
 					data[i] = data[i].split(" : ")[1].trim();

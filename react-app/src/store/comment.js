@@ -59,14 +59,12 @@ export const addCommentThunk = (comment, transaction_id) => async dispatch => {
     })
     if (response.ok){
         const newComment = await response.json()
-        // console.log("newComment in thunk", newComment)
         dispatch(addComment(newComment))
         return newComment
     }
 }
 
 export const updateCommentThunk = (comment, comment_id) => async dispatch => {
-    console.log("comment_id", comment_id)
     const response = await fetch (`/api/comments/${comment_id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
@@ -74,7 +72,6 @@ export const updateCommentThunk = (comment, comment_id) => async dispatch => {
     })
 
     if (response.ok) {
-        // console.log("RESPONSE:", response)
         const updatedComment = await response.json()
         dispatch(updateComment(updatedComment))
         return updatedComment
@@ -88,7 +85,6 @@ export const removeCommentThunk = (comment) => async dispatch => {
     })
     if (response.ok) {
         const badComment = await response.json()
-        // console.log("badComment:", badComment)
         dispatch(removeComment(comment))
         return badComment
     }

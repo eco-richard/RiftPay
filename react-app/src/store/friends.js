@@ -46,10 +46,8 @@ export const loadFriendsThunk = () => async dispatch => {
 
 export const loadSingleFriendThunk = (friendId) => async dispatch => {
     const response = await fetch(`/api/friends/${friendId}`)
-    // console.log('in friend thunk', response)
     if (response.ok) {
         const friend = await response.json()
-        // console.log('in friend thunk',friend)
         dispatch(loadSingleFriend(friend))
         return friend
     }
