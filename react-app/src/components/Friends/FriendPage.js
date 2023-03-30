@@ -39,6 +39,9 @@ function FriendPage() {
     if (!user) return <Redirect to="/"/>
 
     const removeFriendHandleClick = async (e) => {
+        if (friendBalance != 0) {
+            return window.alert("You can not remove a friend with whom you have an outstanding balance.")
+        }
         if (window.confirm("Some of your expenses with this person may also involve other third parties. As a result, deleting this friend will not delete those expenses, and they will still be visible from the 'All expenses' screen. However, this friend should be removed from your list of friends successfully. Are you sure you want to remove this friend?")) {
             dispatch(removeFriendThunk(singleFriend.id)).then(history.push("/dashboard"))
         }

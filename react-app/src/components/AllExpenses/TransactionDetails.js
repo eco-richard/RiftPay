@@ -13,7 +13,7 @@ function styleDebtorName(repayment) {
 export const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 
-export default function TransactionDetails({transaction, monthIdx, day, friendId}) {
+export default function TransactionDetails({transaction, monthIdx, day, friendId, setIsClicked}) {
     //information transaction to be rendered
     const payers = transaction.payers[0];
     const repayments = transaction.repayments;
@@ -60,7 +60,7 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
                         <OpenModalButton
                             buttonText="Edit Transaction"
 
-                            modalComponent={<EditExpenseForm transaction={transaction} friendId={friendId}/>}
+                            modalComponent={<EditExpenseForm transaction={transaction} friendId={friendId} setIsClicked={setIsClicked}/>}
 
                         />
                     </div>

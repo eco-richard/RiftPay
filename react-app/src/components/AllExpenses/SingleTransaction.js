@@ -19,6 +19,7 @@ export default function SingleTransaction({transaction}) {
         window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
         await dispatch(deleteTransaction(transaction))
             .then(dispatch(loadFriendsThunk()))
+            // .then(setIsClicked(false))
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -124,7 +125,7 @@ export default function SingleTransaction({transaction}) {
                 </div>
             </div>
         </div>
-        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} />) : null}
+        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} setIsClicked={setIsClicked}/>) : null}
         </>
     );
 }

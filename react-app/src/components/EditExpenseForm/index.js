@@ -8,7 +8,7 @@ import { getAllTransactions } from "../../store/transaction";
 import { getBalances, getFriendBalance } from "../../store/balances";
 
 
-const EditExpenseForm = ({ transaction, friendId }) => {
+const EditExpenseForm = ({ transaction, friendId, setIsClicked }) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
@@ -231,6 +231,7 @@ const EditExpenseForm = ({ transaction, friendId }) => {
 
         const response = await dispatch(updateTransaction(transaction.id, newTransaction))
             .then(closeModal)
+            .then(setIsClicked(false))
             .catch(
                 async (res) => {
                     const data = await res.json();
