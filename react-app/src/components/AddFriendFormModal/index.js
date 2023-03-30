@@ -17,7 +17,11 @@ function AddFriendFormModal() {
     e.preventDefault();
     const data = await dispatch(addFriendThunk(email))
     if (data) {
-      setErrors(data);
+      let errorsArr = []
+      data.forEach(error => {
+        errorsArr.push(error.split(" : ")[1])
+      });
+      setErrors(errorsArr);
     } else {
       closeModal()
       history.push("/dashboard")
@@ -30,11 +34,11 @@ function AddFriendFormModal() {
       <div className="add-friend-form-container">
         <h1 className="add-friend-header">Add Friend</h1>
         <form onSubmit={handleSubmit}>
-          <ul>
+          <div className="errors-container" style={{color: "red"}}>
             {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
+              <div key={idx}>{error}</div>
             ))}
-          </ul>
+          </div>
           <input
             className="add-friend-input"
             placeholder="Email Address"
