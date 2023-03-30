@@ -90,6 +90,8 @@ def update_single_transaction(transaction_id):
         transaction.payers=data["payers"]
         transaction.repayments=data["repayments"]
 
+        transaction.add_repayment_users()
+        transaction.add_friends()
         db.session.commit()
         return transaction.to_dict()
     return {"errors": ut.validation_errors_to_error_messages(form.errors)}
