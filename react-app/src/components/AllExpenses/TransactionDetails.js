@@ -23,6 +23,7 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
     const year = transaction.created_at.slice(0, 4);
 
+    console.log("TRANSACTION FROM DETAILS: ", transaction);
     // Getting the updated user and date
     let updater;
     let updateDate;

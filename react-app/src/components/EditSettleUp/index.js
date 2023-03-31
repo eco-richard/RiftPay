@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal";
-import { updateTransaction } from "../../store/transaction";
+import { getAllTransactions, updateTransaction } from "../../store/transaction";
 import { loadSingleFriendThunk, loadFriendsThunk } from "../../store/friends";
 import { MONTHS } from "../AllExpenses/TransactionDetails";
 import '../SettleUpForm/SettleUpForm.css';
@@ -83,6 +83,7 @@ function EditSettleUp({transaction, friendId}) {
           }
       );
     //add in as .then?
+    dispatch(getAllTransactions());
     if (friendId) {
         dispatch(loadSingleFriendThunk(friendId))
     }
