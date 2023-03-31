@@ -1,7 +1,9 @@
 import './TransactionDetails.css';
 import OpenModalButton from "../OpenModalButton";
 import EditExpenseForm from '../EditExpenseForm';
+import EditSettleUp from '../EditSettleUp';
 import AllComments from '../Comments/AllComments';
+import { useSelector } from 'react-redux';
 
 function styleLoanerName(repayment) {
     return `${repayment.loaner.first_name} ${repayment.loaner.last_name[0]}.`
@@ -16,6 +18,7 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 export default function TransactionDetails({transaction, monthIdx, day, friendId}) {
     //information transaction to be rendered
     const payers = transaction.payers[0];
+    const user = useSelector(state => state.session.user);
     const repayments = transaction.repayments;
     const creator = payers.payer.first_name + " " + payers.payer.last_name[0] + '.';
     const year = transaction.created_at.slice(0, 4);
@@ -33,7 +36,13 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
     const added = `Added by ${creator} on ${MONTHS[monthIdx]} ${day}, ${year}`
     const updated = `Last updated by ${updater?.first_name} ${updater?.last_name[0]}. on ${updateDate}`;
 
-
+    const getPaymentFriendId = () => {
+        for (const transactionUser of transaction.users) {
+            if (transactionUser.id !== user.id) {
+                return transactionUser.id;
+            }
+        }
+    }
 
     return (
         <div className='transaction-details-wrapper'>
@@ -60,7 +69,9 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
                         <OpenModalButton
                             buttonText="Edit Transaction"
 
-                            modalComponent={<EditExpenseForm transaction={transaction} friendId={friendId}/>}
+                            modalComponent={transaction.creation_method === "Payment" ?
+                             <EditSettleUp transaction={transaction} friendId={getPaymentFriendId()}/> :
+                             <EditExpenseForm transaction={transaction} friendId={friendId}/>}
 
                         />
                     </div>
