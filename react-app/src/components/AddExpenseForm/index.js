@@ -213,6 +213,14 @@ export default function AddExpenseForm({friendId}) {
 
         const response = await dispatch(createTransaction(newTransaction))
             .then(closeModal)
+            .then(() => {
+                if (friendId) {
+                    dispatch(loadSingleFriendThunk(friendId))
+                }
+                else {
+                    dispatch(loadFriendsThunk())
+                }
+            })
             .catch(
                 async (res) => {
                     const data = await res.json();
@@ -221,13 +229,7 @@ export default function AddExpenseForm({friendId}) {
                 }
             );
 
-        //potentially move this into .then?
-        if (friendId) {
-            dispatch(loadSingleFriendThunk(friendId))
-        }
-        else {
-            dispatch(loadFriendsThunk())
-        }
+
     }
 
 

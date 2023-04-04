@@ -231,7 +231,15 @@ const EditExpenseForm = ({ transaction, friendId, setIsClicked }) => {
 
         const response = await dispatch(updateTransaction(transaction.id, newTransaction))
             .then(closeModal)
-            .then(setIsClicked(false))
+            .then(() => setIsClicked(false))
+            .then(() => {
+                if (friendId) {
+                    dispatch(loadSingleFriendThunk(friendId))
+                }
+                else {
+                    dispatch(loadFriendsThunk())
+                }
+            })
             .catch(
                 async (res) => {
                     const data = await res.json();
@@ -240,13 +248,7 @@ const EditExpenseForm = ({ transaction, friendId, setIsClicked }) => {
                 }
             );
 
-        //potentially move this into .then?
-        if (friendId) {
-            dispatch(loadSingleFriendThunk(friendId))
-        }
-        else {
-            dispatch(loadFriendsThunk())
-        }
+
     }
 
     // function that allows names of those involved in transaction to be rendered in payment splits form
