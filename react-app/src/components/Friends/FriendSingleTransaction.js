@@ -72,7 +72,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         lentAmount = singleRepayment?.amount;
         loanerAmountClassName = "single-expense-loaner-amount-lendee"
     }
-    if (lentAmount == undefined){
+    if (lentAmount === undefined){
         return null;
     }
 

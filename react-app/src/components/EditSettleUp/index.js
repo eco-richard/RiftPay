@@ -14,9 +14,6 @@ function EditSettleUp({transaction, friendId}) {
   const friends = useSelector(state => state.friends.friends);
 
   const [friend, setFriend] = useState(friends[friendId]);
-  console.log("FRIEND:", friends);
-  console.log("FRIENDID:", friendId);
-  console.log("TRANSACTION", transaction);
   const [amount, setAmount] = useState(transaction.cost);
   const [image, setImage] = useState(transaction.image);
   const [note, setNote] = useState(transaction.note);
