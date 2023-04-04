@@ -1,30 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getSingleTransaction } from "../../store/transaction";
 import TransactionDetails from "../AllExpenses/TransactionDetails";
 import { deleteTransaction } from "../../store/transaction";
 import { loadSingleFriendThunk } from "../../store/friends";
 
 export default function FriendSingleTransaction({transaction, singleFriend, friendId}) {
-    // console.log('friend id', friendId)
     const dispatch = useDispatch();
-    // console.log('transation:', transaction)
     const user = useSelector(state => state.session.user)
-    // console.log('user:', user)
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
+
+    //ref for delete button
+    const deleteRef = useRef();
+
+    //state variable tracking if transaction is clicked-if it is transaction details will be displayed
     const [isClicked, setIsClicked] = useState(false);
 
-    // useEffect(() => {
-    //     dispatch(getSingleTransaction(transaction.id))
-    //     //not sure if this is necessary
-    // }, [dispatch])
+    //function for opening transaction details
+    const openDetails = (e) => {
+        if (!deleteRef.current.contains(e.target)) {
+            setIsClicked(!isClicked)
+        }
+    }
+
 
     const deleteTransactionFunction = async (transaction, friendId) => {
+        if (window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")) {
 
-        window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
-        await dispatch(deleteTransaction(transaction))
-            .then(dispatch(loadSingleFriendThunk(friendId)))
+            await dispatch(deleteTransaction(transaction))
+                .then(dispatch(loadSingleFriendThunk(friendId)))
+        }
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -44,25 +49,25 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
     ]
 
     if (!user) return <Redirect to="/"/>;
-    //had to add because log out was not working
 
-    // console.log('created at in single transaction:', transaction.created_at)
-    // console.log('transaction in single transaction:', transaction)
+    //information displayed in tranaction details
     const monthIdx = Number(transaction.created_at.split("-")[1])-1
     const month = MONTHS[monthIdx]
     const day = transaction.created_at.split("-")[2];
     const payer = transaction.payers[0]
 
     const singleRepayment = transaction.repayments?.filter((repayment) => (repayment?.debtor.id === user.id && repayment?.loaner.id === singleFriend?.id) || (repayment.debtor.id === singleFriend?.id && repayment?.loaner.id === user.id))[0];
-    // optional chaining here?
-    // console.log('single repayment:', singleRepayment)
+
 
     let lentNameFull = "";
     let lentAmount;
     let payerName = "";
+    let loanerAmountClassName
     if (payer.payer.id === user.id) {
         payerName = "you"
         lentAmount = singleRepayment?.amount
+        loanerAmountClassName = "single-expense-loaner-amount-lender"
+        //displayed if user is a net lender in transaction
         if (transaction.repayments.length === 2) {
             lentNameFull = `you lent ${transaction.users[1].first_name} ${transaction.users[1].last_name[0]}`
         }
@@ -71,12 +76,13 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         }
 
     } else {
+        //displayed if user is a net debtor in transaction
         payerName = payer.payer.first_name + " " + payer.payer.last_name[0] + '.';
         lentNameFull = payer.payer.first_name + payer.payer.last_name[0] + ". lent you";
         lentAmount = singleRepayment?.amount;
-        //optional chaining here?
+        loanerAmountClassName = "single-expense-loaner-amount-lendee"
     }
-    if (lentAmount == undefined){
+    if (lentAmount === undefined){
         return null;
     }
 
@@ -89,10 +95,10 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
-        onClick={(e) => setIsClicked(!isClicked)}
+        onClick={(e) => openDetails(e)}
         >
 
-            <div className="single-expense-left">
+            <div className="single-expense-left" onClick={(e) => setIsClicked(!isClicked)}>
                 <div className="single-expense-date">
                     <div className="single-expense-month">
                         {month}
@@ -113,7 +119,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                 </div>
             </div>
             <div className="single-expense-right">
-                <div className="single-expense-payer">
+                <div className="single-expense-payer" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-payer-name">
                         {payerName} paid
                     </div>
@@ -121,20 +127,20 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                         ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
-                <div className="single-expense-loaner">
+                <div className="single-expense-loaner" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
-                    <div className="single-expense-loaner-amount">
-                        ${lentAmount?.toFixed(2)}
+                    <div className={loanerAmountClassName}>
+                        ${lentAmount.toFixed(2)}
                     </div>
                 </div>
                 <div className={renderDelete}>
-                    <button onClick={() =>deleteTransactionFunction(transaction, friendId)}>X</button>
+                    <button ref={deleteRef} onClick={() =>deleteTransactionFunction(transaction, friendId)}>X</button>
                 </div>
             </div>
         </div>
-        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} friendId={friendId}/>) : null}
+        {isClicked ? (<TransactionDetails transaction={transaction} monthIdx={monthIdx} day={day} friendId={friendId} setIsClicked={setIsClicked}/>) : null}
         </>
     );
 }

@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { NavLink, useParams, useHistory, Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, useHistory, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import LeftSideNavigation from '../Navigation/LeftSideNavigation';
-import { removeFriendThunk, loadSingleFriendThunk, loadFriendsThunk } from '../../store/friends';
-import SingleTransaction from '../AllExpenses/SingleTransaction'
+import { removeFriendThunk, loadSingleFriendThunk} from '../../store/friends';
 import FriendSingleTransaction from './FriendSingleTransaction';
 import OpenModalButton from '../OpenModalButton';
 import AddExpenseForm from '../AddExpenseForm';
 import SettleUpForm from '../SettleUpForm';
 import { getFriendTransactions } from '../../store/transaction';
-// import { getBalances } from '../../store/balances';
 
 function FriendPage() {
 
@@ -19,37 +16,19 @@ function FriendPage() {
 
     const user = useSelector((state) => state.session.user)
     const singleFriendObj = useSelector(state => state.friends.singleFriend)
-    // console.log('single friend:', singleFriendObj)
     const singleFriend = singleFriendObj.user_friend
-    // const friends = useSelector(state => state.friends.friends)
-    // console.log('friends:', friends)
     const transactions = Object.values(useSelector(state => state.transaction.allTransactions));
     const transactionsLength = transactions.length;
-    // const balances = useSelector(state => state.balance);
-    // console.log("BALANCE: ", balances);
-    // console.log("Friend Balance:", friendBalance);
-    // console.log("TRANSACTIONS:", transactions)
+
     transactions.sort();
     transactions.reverse();
-    // transactions.sort((transaction1, transaction2) => {
-    //     return Number(transaction1.created_at.slice(8)) > Number(transaction2.created_at.slice(8));
-    // })
 
-    // useEffect(() => {
-    //     // dispatch(loadFriendsThunk())
-    //     dispatch(loadSingleFriendThunk(friendId))
-    // }, [transactionLength])
 
     useEffect(() => {
-        // console.log('in use effect:')
         dispatch(loadSingleFriendThunk(friendId))
         dispatch(getFriendTransactions(friendId))
-        // dispatch(getBalances())
     }, [dispatch, friendId])
 
-    // useEffect(() => {
-    //     dispatch(loadSingleFriendThunk(friendId))
-    // }, [transactionsLength])
 
     if (!singleFriend || !transactions) {
         return null
@@ -58,20 +37,21 @@ function FriendPage() {
     const friendBalance = singleFriend?.balance
 
     if (!user) return <Redirect to="/"/>
-    // if (Object.values(singleFriend).length === 0 || transactions.length === 0) return null
-    // if (Object.values(balances).length === 0) return null;
 
     const removeFriendHandleClick = async (e) => {
+        if (friendBalance != 0) {
+            return window.alert("You can not remove a friend with whom you have an outstanding balance.")
+        }
         if (window.confirm("Some of your expenses with this person may also involve other third parties. As a result, deleting this friend will not delete those expenses, and they will still be visible from the 'All expenses' screen. However, this friend should be removed from your list of friends successfully. Are you sure you want to remove this friend?")) {
-            // if (friendBalance != 0) {
-            //     window.alert("You can not remove a friend with whom your balance is not zero")
-            // }
             dispatch(removeFriendThunk(singleFriend.id)).then(history.push("/dashboard"))
         }
     }
+
+
     const friendName = `${singleFriend?.first_name[0].toUpperCase() + singleFriend?.first_name.slice(1)} ${singleFriend?.last_name[0].toUpperCase() + singleFriend?.last_name.slice(1)}`
     const firstName = `${singleFriend?.first_name[0].toUpperCase() + singleFriend?.first_name.slice(1)}`
     let rightBalanceComponent;
+    //what renders if user has an aggregate debt to a friend
     if (friendBalance > 0) {
         rightBalanceComponent = (
             <>
@@ -86,6 +66,7 @@ function FriendPage() {
             </div>
             </>
         )
+    //what renders if the friend has an aggregate debt to the user
     } else if (friendBalance < 0) {
         rightBalanceComponent = (
             <>
@@ -101,6 +82,7 @@ function FriendPage() {
             </>
         )
     }
+    //what renders if there is not debt on either side
     else {
         rightBalanceComponent = (
             <div className='balance-summary'>
@@ -110,9 +92,6 @@ function FriendPage() {
     }
     return (
         <div className="column-wrapper">
-            {/* <div className="left-column-container">
-                <LeftSideNavigation />
-            </div> */}
             <div className="middle-column-container">
                 <div className='expenses-header-container'>
                     <div className="expenses-header-title-and-buttons">
@@ -120,7 +99,6 @@ function FriendPage() {
                         <div className="expenses-header-buttons">
                             <div className='add-expense-button'>
                                 <OpenModalButton
-                                    // className="add-expense-button"
                                     buttonText="Add an Expense"
                                     modalComponent={<AddExpenseForm friendId={friendId}/>}
                                 ></OpenModalButton>
@@ -128,7 +106,6 @@ function FriendPage() {
                             <span className="button-seperator"></span>
                             <div className='dash-settle-up-button'>
                                 <OpenModalButton
-                                    // className="dash-settle-up-button"
                                     buttonText="Settle Up"
                                     modalComponent={<SettleUpForm singleFriend={singleFriend} friendId={friendId}/>}
                                 ></OpenModalButton>
@@ -153,15 +130,6 @@ function FriendPage() {
                         </button>
                     </div>
                     {rightBalanceComponent}
-                    {/* <h2 className="your-total-balance-label">YOUR BALANCE</h2>
-                    <div className='balance-info-container'>
-                        <div className='balance-summary'>
-                            you owe Friend Name
-                        </div>
-                        <div className='balance-summary-amount'>
-                            $145.00
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div>

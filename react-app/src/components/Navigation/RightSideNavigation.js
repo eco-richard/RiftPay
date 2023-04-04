@@ -14,11 +14,11 @@ function RightSideNavigation() {
             <div id="richard-container" className="right-side-person-container">
                 <div id="richard-header" className="right-side-person-header">Richard Diaz</div>
                 <div className="right-side-logos-container">
-                    <a id="right-side-github-link-logo-container" className="right-side-logo-container" href="https://github.com/eco-richard">
-                        <img id="github-logo" src={githubLogo}></img>
+                    <a id="richard-right-side-github-link-logo-container" className="right-side-logo-container right-side-github-link-logo-container" href="https://github.com/eco-richard" target="_blank" rel="noreferrer noopener">
+                        <img id="richard-right-side-github-logo" className="right-side-logo" src={githubLogo}></img>
                     </a>
-                    <a id="right-side-linked-in-link-logo-container" className="right-side-logo-container" href="https://www.linkedin.com/in/richard-diaz-209780234/">
-                        <img id="linked-in-logo" src={linkedInLogo}></img>
+                    <a id="richard-right-side-linked-in-link-logo-container" className="right-side-logo-container right-side-linked-in-link-logo-container" href="https://www.linkedin.com/in/richard-diaz-209780234/" target="_blank" rel="noreferrer noopener">
+                        <img id="richard-right-side-linked-in-logo" className="right-side-logo linked-in-logo" src={linkedInLogo}></img>
                     </a>
                 </div>
             </div>
@@ -26,11 +26,11 @@ function RightSideNavigation() {
             <div id="paul-container" className="right-side-person-container">
                 <div id="paul-header" className="right-side-person-header">Paul Fixler</div>
                 <div className="right-side-logos-container">
-                    <a id="right-side-github-link-logo-container" className="right-side-logo-container" href="https://github.com/pfixler">
-                        <img id="github-logo" src={githubLogo}></img>
+                    <a id="paul-right-side-github-link-logo-container" className="right-side-logo-container right-side-github-link-logo-container" href="https://github.com/pfixler" target="_blank" rel="noreferrer noopener">
+                        <img id="paul-right-side-github-logo" className="right-side-logo" src={githubLogo}></img>
                     </a>
-                    <a id="right-side-linked-in-link-logo-container" className="right-side-logo-container" href="https://www.linkedin.com/in/paul-f-2022b6269/">
-                        <img id="linked-in-logo" src={linkedInLogo}></img>
+                    <a id="paul-right-side-linked-in-link-logo-container" className="right-side-logo-container right-side-linked-in-link-logo-container" href="https://www.linkedin.com/in/paul-f-2022b6269/" target="_blank" rel="noreferrer noopener">
+                        <img id="paul-right-side-linked-in-logo" className="right-side-logo linked-in-logo" src={linkedInLogo}></img>
                     </a>
                 </div>
             </div>
@@ -38,11 +38,11 @@ function RightSideNavigation() {
             <div id="christian-container" className="right-side-person-container">
                 <div id="christian-header" className="right-side-person-header">Christian Lee</div>
                 <div className="right-side-logos-container">
-                    <a id="right-side-github-link-logo-container" className="right-side-logo-container" href="https://github.com/christianlee6">
-                        <img id="github-logo" src={githubLogo}></img>
+                    <a id="christian-right-side-github-link-logo-container" className="right-side-logo-container right-side-github-link-logo-container" href="https://github.com/christianlee6" target="_blank" rel="noreferrer noopener">
+                        <img id="christian-right-side-github-logo" className="right-side-logo" src={githubLogo}></img>
                     </a>
-                    <a id="right-side-linked-in-link-logo-container" className="right-side-logo-container" href="https://www.linkedin.com/in/christian-lee-383590192/">
-                        <img id="linked-in-logo" src={linkedInLogo}></img>
+                    <a id="chrstian-right-side-linked-in-link-logo-container" className="right-side-logo-container right-side-linked-in-link-logo-container" href="https://www.linkedin.com/in/christian-lee-383590192/" target="_blank" rel="noreferrer noopener">
+                        <img id="chrsitian-right-side-linked-in-logo" className="right-side-logo linked-in-logo" src={linkedInLogo}></img>
                     </a>
                 </div>
             </div>
@@ -50,11 +50,11 @@ function RightSideNavigation() {
             <div id="kevin-container" className="right-side-person-container">
                 <div id="kevin-header" className="right-side-person-header">Kevin Ong</div>
                 <div className="right-side-logos-container">
-                    <a id="right-side-github-link-logo-container" className="right-side-logo-container" href="https://github.com/kong1214">
-                        <img id="github-logo" src={githubLogo}></img>
+                    <a id="kevin-right-side-github-link-logo-container" className="right-side-logo-container right-side-github-link-logo-container" href="https://github.com/kong1214" target="_blank" rel="noreferrer noopener">
+                        <img id="kevin-right-side-github-logo" className="right-side-logo" src={githubLogo}></img>
                     </a>
-                    <a id="right-side-linked-in-link-logo-container" className="right-side-logo-container" href="https://www.linkedin.com/in/kevin-ong-357b16215/">
-                        <img id="linked-in-logo" src={linkedInLogo}></img>
+                    <a id="kevin-right-side-linked-in-link-logo-container" className="right-side-logo-container right-side-linked-in-link-logo-container" href="https://www.linkedin.com/in/kevin-ong-357b16215/" target="_blank" rel="noreferrer noopener">
+                        <img id="kevin-right-side-linked-in-logo" className="right-side-logo linked-in-logo" src={linkedInLogo}></img>
                     </a>
                 </div>
             </div>

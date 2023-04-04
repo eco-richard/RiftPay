@@ -1,30 +1,22 @@
-import { useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../context/Modal';
-import { loadFriendsThunk, loadSingleFriendThunk } from '../../store/friends';
-import { createTransaction} from '../../store/transaction';
-import { MONTHS } from '../AllExpenses/TransactionDetails';
-import './SettleUpForm.css'
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { useModal } from "../../context/Modal";
+import { getAllTransactions, updateTransaction } from "../../store/transaction";
+import { loadSingleFriendThunk, loadFriendsThunk } from "../../store/friends";
+import { MONTHS } from "../AllExpenses/TransactionDetails";
+import '../SettleUpForm/SettleUpForm.css';
 
-export default function SettleUpForm({singleFriend, friendId}) {
+function EditSettleUp({transaction, friendId}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [errors, setErrors] = useState([]);
   const user = useSelector(state => state.session.user);
-  const friends = Object.values(useSelector(state => state.friends.friends));
+  const friends = useSelector(state => state.friends.friends);
 
-  let initialFriend;
-  if (!singleFriend) {
-    initialFriend = friends[0]
-  }
-  else {
-    initialFriend = singleFriend
-  }
-
-  const [friend, setFriend] = useState(initialFriend);
-  const [amount, setAmount] = useState("");
-  const [image, setImage] = useState("");
-  const [note, setNote] = useState("");
+  const [friend, setFriend] = useState(friends[friendId]);
+  const [amount, setAmount] = useState(transaction.cost);
+  const [image, setImage] = useState(transaction.image);
+  const [note, setNote] = useState(transaction.note);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [imagesOpen, setImagesOpen] = useState(false);
 
@@ -32,19 +24,6 @@ export default function SettleUpForm({singleFriend, friendId}) {
   const DEFAULT_IMAGE_URL = "https://s3.amazonaws.com/splitwise/uploads/user/default_avatars/avatar-teal1-100px.png"
   const userImage = user.picture === null ? DEFAULT_IMAGE_URL : user.picture;
 
-
-  //can not use add transaction form if user has no friends
-  if (friends.length === 0) {
-    return (
-      <div>
-        <div className="no-friends-lol">You have no friends to settle up with!</div>
-        <div className="alert-button-container">
-
-          <button className="alert-button" onClick={closeModal}>Ok</button>
-        </div>
-      </div>
-    )
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,23 +61,16 @@ export default function SettleUpForm({singleFriend, friendId}) {
       errors.push("Can not settle more than you owe")
     }
 
-
-    let transaction = {
-      cost: amount,
-      creation_method: "Payment",
-      description: "Payment",
-      note,
-      image,
-      created_at: date,
-      payers,
-      repayments
-    };
+    transaction.cost = amount;
+    transaction.note = note;
+    transaction.image = image;
+    transaction.updated_at = date;
 
     if (errors.length > 0) {
       return window.alert(`${errors[0]}`)
     }
 
-    dispatch(createTransaction(transaction))
+    dispatch(updateTransaction(transaction.id, transaction))
       .then(closeModal)
       .catch(
           async (res) => {
@@ -108,6 +80,7 @@ export default function SettleUpForm({singleFriend, friendId}) {
           }
       );
     //add in as .then?
+    dispatch(getAllTransactions());
     if (friendId) {
         dispatch(loadSingleFriendThunk(friendId))
     }
@@ -115,7 +88,6 @@ export default function SettleUpForm({singleFriend, friendId}) {
         dispatch(loadFriendsThunk())
     }
   }
-
 
   const openFriends = (e) => {
     // e.preventDefault();
@@ -128,7 +100,7 @@ export default function SettleUpForm({singleFriend, friendId}) {
     setImagesOpen(!imagesOpen)
     setFriendsOpen(false);
   }
-  
+
   const formatDate = () => {
     const date = new Date();
     let dateStr = date.toISOString();
@@ -144,7 +116,7 @@ export default function SettleUpForm({singleFriend, friendId}) {
       <div className='settle-up-form-wrapper'>
         <div className='settle-up-form-header'>
           <div className='settle-up-title'>
-            Settle up
+            Edit Transaction
           </div>
           <div className='settle-up-close-button'>
             <button onClick={closeModal}>X</button>
@@ -270,3 +242,5 @@ export default function SettleUpForm({singleFriend, friendId}) {
     </div>
   )
 }
+
+export default EditSettleUp

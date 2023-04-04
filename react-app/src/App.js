@@ -17,7 +17,7 @@ function App() {
   const location = useLocation()
   const [pathIsSplash, setPathIsSplash] = useState(location.pathname === "/")
 
-  // console.log(location)
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -30,7 +30,7 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
-        <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div style={{display: "flex", justifyContent: "space-between", height: "100%"}}>
           {!pathIsSplash && <LeftSideNavigation />}
           <Switch>
             <Route exact path="/">

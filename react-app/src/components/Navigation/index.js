@@ -1,11 +1,9 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import LeftSideNavigation from "./LeftSideNavigation";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -43,22 +41,20 @@ function Navigation({ isLoaded }) {
     }
 
     return (
-        <div>
-            <div className="nav-buttons-container">
-                <div className="home-button-container">
-                        <NavLink exact to="/">
-                            <div className="label-logo-container">
+        <div className="nav-buttons-container">
+            <div className="home-button-container">
+                <NavLink exact to="/">
+                    <div className="label-logo-container">
 
 
-                            <i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i>
+                        <i class="fa-solid fa-comment-dollar riftpay-icon fa-2x"></i>
 
-                            <div className="riftpay-label">RiftPay</div>
-                            </div>
-                        </NavLink>
+                        <div className="riftpay-label">RiftPay</div>
+                    </div>
+                </NavLink>
 
-                </div>
-                {isLoaded && sessionLinks}
             </div>
+            {isLoaded && sessionLinks}
         </div>
     );
 }

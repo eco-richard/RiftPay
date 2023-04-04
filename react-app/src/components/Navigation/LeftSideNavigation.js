@@ -22,17 +22,15 @@ function LeftSideNavigation() {
     return (
         <div className='left-side-nav-bar-container'>
             <div className="dashboard-all-expenses-links-container">
-                <div className="dashboard-link-container">
-                    <NavLink exact to="/dashboard" style={{ color: "rgb(145, 145, 153)" }}>Dashboard</NavLink>
+                <div id="dashboard-link-container" className="left-nav-link-container">
+                    <NavLink exact to="/dashboard" className="left-navbar-link" activeClassName="left-navbar-link-active">Dashboard</NavLink>
                 </div>
-                <div className='all-expenses-link-container'>
-                    <NavLink exact to="/all" style={{ color: "rgb(145, 145, 153)" }}>All Expenses</NavLink>
+                <div id='all-expenses-link-container' className="left-nav-link-container">
+                    <NavLink exact to="/all" className="left-navbar-link" activeClassName="left-navbar-link-active">All Expenses</NavLink>
                 </div>
             </div>
             <div style={{ height: "20px" }}></div>
-            <div className="individual-friend">
-                <FriendsList friends={friends}/>
-            </div>
+            <FriendsList friends={friends}/>
         </div>
     )
 }

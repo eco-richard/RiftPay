@@ -27,9 +27,7 @@ class User(db.Model, UserMixin):
     )
 
     comments = db.relationship("Comment", back_populates="commentor", cascade="all, delete-orphan")
-    # loans = db.relationship("Loan", back_populates="loaner", cascade="all, delete-orphan")
 
-    # payer_transactions = db.relationship("Transaction", back_populates="creator")
     transactions = db.relationship("Transaction", secondary=transaction_users, back_populates="users")
 
     @property
@@ -47,7 +45,8 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'first_name': self.first_name,
-            'last_name': self.last_name
+            'last_name': self.last_name,
+            'picture': self.picture
         }
 
 
@@ -71,7 +70,7 @@ class User(db.Model, UserMixin):
                     sum += loan['amount']
             friend['balance'] = sum
             balances.append(friend)
-        # print("Balances: ", balances)
+
         return balances
 
 
@@ -89,7 +88,5 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'picture': self.picture,
             'friends': [friend.simple_user() for friend in self.friends],
-            # 'comments': [list[comment.to_dict()] for comment in self.comments],
-            # 'payer_transactions': [payer_transaction.to_dict() for payer_transaction in self.payer_transactions],
             'transactions': [transaction.to_dict() for transaction in self.transactions]
         }

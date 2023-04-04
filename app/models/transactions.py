@@ -24,20 +24,7 @@ class Transaction(db.Model):
     comments = db.relationship("Comment", back_populates="transaction", cascade="all, delete-orphan")
     users = db.relationship("User", secondary=transaction_users, back_populates="transactions")
 
-    # def create_loans(self):
-    #     if self.creation_method == "EQUAL":
-    #         split_amount = self.cost / len(self.payers)
-    #         for user in payers:
-    #             loan = Loan(
-    #                 loaner_id = self.creator_id,
-    #                 debtor_id = user.id,
-    #                 amount = split_amount,
-    #                 transaction_id = self.id,
-    #                 created_at = self.created_at,
-    #                 updated_at = self.updated_at,
-    #             )
-    #             db.session.add(loan)
-    #         db.session.commit()
+
 
     def structure_payers(self):
         payers_list = self.payers.split(',')
@@ -72,12 +59,20 @@ class Transaction(db.Model):
 
     def add_repayment_users(self):
         repayments = self.structure_repayments()
+        current_users = []
+        old_users = []
         for repayment in repayments:
             user_id = repayment["debtor"]["id"]
             user = User.query.get(user_id)
+            current_users.append(user)
             user.transactions.append(self)
             self.users.append(user)
             db.session.commit()
+        for user in self.users:
+            old_users.append(user)
+        orphan_payers = [user for user in old_users if user not in current_users]
+        for payer in orphan_payers:
+            self.users.remove(payer)
 
     def add_friends(self):
         """

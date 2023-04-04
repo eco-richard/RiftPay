@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AboutLinks from "./AboutLinks";
 import "./SplashPage.css";
@@ -13,10 +13,6 @@ function SplashPage() {
         <div className="splash-page-wrapper">
             <div className="splash-header-container">
                 <div className="splash-header-content">Welcome to RiftPay!</div>
-                {/* <div className="left-tile-text-description-bottom">
-                                With RiftPay, you will never forget who you owe
-                                and who owes you.
-                            </div> */}
             </div>
             <div className="top-two-tile-container">
                 <div className="left-top-tile-container">

@@ -6,7 +6,7 @@ import AddComment from "./AddComment";
 import SingleComment from "./SingleComment";
 import './AllComments.css'
 
-function AllComments({transaction_id, transactionNote}) {
+function AllComments({ transaction_id, transactionNote }) {
 
     const dispatch = useDispatch()
 
@@ -14,42 +14,30 @@ function AllComments({transaction_id, transactionNote}) {
 
     useEffect(() => {
         dispatch(loadCommentsThunk(transaction_id));
-        // return () => dispatch(clearComments())
-    },[dispatch, transaction_id])
+    }, [dispatch, transaction_id])
 
     if (!comments) {
         return null;
     }
 
-    // const allComments = comments.allCommentsByTransactionId
-
-    // if (!allComments) {
-    //     return null;
-    // }
-
-    // if (!allComments[transaction_id]) {
-    //     return null;
-    // }
-
     const commentsArr = Object.values(comments)
-    // console.log(allComments)
-    // const commentsArr = Object.values(allComments)
-    // console.log("commentsArr", commentsArr)
-    // const finalCommentsArr = commentsArr[0]
-    // console.log(finalCommentsArr)
 
     return (
         <div className="all-comments-wrapper">
             <div className="all-comments-header">
-            <i class="fa-solid fa-book"></i> Notes and Comments
+                <i class="fa-solid fa-book"></i> <span style={{fontSize: "1em"}}>Notes and Comments</span>
             </div>
             <div className="transaction-note-container">
-                <div className="note-header">
-                    Note
-                </div>
-                <div className="note-content">
-                    {transactionNote}
-                </div>
+                {transactionNote && (
+                    <div className="note-container">
+                        <div className="note-header">
+                            Note
+                        </div>
+                        <div className="note-content">
+                            {transactionNote}
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="single-comment-container">
                 <div className="single-comment-content">
@@ -59,7 +47,7 @@ function AllComments({transaction_id, transactionNote}) {
                 </div>
             </div>
             <div className="comment-submission-container">
-                <AddComment transaction_id={transaction_id}/>
+                <AddComment transaction_id={transaction_id} />
             </div>
         </div>
     )
