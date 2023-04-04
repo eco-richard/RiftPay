@@ -307,7 +307,6 @@ export default function AddExpenseForm({friendId}) {
                                 isMulti
                                 options={options}
                                 onChange={(e) => {
-                                    console.log("EVENT: ", e);
                                     if (e.length === 0) setParticipants([]);
                                     else {
                                         const newParticipants = [...participants, e[e.length-1].value];
