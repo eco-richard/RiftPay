@@ -85,10 +85,10 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
-        onClick={(e) => setIsClicked(!isClicked)}
+
         >
 
-            <div className="single-expense-left">
+            <div className="single-expense-left" onClick={(e) => setIsClicked(!isClicked)}>
                 <div className="single-expense-date">
                     <div className="single-expense-month">
                         {month}
@@ -109,7 +109,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                 </div>
             </div>
             <div className="single-expense-right">
-                <div className="single-expense-payer">
+                <div className="single-expense-payer" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-payer-name">
                         {payerName} paid
                     </div>
@@ -117,7 +117,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                         ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
-                <div className="single-expense-loaner">
+                <div className="single-expense-loaner" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
