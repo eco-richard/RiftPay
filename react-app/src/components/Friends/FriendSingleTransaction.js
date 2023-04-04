@@ -15,9 +15,11 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
 
 
     const deleteTransactionFunction = async (transaction, friendId) => {
-        window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
-        await dispatch(deleteTransaction(transaction))
-            .then(dispatch(loadSingleFriendThunk(friendId)))
+        if (window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")) {
+
+            await dispatch(deleteTransaction(transaction))
+                .then(dispatch(loadSingleFriendThunk(friendId)))
+        }
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -70,7 +72,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         lentAmount = singleRepayment?.amount;
         loanerAmountClassName = "single-expense-loaner-amount-lendee"
     }
-    if (lentAmount == undefined){
+    if (lentAmount === undefined){
         return null;
     }
 
@@ -83,10 +85,10 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
-        onClick={(e) => setIsClicked(!isClicked)}
+
         >
 
-            <div className="single-expense-left">
+            <div className="single-expense-left" onClick={(e) => setIsClicked(!isClicked)}>
                 <div className="single-expense-date">
                     <div className="single-expense-month">
                         {month}
@@ -107,7 +109,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                 </div>
             </div>
             <div className="single-expense-right">
-                <div className="single-expense-payer">
+                <div className="single-expense-payer" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-payer-name">
                         {payerName} paid
                     </div>
@@ -115,7 +117,7 @@ export default function FriendSingleTransaction({transaction, singleFriend, frie
                         ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
-                <div className="single-expense-loaner">
+                <div className="single-expense-loaner" onClick={(e) => setIsClicked(!isClicked)}>
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
