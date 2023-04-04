@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { deleteTransaction } from "../../store/transaction";
@@ -11,8 +11,20 @@ export default function SingleTransaction({transaction}) {
     const user = useSelector(state => state.session.user)
     const [renderDelete, setRenderDelete] = useState("single-expense-delete-hidden")
 
+    //ref for delete button
+    const deleteRef = useRef();
+
     //state variable tracking if transaction is clicked-if it is transaction details will be displayed
     const [isClicked, setIsClicked] = useState(false);
+
+    //function for opening transaction details
+    const openDetails = (e) => {
+        if (!deleteRef.current.contains(e.target)) {
+            setIsClicked(!isClicked)
+        }
+    }
+
+
 
 
     const deleteTransactionFunction = async (transaction) => {
@@ -82,7 +94,7 @@ export default function SingleTransaction({transaction}) {
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
-        onClick={(e) => setIsClicked(!isClicked)}
+        onClick={(e) => openDetails(e)}
         >
 
             <div className="single-expense-left">
@@ -121,7 +133,7 @@ export default function SingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className={renderDelete}>
-                    <button onClick={() =>deleteTransactionFunction(transaction)}>X</button>
+                    <button ref={deleteRef} onClick={() =>deleteTransactionFunction(transaction)}>X</button>
                 </div>
             </div>
         </div>
