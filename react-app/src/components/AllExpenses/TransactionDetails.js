@@ -71,7 +71,7 @@ export default function TransactionDetails({transaction, monthIdx, day, friendId
 
                             modalComponent={transaction.creation_method === "Payment" ?
                              <EditSettleUp transaction={transaction} friendId={getPaymentFriendId()}/> :
-                             <EditExpenseForm transaction={transaction} friendId={friendId}/>}
+                             <EditExpenseForm transaction={transaction} friendId={friendId} setIsClicked={setIsClicked}/>}
 
                         />
                     </div>
