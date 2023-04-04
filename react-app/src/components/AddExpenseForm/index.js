@@ -6,9 +6,12 @@ import { exactPayments, percentPayments } from './split_options'
 import './AddExpenseForm.css'
 import { createTransaction} from "../../store/transaction";
 import { useLocation, useHistory } from "react-router-dom";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 export default function AddExpenseForm({friendId}) {
     const dispatch = useDispatch();
+    const animatedComponents = makeAnimated();
     const { closeModal } = useModal();
     const user = useSelector(state => state.session.user);
     const friends = Object.values(useSelector(state => state.friends.friends))
@@ -18,7 +21,8 @@ export default function AddExpenseForm({friendId}) {
     const stringDate = createdAt.toISOString().slice(0, 10)
     const [alerted, setAlerted] = useState(false)
     const location = useLocation()
-    const history = useHistory()
+    const history = useHistory();
+    const options = [];
 
 
     //form render state variables
@@ -261,6 +265,13 @@ export default function AddExpenseForm({friendId}) {
         window.alert("You have no one in your friends list yet!");
     }
 
+    for (const friend of friends) {
+        options.push({
+            value: friend.id,
+            label: `${friend.first_name} ${friend.last_name}`
+        })
+    }
+
     //can not use add transaction form if user has no friends
     if (friends.length === 0) {
         return (
@@ -288,14 +299,23 @@ export default function AddExpenseForm({friendId}) {
                         <div className="participants-selection">
                             <label>
                                 With you and:
-                                <select
+                                <Select
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                options={options}
+                                onChange={(e) => {
+                                    const newParticipants = [...participants, e[e.length-1].value];
+                                    setParticipants([...newParticipants]);
+                                }}/>
+                                {/* <select
                                     value={participants}
                                     multiple="true"
                                     onChange={(e) => addParticipants(e)}>
                                     {friends.map(friend => (
                                         <option value={friend.id}>{`${friend.first_name} ${friend.last_name}`}</option>
                                     ))}
-                                </select>
+                                </select> */}
                             </label>
                         </div>
                         <div className="reciept-image">
