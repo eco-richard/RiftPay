@@ -16,9 +16,10 @@ export default function SingleTransaction({transaction}) {
 
 
     const deleteTransactionFunction = async (transaction) => {
-        window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
-        await dispatch(deleteTransaction(transaction))
-            .then(dispatch(loadFriendsThunk()))
+        if (window.confirm("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")) {
+            await dispatch(deleteTransaction(transaction))
+                .then(dispatch(loadFriendsThunk()))
+        }
     }
 
     const transactionRecipent = "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png";
@@ -47,8 +48,6 @@ export default function SingleTransaction({transaction}) {
     const payer = transaction.payers[0]
 
     const singleRepayment = transaction.repayments.filter((repayment) => repayment.debtor.id === user.id)[0];
-
-
 
     if (singleRepayment === undefined) return null;
     let lentNameFull = "";
@@ -81,10 +80,12 @@ export default function SingleTransaction({transaction}) {
         <div className="single-expense-container"
         onMouseOver={(e) => setRenderDelete("single-expense-delete-button")}
         onMouseLeave={(e) => setRenderDelete("single-expense-delete-hidden")}
-        onClick={(e) => setIsClicked(!isClicked)}
+        // onMouseDown={(e) => setIsClicked(!isClicked)}
         >
 
-            <div className="single-expense-left">
+            <div className="single-expense-left"
+                onMouseDown={(e) => setIsClicked(!isClicked)}>
+
                 <div className="single-expense-date">
                     <div className="single-expense-month">
                         {month}
@@ -103,7 +104,9 @@ export default function SingleTransaction({transaction}) {
                 </div>
             </div>
             <div className="single-expense-right">
-                <div className="single-expense-payer">
+                <div className="single-expense-payer"
+                onMouseDown={(e) => setIsClicked(!isClicked)}
+                >
                     <div className="single-expense-payer-name">
                         {payerName} paid
                     </div>
@@ -111,7 +114,9 @@ export default function SingleTransaction({transaction}) {
                         ${payer?.amount.toFixed(2)}
                     </div>
                 </div>
-                <div className="single-expense-loaner">
+                <div className="single-expense-loaner"
+                onMouseDown={(e) => setIsClicked(!isClicked)}
+                >
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
                     </div>
