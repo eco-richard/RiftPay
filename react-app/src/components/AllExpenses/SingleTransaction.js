@@ -95,8 +95,7 @@ export default function SingleTransaction({transaction}) {
         onClick={(e) => openDetails(e)}
         >
 
-            <div className="single-expense-left"
-                onMouseDown={(e) => setIsClicked(!isClicked)}>
+            <div className="single-expense-left">
 
                 <div className="single-expense-date">
                     <div className="single-expense-month">
@@ -117,7 +116,6 @@ export default function SingleTransaction({transaction}) {
             </div>
             <div className="single-expense-right">
                 <div className="single-expense-payer"
-                onMouseDown={(e) => setIsClicked(!isClicked)}
                 >
                     <div className="single-expense-payer-name">
                         {payerName} paid
@@ -127,7 +125,6 @@ export default function SingleTransaction({transaction}) {
                     </div>
                 </div>
                 <div className="single-expense-loaner"
-                onMouseDown={(e) => setIsClicked(!isClicked)}
                 >
                     <div className="single-expense-loaner-name">
                         {lentNameFull}
