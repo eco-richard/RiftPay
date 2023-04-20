@@ -72,12 +72,12 @@ class Transaction {
         equal_payments();
       } else if (type == EXACT) {
         if (payments.size() == 0) {
-          return NULL;
+          throw std::invalid_argument("No payments recieved");
         }
         exact_payments(payments);
       } else if (type == PERCENT) {
         if (payments.size() == 0) {
-          return NULL
+          throw std::invalid_argument("No payments recieved");
         }
         percent_payments(payments);
       }
@@ -170,8 +170,8 @@ class Transaction {
 
     void percent_payments(std::vector<NonEqualPayments> payments) {
       std::for_each(payments.begin(), payments.end(), [&](auto payment) {
-        std::optional<Loaner> loaner = std::find_if(loaners.begin(), loaners.end(), [&](auto loaner) { return loaner.loaner_id == payment.user_id;});
-        std::optional<Borrower> borrower = std::find_if(borrowers.begin(), borrowers.end(), [&](auto borrower) { return borrower.borrower_id == payment.user_id;});
+        std::optional<Loaner> loaner = *std::find_if(loaners.begin(), loaners.end(), [&](auto loaner) { return loaner.loaner_id == payment.user_id;});
+        std::optional<Borrower> borrower = *std::find_if(borrowers.begin(), borrowers.end(), [&](auto borrower) { return borrower.borrower_id == payment.user_id;});
         if (!loaner && !borrower) {
           return;
         }
